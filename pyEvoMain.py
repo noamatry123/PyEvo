@@ -3,6 +3,8 @@ import classes
 import graphics
 def main():
     graphicModule=graphics.pyGraphics()
-    graphicModule.drawBoard()
+    running=True
+    while running:
+        running=graphicModule.drawBoard()
 if __name__ == "__main__":
     main()
