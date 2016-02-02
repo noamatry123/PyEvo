@@ -39,7 +39,7 @@ class AbCell:
     __timeToMove=0
     __lastMother=None
     def changeAngle(self, dir):
-        raise NotImplementedError()
+        self.__angle=(self.__angle+dir)%8 ##0 is up, clockwise (2 is right)
     def eat(self, food):
         self.food+=food.getAmount()
     def layEgg(self):
@@ -48,4 +48,9 @@ class AbCell:
             self.__eggs.append(Egg(self.__location,self,self.__lastMother))
             self.__lastMother=None
     def nextStep(self):
-        raise NotImplementedError()
+        if self.__timeToMove==0:
+            if self.__angle==0:
+                self.__location[1]-=1
+            elif self.__angle==1:
+                self.__location[1]-=1
+                self.__location[0]+=1
