@@ -52,25 +52,25 @@ class AbCell:
     def move(self):
         if self._timeToMove==0:
             if self._angle==0:#up
-                self.location[1]-=1
+                self.location.y-=1
             elif self._angle==1:#up right
-                self.location[1]-=1
-                self.location[0]+=1
+                self.location.y-=1
+                self.location.x+=1
             elif self._angle==2:#right
-                self.location[0]+=1
+                self.location.x+=1
             elif self._angle==3:#down right
-                self.location[1]+=1
-                self.location[0]+=1
+                self.location.y+=1
+                self.location.x+=1
             elif self._angle==4:#down
-                self.location[1]+=1
+                self.location.y+=1
             elif self._angle==5:#down left
-                self.location[1]+=1
-                self.location[0]-=1
+                self.location.y+=1
+                self.location.x-=1
             elif self._angle==6:#left
-                self.location[0]-=1
+                self.location.x-=1
             elif self._angle==7:#left up
-                self.location[1]-=1
-                self.location[0]-=1
+                self.location.y-=1
+                self.location.x-=1
         else:
             self._timeToMove-=1
 class baseCell(AbCell):
