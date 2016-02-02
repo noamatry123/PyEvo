@@ -23,8 +23,8 @@ class pyAlgorithm:
     def nextStep(self):
         kinput=self.getInput()
         if "Left" in kinput:
-            self.__myCell.changeAngle(-1)
+            self.myCell.changeAngle(-1)
         if "Right" in kinput:
-            self.__myCell.changeAngle(1)
+            self.myCell.changeAngle(1)
         if "Up" in kinput:
-            self.__myCell.move()
+            self.myCell.move()

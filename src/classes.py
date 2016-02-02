@@ -47,30 +47,30 @@ class AbCell:
     def layEgg(self):
         self._timeToLay=self._eggCycle
         if self._lastMother!=None:
-            self._eggs.append(Egg(self._location,self,self._lastMother))
+            self._eggs.append(Egg(self.location,self,self._lastMother))
             self._lastMother=None
     def move(self):
         if self._timeToMove==0:
             if self._angle==0:#up
-                self._location[1]-=1
+                self.location[1]-=1
             elif self._angle==1:#up right
-                self._location[1]-=1
-                self._location[0]+=1
+                self.location[1]-=1
+                self.location[0]+=1
             elif self._angle==2:#right
-                self._location[0]+=1
+                self.location[0]+=1
             elif self._angle==3:#down right
-                self._location[1]+=1
-                self._location[0]+=1
+                self.location[1]+=1
+                self.location[0]+=1
             elif self._angle==4:#down
-                self._location[1]+=1
+                self.location[1]+=1
             elif self._angle==5:#down left
-                self._location[1]+=1
-                self._location[0]-=1
+                self.location[1]+=1
+                self.location[0]-=1
             elif self._angle==6:#left
-                self._location[0]-=1
+                self.location[0]-=1
             elif self._angle==7:#left up
-                self._location[1]-=1
-                self._location[0]-=1
+                self.location[1]-=1
+                self.location[0]-=1
         else:
             self._timeToMove-=1
 class baseCell(AbCell):
