@@ -43,34 +43,60 @@ class AbCell:
     def changeAngle(self, dir):
         self._angle=(self._angle+dir)%8 ##0 is up, clockwise (2 is right)
     def eat(self, food):
-        self.food+=food.getAmount()
+        self._food+=food.getAmount()
     def layEgg(self):
         self._timeToLay=self._eggCycle
         if self._lastMother!=None:
             self._eggs.append(Egg(self.location,self,self._lastMother))
             self._lastMother=None
+    def location_compensated(self): #for heading indicator
+        compensated_x=self.location.x
+        compensated_y=self.location.y
+
+        if self._angle==0:#up
+            compensated_y-=7
+        elif self._angle==1:#up right
+            compensated_y-=7
+            compensated_x+=7
+        elif self._angle==2:#right
+            compensated_x+=7
+        elif self._angle==3:#down right
+            compensated_y+=7
+            compensated_x+=7
+        elif self._angle==4:#down
+            compensated_y+=7
+        elif self._angle==5:#down left
+            compensated_y+=7
+            compensated_x-=7
+        elif self._angle==6:#left
+            compensated_x-=7
+        elif self._angle==7:#left up
+            compensated_y-=7
+            compensated_x-=7
+
+        return compensated_x,compensated_y
     def move(self):
         if self._timeToMove==0:
             if self._angle==0:#up
-                self.location.y-=1
+                self.location.y-=4
             elif self._angle==1:#up right
-                self.location.y-=1
-                self.location.x+=1
+                self.location.y-=3
+                self.location.x+=3
             elif self._angle==2:#right
-                self.location.x+=1
+                self.location.x+=4
             elif self._angle==3:#down right
-                self.location.y+=1
-                self.location.x+=1
+                self.location.y+=3
+                self.location.x+=3
             elif self._angle==4:#down
-                self.location.y+=1
+                self.location.y+=4
             elif self._angle==5:#down left
-                self.location.y+=1
-                self.location.x-=1
+                self.location.y+=3
+                self.location.x-=3
             elif self._angle==6:#left
-                self.location.x-=1
+                self.location.x-=4
             elif self._angle==7:#left up
-                self.location.y-=1
-                self.location.x-=1
+                self.location.y-=3
+                self.location.x-=3
         else:
             self._timeToMove-=1
 class baseCell(AbCell):
