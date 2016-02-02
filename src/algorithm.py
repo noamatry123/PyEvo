@@ -3,7 +3,6 @@ import pygame
 import graphics
 import classes
 class pyAlgorithm:
-    __runtime=0 #for input
     __kinput=[]
     myCell=None
     __cellList=[]
@@ -13,11 +12,12 @@ class pyAlgorithm:
         self.myCell=classes.baseCell(0,0,100,100,1,5,1000,classes.Location(100,100),10)
     def getInput(self):
         returnList=[]
+        for event in pygame.event.get(pygame.KEYDOWN):
+            if event.key==pygame.K_LEFT:
+                returnList.append("Left")
+            if event.key==pygame.K_RIGHT:
+                returnList.append("Right")
         key=pygame.key.get_pressed()
-        if key[pygame.K_LEFT]:
-            returnList.append("Left")
-        if key[pygame.K_RIGHT]:
-            returnList.append("Right")
         if key[pygame.K_UP]:
             returnList.append("Up")
         if key[pygame.K_DOWN]:
@@ -30,13 +30,11 @@ class pyAlgorithm:
                 continue
             else:
                 self.__kinput.append(item)
-        if self.__runtime>15:
-            if "Left" in self.__kinput:
+        for item in self.__kinput:
+            if item=="Left":
                 self.myCell.changeAngle(-1)
-            if "Right" in self.__kinput:
+            if item=="Right":
                 self.myCell.changeAngle(1)
-            self.__kinput=[]
-            self.__runtime=0
         if "Up" in self.__kinput:
             self.myCell.move()
-        self.__runtime+=1
+        self.__kinput=[]
