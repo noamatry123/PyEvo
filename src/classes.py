@@ -1,4 +1,5 @@
 __author__ = 'user-pc'
+import graphics
 class Location:
     x=0
     y=0
@@ -52,7 +53,6 @@ class AbCell:
     def location_compensated(self): #for heading indicator
         compensated_x=self.location.x
         compensated_y=self.location.y
-
         if self._angle==0:#up
             compensated_y-=7
         elif self._angle==1:#up right
@@ -78,25 +78,26 @@ class AbCell:
     def move(self):
         if self._timeToMove==0:
             if self._angle==0:#up
-                self.location.y-=4
+                self.location.y=(self.location.y-4)%graphics.screenheight
             elif self._angle==1:#up right
-                self.location.y-=3
-                self.location.x+=3
+                self.location.y=(self.location.y-3)%graphics.screenheight
+                self.location.x=(self.location.x+3)%graphics.screenwidth
             elif self._angle==2:#right
-                self.location.x+=4
+                self.location.x=(self.location.x+4)%graphics.screenwidth
             elif self._angle==3:#down right
-                self.location.y+=3
-                self.location.x+=3
+                self.location.y=(self.location.y+3)%graphics.screenheight
+                self.location.x=(self.location.x+3)%graphics.screenwidth
             elif self._angle==4:#down
-                self.location.y+=4
+                self.location.y=(self.location.y+4)%graphics.screenheight
             elif self._angle==5:#down left
-                self.location.y+=3
-                self.location.x-=3
+                self.location.y=(self.location.y+3)%graphics.screenheight
+                self.location.x=(self.location.x-3)%graphics.screenwidth
             elif self._angle==6:#left
-                self.location.x-=4
+                self.location.x=(self.location.x-4)%graphics.screenwidth
             elif self._angle==7:#left up
-                self.location.y-=3
-                self.location.x-=3
+                self.location.y=(self.location.y-3)%graphics.screenheight
+                self.location.x=(self.location.x-3)%graphics.screenwidth
+            self._timeToMove=self._speed
         else:
             self._timeToMove-=1
 class baseCell(AbCell):
@@ -108,5 +109,5 @@ class baseCell(AbCell):
         self._foodWithdraw=foodWithdraw
         self._ID=ID
         self._lifeTime=lifeTime
-        self._location=location
+        self.location=location
         self._speed=speed

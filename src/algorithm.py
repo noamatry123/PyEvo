@@ -6,11 +6,15 @@ class pyAlgorithm:
     __lastTimeSinceKey={"Left":0,"Right":0}
     __kinput=[]
     myCell=None
-    __cellList=[]
-    __foodList=[]
+    cellList=[]
+    foodList=[]
     __eggList=[]
     def __init__(self): #temp
-        self.myCell=classes.baseCell(0,0,100,100,1,5,1000,classes.Location(100,100),10)
+        self.myCell=classes.baseCell(0,0,100,100,1,5,1000,classes.Location(100,100),3)
+        self.cellList.append(classes.baseCell(0,0,100,100,1,5,1000,classes.Location(200,200),3))
+
+    def putFood(self):
+        self.foodList.append(classes.Food(classes.Location(rand,rand)))
     def getInput(self):
         returnList=[]
         events = pygame.event.get(pygame.KEYDOWN)
@@ -24,13 +28,13 @@ class pyAlgorithm:
         key=pygame.key.get_pressed()
         #check for hold
         if key[pygame.K_LEFT]:
-            if self.__lastTimeSinceKey["Left"]>10:
+            if self.__lastTimeSinceKey["Left"]>17:
                 returnList.append("OLeft")
                 self.__lastTimeSinceKey["Left"]=0
             else:
                 self.__lastTimeSinceKey["Left"]+=1
         if key[pygame.K_RIGHT]:
-            if self.__lastTimeSinceKey["Right"]>10:
+            if self.__lastTimeSinceKey["Right"]>17:
                 returnList.append("ORight")
                 self.__lastTimeSinceKey["Right"]=0
             else:
