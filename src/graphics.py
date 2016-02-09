@@ -36,7 +36,7 @@ class pyGraphics:
             pygame.draw.circle(self.__screen,(255,0,0),(cell.location.getTupple()),cell.rad)
             pygame.draw.circle(self.__screen,(10,255,10),(cell.location_compensated()),2)
         for food in foodList:
-            pygame.draw.circle(self.__screen,(255,255,255),(food.location.getTupple()),food.rad)
+            pygame.draw.circle(self.__screen,(80,255,80),(food.location.getTupple()),food.rad)
         ##prints attributes
         self.printAtt(playerCell)
         ##draw player
@@ -44,6 +44,9 @@ class pyGraphics:
         pygame.draw.circle(self.__screen,(10,255,10),(playerCell.location_compensated()),2)
         if playerCell.dead:
             pygame.draw.rect(self.__screen,(0,0,0),(0,0,800,600))
+        ##draw player eggs
+        for egg in eggList[0]:
+            pygame.draw.circle(self.__screen,(255,255,255),(egg.location.getTupple()),egg.rad)
         ##tick and flip
         self.__clock.tick(self.__framerate)
         pygame.display.flip()

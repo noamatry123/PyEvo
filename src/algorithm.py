@@ -9,12 +9,13 @@ class pyAlgorithm:
     __lastTimeSinceKey={"Left":0,"Right":0}
     __kinput=[]
     myCell=None
+    myEggs=[]
+    cellEggs=[]
     cellList=[]
     foodList=[]
-    __eggList=[]
     def __init__(self): #temp
-        self.myCell=classes.baseCell(0,0,100,100,360,5,5,classes.Location(100,100),3,10,600)
-        self.cellList.append(classes.baseCell(0,0,100,100,360,5,1,classes.Location(200,200),3,10,1200))
+        self.myCell=classes.baseCell(0,0,100,100,360,5,100,classes.Location(100,100),3,10,600,15)
+        self.cellList.append(classes.baseCell(0,0,100,100,360,5,1,classes.Location(200,200),3,10,1200,15))
         for i in xrange(10):
             self.putFood()
     def putFood(self):
@@ -36,6 +37,8 @@ class pyAlgorithm:
             if event.key==pygame.K_RIGHT:
                 returnList.append("Right")
                 self.__lastTimeSinceKey["Right"]=0
+            if event.key==pygame.K_a:
+                returnList.append("a")
         key=pygame.key.get_pressed()
         #check for hold
         if key[pygame.K_LEFT]:
@@ -53,8 +56,6 @@ class pyAlgorithm:
         #check up and down
         if key[pygame.K_UP]:
             returnList.append("Up")
-        if key[pygame.K_DOWN]:
-            returnList.append("Down")
         return returnList
 
 
@@ -74,11 +75,11 @@ class pyAlgorithm:
                 self.myCell.changeAngle(1)
         if "Up" in self.__kinput:
             self.myCell.move()
-        self.__kinput=[]
-        ##handl food and life
+        ##handle food and life
         self.checkEat(self.myCell)
         self.myCell.consumeFood(self._counter)
         self.myCell.consumeLife(self._counter)
+        self.myCell.consumeEggTime(self._counter)
         self.myCell.checkRIP()
         for cell in self.cellList:
             self.checkEat(cell)
@@ -87,3 +88,7 @@ class pyAlgorithm:
             cell.checkRIP()
             if cell.dead:
                 self.cellList.remove(cell)
+        if "a" in inputlist:
+            if self.myCell.timeToLayLeft==0:
+                self.myEggs.append(self.myCell.layEgg())
+        self.__kinput=[]

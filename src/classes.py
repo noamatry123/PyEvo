@@ -19,22 +19,23 @@ class Food:
     def getAmount(self):
         return self.amount
 class Egg:
-    __location=Location(0,0)
+    location=Location(0,0)
     __timeToHatch=0
     __father=None
     __mother=None
-    def __init__(self,location,father,mother):
-        self.__location=location
+    rad=0
+    def __init__(self,location,father,mother,rad):
+        self.location=Location(location[0],location[1])
         self.__father=father
         self._mother=mother
+        self.rad=rad
     def Hatch(self):
         raise NotImplementedError
 class AbCell:
     _angle=0
     _lifewithdraw=0
     _carnivore=0
-    _eggCycle=0
-    _eggs=[]
+    _eggwithdraw=0
     _food=0
     _foodWithdraw=0
     rad=0
@@ -42,6 +43,7 @@ class AbCell:
     _lifeTime=0
     location=Location(0,0)
     _speed=0
+    timeToLayLeft=0
     _timeToLay=0
     _timeToMove=0
     _lastMother=None
@@ -54,8 +56,8 @@ class AbCell:
     def getAtts(self):
         list=[]
         list.append("angle: " +str(self._angle))
-        list.append("eggcycle: "+str(self._eggCycle))
-        list.append("ttlay: "+str(self._timeToLay))
+        list.append("timeToLay(Left): "+str(self._timeToLay) + "(" + str(self.timeToLayLeft)+")")
+        list.append("eggWithDraw: "+str(self._eggwithdraw))
         list.append("carnivore: "+str(self._carnivore))
         list.append("food: "+str(self._food))
         list.append("foodWithdraw: "+str(self._foodWithdraw))
@@ -68,10 +70,12 @@ class AbCell:
         list.append("rad: "+str(self.rad))
         return list
     def layEgg(self):
-        self._timeToLay=self._eggCycle
-        if self._lastMother!=None:
-            self._eggs.append(Egg(self.location,self,self._lastMother))
+        if self._lastMother==None:
+            egg=Egg(self.location.getTupple(),self,self._lastMother,6)
             self._lastMother=None
+            self.timeToLayLeft=self._timeToLay
+            print "layed egg"
+            return egg
     def location_compensated(self): #for heading indicator
         compensated_x=self.location.x
         compensated_y=self.location.y
@@ -125,6 +129,9 @@ class AbCell:
     def consumeFood(self,tick):
         if tick%self._foodWithdraw==0:
             self._food-=1
+    def consumeEggTime(self,tick):
+        if tick%self._eggwithdraw==0 and self.timeToLayLeft>0:
+            self.timeToLayLeft-=1
     def consumeLife(self,tick):
         if tick%self._lifewithdraw==0:
             self._lifeTime-=1
@@ -133,11 +140,13 @@ class AbCell:
             self.dead=True
 
 class baseCell(AbCell):
-    def __init__(self,angle,carnivore,eggCycle,food,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw):
+    def __init__(self,angle,carnivore,eggwithdraw,food,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw,timeToLay):
         self._angle=angle
         self._lifewithdraw=lifewithdraw
         self._carnivore=carnivore
-        self._eggCycle=eggCycle
+        self._timeToLay=timeToLay
+        self.timeToLayLeft=timeToLay
+        self._eggwithdraw=eggwithdraw
         self._food=food
         self._foodWithdraw=foodWithdraw
         self._ID=ID

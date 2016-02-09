@@ -8,6 +8,6 @@ def main():
     running=True
     while running:
         algoModule.nextStep()
-        running=graphicModule.drawBoard(algoModule.myCell,algoModule.cellList,algoModule.foodList,None)
+        running=graphicModule.drawBoard(algoModule.myCell,algoModule.cellList,algoModule.foodList,[algoModule.myEggs,algoModule.cellEggs])
 if __name__ == "__main__":
     main()
