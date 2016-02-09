@@ -9,13 +9,15 @@ class Location:
     def getTupple(self):
         return (self.x,self.y)
 class Food:
-    __location=Location(0,0)
-    __amount=0
-    def __init__(self,location,amount):
-        self.__location=location
-        self.__amount=amount
+    location=Location(0,0)
+    amount=0
+    rad=0
+    def __init__(self,location,amount,rad):
+        self.location=location
+        self.amount=amount
+        self.rad=rad
     def getAmount(self):
-        return self.__amount
+        return self.amount
 class Egg:
     __location=Location(0,0)
     __timeToHatch=0
@@ -29,11 +31,13 @@ class Egg:
         raise NotImplementedError
 class AbCell:
     _angle=0
+    _lifewithdraw=0
     _carnivore=0
     _eggCycle=0
     _eggs=[]
     _food=0
     _foodWithdraw=0
+    rad=0
     _ID=0
     _lifeTime=0
     location=Location(0,0)
@@ -41,10 +45,28 @@ class AbCell:
     _timeToLay=0
     _timeToMove=0
     _lastMother=None
+    dead=False
     def changeAngle(self, dir):
         self._angle=(self._angle+dir)%8 ##0 is up, clockwise (2 is right)
     def eat(self, food):
         self._food+=food.getAmount()
+        print "ate food"
+    def getAtts(self):
+        list=[]
+        list.append("angle: " +str(self._angle))
+        list.append("eggcycle: "+str(self._eggCycle))
+        list.append("ttlay: "+str(self._timeToLay))
+        list.append("carnivore: "+str(self._carnivore))
+        list.append("food: "+str(self._food))
+        list.append("foodWithdraw: "+str(self._foodWithdraw))
+        list.append("ID: "+str(self._ID))
+        list.append("lastmother: "+str(self._lastMother))
+        list.append("lifeTime: "+str(self._lifeTime))
+        list.append("lifeWithdraw: "+str(self._lifewithdraw))
+        list.append("speed: "+str(self._speed))
+        list.append("location: "+str(self.location.getTupple()))
+        list.append("rad: "+str(self.rad))
+        return list
     def layEgg(self):
         self._timeToLay=self._eggCycle
         if self._lastMother!=None:
@@ -100,14 +122,26 @@ class AbCell:
             self._timeToMove=self._speed
         else:
             self._timeToMove-=1
+    def consumeFood(self,tick):
+        if tick%self._foodWithdraw==0:
+            self._food-=1
+    def consumeLife(self,tick):
+        if tick%self._lifewithdraw==0:
+            self._lifeTime-=1
+    def checkRIP(self):
+        if self._lifeTime<=0 or self._food<=0:
+            self.dead=True
+
 class baseCell(AbCell):
-    def __init__(self,angle,carnivore,eggCycle,food,foodWithdraw,ID,lifeTime,location,speed):
+    def __init__(self,angle,carnivore,eggCycle,food,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw):
         self._angle=angle
+        self._lifewithdraw=lifewithdraw
         self._carnivore=carnivore
         self._eggCycle=eggCycle
         self._food=food
         self._foodWithdraw=foodWithdraw
         self._ID=ID
+        self.rad=rad
         self._lifeTime=lifeTime
         self.location=location
         self._speed=speed

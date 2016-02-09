@@ -2,7 +2,10 @@ __author__ = 'user-pc'
 import pygame
 import graphics
 import classes
+import random
+import math
 class pyAlgorithm:
+    _counter=0
     __lastTimeSinceKey={"Left":0,"Right":0}
     __kinput=[]
     myCell=None
@@ -10,11 +13,19 @@ class pyAlgorithm:
     foodList=[]
     __eggList=[]
     def __init__(self): #temp
-        self.myCell=classes.baseCell(0,0,100,100,1,5,1000,classes.Location(100,100),3)
-        self.cellList.append(classes.baseCell(0,0,100,100,1,5,1000,classes.Location(200,200),3))
-
+        self.myCell=classes.baseCell(0,0,100,100,360,5,5,classes.Location(100,100),3,10,600)
+        self.cellList.append(classes.baseCell(0,0,100,100,360,5,1,classes.Location(200,200),3,10,1200))
+        for i in xrange(10):
+            self.putFood()
     def putFood(self):
-        self.foodList.append(classes.Food(classes.Location(rand,rand)))
+        self.foodList.append(classes.Food(classes.Location(random.randint(0,800),random.randint(0,600)),10,5))
+    def checkEat(self,cell):
+        for food in self.foodList:
+            if math.sqrt(((cell.location.x-food.location.x)**2)+((cell.location.y-food.location.y)**2))<cell.rad+food.rad:
+                cell.eat(food)
+                self.foodList.remove(food)
+
+
     def getInput(self):
         returnList=[]
         events = pygame.event.get(pygame.KEYDOWN)
@@ -45,7 +56,11 @@ class pyAlgorithm:
         if key[pygame.K_DOWN]:
             returnList.append("Down")
         return returnList
+
+
     def nextStep(self):
+        self._counter+=1
+        ##handle input
         inputlist=self.getInput()
         for item in inputlist:
             if (item=="Left" or item=="Right") and (("Left" in self.__kinput) or ("Right" in self.__kinput)):
@@ -60,3 +75,15 @@ class pyAlgorithm:
         if "Up" in self.__kinput:
             self.myCell.move()
         self.__kinput=[]
+        ##handl food and life
+        self.checkEat(self.myCell)
+        self.myCell.consumeFood(self._counter)
+        self.myCell.consumeLife(self._counter)
+        self.myCell.checkRIP()
+        for cell in self.cellList:
+            self.checkEat(cell)
+            cell.consumeFood(self._counter)
+            cell.consumeLife(self._counter)
+            cell.checkRIP()
+            if cell.dead:
+                self.cellList.remove(cell)
