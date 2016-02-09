@@ -34,7 +34,7 @@ class Egg:
 class AbCell:
     _angle=0
     _lifewithdraw=0
-    _carnivore=0
+    _carnivore=0##to do
     _eggwithdraw=0
     _food=0
     _foodWithdraw=0
