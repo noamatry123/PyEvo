@@ -19,6 +19,7 @@ class Food:
     def getAmount(self):
         return self.amount
 class Egg:
+
     location=Location(0,0)
     __timeToHatch=0
     __father=None
@@ -48,6 +49,7 @@ class AbCell:
     _timeToMove=0
     _lastMother=None
     dead=False
+
     def changeAngle(self, dir):
         self._angle=(self._angle+dir)%8 ##0 is up, clockwise (2 is right)
     def eat(self, food):

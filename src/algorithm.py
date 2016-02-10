@@ -4,6 +4,8 @@ import graphics
 import classes
 import random
 import math
+
+
 class pyAlgorithm:
     _counter=0
     __lastTimeSinceKey={"Left":0,"Right":0}
