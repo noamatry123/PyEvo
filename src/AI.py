@@ -8,4 +8,4 @@ import math
 
 class AI:
     def nextStep(self,playerCell,cellList,foodList,eggList,):
-        pass
+        print "hi"
