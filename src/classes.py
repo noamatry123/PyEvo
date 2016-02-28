@@ -35,6 +35,7 @@ class Egg:
     def Hatch(self): ##returns new cell to add
         newCell = self.__father
         newCell.location=Egg.location
+        return newCell
 class AbCell:
     _angle=0
     _lifewithdraw=0
