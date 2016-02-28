@@ -40,6 +40,8 @@ class AbCell:
     _food=0
     _foodWithdraw=0
     rad=0
+    AI=0
+    vision=0
     _ID=0
     _lifeTime=0
     location=Location(0,0)
@@ -142,8 +144,10 @@ class AbCell:
             self.dead=True
 
 class baseCell(AbCell):
-    def __init__(self,angle,carnivore,eggwithdraw,food,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw,timeToLay):
+    def __init__(self,angle,carnivore,eggwithdraw,food,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw,timeToLay,AI,vision):
         self._angle=angle
+        self.AI=AI
+        self.vision=vision
         self._lifewithdraw=lifewithdraw
         self._carnivore=carnivore
         self._timeToLay=timeToLay

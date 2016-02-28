@@ -6,13 +6,16 @@ screenwidth=800
 screenheight=600
 class pyGraphics:
 
-    __framerate=200
-    __screenwidth=800
-    __screenheight=600
+    __framerate=0
+    __screenwidth=0
+    __screenheight=0
     __screen=None
     __clock=None
     __myfont =None
-    def __init__(self):
+    def __init__(self,framerate,width,height):
+        self.__framerate=framerate
+        self.__screenheight=height
+        self.__screenwidth=width
         pygame.init()
         self.__myfont= pygame.font.SysFont("Ariel", 20)
         self.__screen = pygame.display.set_mode((self.__screenwidth, self.__screenheight))

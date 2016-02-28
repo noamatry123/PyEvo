@@ -5,7 +5,10 @@ import algorithm
 
 
 def main():
-    graphicModule = graphics.pyGraphics()
+    framerate=200
+    screenwidth=800
+    screenheight=600
+    graphicModule = graphics.pyGraphics(framerate,screenheight,screenwidth)
     algoModule = algorithm.pyAlgorithm()
     running = True
     while running:
