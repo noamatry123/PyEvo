@@ -4,6 +4,7 @@ import graphics
 import classes
 import random
 import math
+import AI
 
 
 class pyAlgorithm:
@@ -83,10 +84,16 @@ class pyAlgorithm:
         self.myCell.consumeLife(self._counter)
         self.myCell.consumeEggTime(self._counter)
         self.myCell.checkRIP()
+        input=[]
         for cell in self.cellList:
-            """
-            add ai for cells
-            """
+            input=AI.nextStep(self.myCell,self.foodList,self.cellList,cell)
+            for item in input:
+                if item=="OLeft":
+                    cell.changeAngle(-1)
+                if item=="ORight":
+                    cell.changeAngle(1)
+                if "Up" in input:
+                    cell.move()
             cell.checkEat(self.foodList)
             cell.consumeFood(self._counter)
             cell.consumeLife(self._counter)
