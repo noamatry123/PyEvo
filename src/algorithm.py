@@ -84,6 +84,9 @@ class pyAlgorithm:
         self.myCell.consumeEggTime(self._counter)
         self.myCell.checkRIP()
         for cell in self.cellList:
+            """
+            add ai for cells
+            """
             cell.checkEat(self.foodList)
             cell.consumeFood(self._counter)
             cell.consumeLife(self._counter)

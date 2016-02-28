@@ -6,10 +6,11 @@ import random
 import math
 
 """
-ai0=random movement
-ai1=random food,random mate
-ai2=closest food,closest mate
-ai3-closest food,best mate
+ai0=random and not moving while rotating
+ai1=random movement
+ai2=random food,random mate
+ai3=closest food,closest mate
+ai4-closest food,best mate
 
 """
 class AI:
@@ -20,11 +21,13 @@ class AI:
         if currCell.AI==0:
             self.AI0(currCell)
         elif currCell.AI==1:
-            self.AI1(currCell,foodsee,cellsee)
+            self.AI1(currCell)
         elif currCell.AI==2:
             self.AI2(currCell,foodsee,cellsee)
         elif currCell.AI==3:
             self.AI3(currCell,foodsee,cellsee)
+        elif currCell.AI==4:
+            self.AI4(currCell,foodsee,cellsee)
 
     def look4Food(self,cell,foodList,cellList):
         foodsee=[]
@@ -37,36 +40,27 @@ class AI:
                 cellsee.append(curr)
         return foodsee,cellsee
     def AI0(self,cell):
-        pass
-        pass
-    def AI1(self,cell,foodList,cellList):
-        pass
+        input=[]
+        i=random.randint(0,3)
+        if i==0:
+            input.append("ORight")
+        if i==1:
+            input.append("OLeft")
+        if i==2:
+            input.append("Up")
+        return input
+    def AI1(self,cell):
+        input=[]
+        i=random.randint(0,3)
+        if i==0:
+            input.append("ORight")
+        if i==1:
+            input.append("OLeft")
+        input.append("Up")
+        return input
     def AI2(self,cell,foodList,cellList):
         pass
     def AI3(self,cell,foodList,cellList):
         pass
-    def action(self,cell,inputlist):
-        for item in inputlist:
-            if item=="Left":
-                cell.changeAngle(-1)
-            if item=="Right":
-                cell.changeAngle(1)
-        if "Up" in inputlist:
-            cell.move()
-        ##handle food and life
-        self.checkEat(cell)
-        cell.consumeFood(self._counter)
-        cell.consumeLife(self._counter)
-        cell.consumeEggTime(self._counter)
-        cell.checkRIP()
-        for cell in self.cellList:
-            self.checkEat(cell)
-            cell.consumeFood(self._counter)
-            cell.consumeLife(self._counter)
-            cell.checkRIP()
-            if cell.dead:
-                self.cellList.remove(cell)
-        if "a" in inputlist:
-            if cell.timeToLayLeft==0:
-                self.myEggs.append(cell.layEgg())
-        self.__kinput=[]
+    def AI4(self,cell,foodList,cellList):
+        pass
