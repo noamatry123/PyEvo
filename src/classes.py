@@ -33,7 +33,7 @@ class Egg:
         self.rad=rad
         self.timeToHatch=timeToHatch
     def Hatch(self): ##returns new cell to add
-        newCell = self.__father
+        newCell = baseCell(self.__father)
         newCell.location=Egg.location
         return newCell
 class AbCell:
@@ -169,3 +169,20 @@ class baseCell(AbCell):
         self.lifeTime=lifeTime
         self.location=location
         self.speed=speed
+    '''def __init__(self,cell):
+        self.angle=cell.angle
+        self.AI=cell.AI
+        self.vision=cell.vision
+        self.lifewithdraw=cell.lifewithdraw
+        self.carnivore=cell.carnivore
+        self.timeToLay=cell.timeToLay
+        self.timeToLayLeft=cell.timeToLay
+        self.eggwithdraw=cell.eggwithdraw
+        self.food=cell.food
+        self.foodWithdraw=cell.foodWithdraw
+        self.ID=cell.ID
+        self.rad=cell.rad
+        self.lifeTime=cell.lifeTime
+        self.location=cell.location
+        self.speed=cell.speed
+    '''
