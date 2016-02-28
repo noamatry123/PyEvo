@@ -31,7 +31,7 @@ class Egg:
     rad=0
     def __init__(self,location,father,mother,rad,timeToHatch):
         self.location=Location(location[0],location[1])
-        self.__father=father
+        self.__father=baseCell(father)
         self._mother=mother
         self.rad=rad
         self.timeToHatch=timeToHatch
@@ -152,8 +152,12 @@ class AbCell:
         if tick%self.lifewithdraw==0:
             self.lifeTime-=1
     def checkRIP(self):
-        if self.lifeTime<=0 or self.food<=0:
+        if self.lifeTime<=0:
             self.dead=True
+            print str(self.ID), "Has died from old age."
+        if self.food<=0:
+            self.dead=True
+            print str(self.ID), "Has died from hunger."
 
 class baseCell(AbCell):
     def __init__(self,cell=None,angle=None,carnivore=None,eggwithdraw=None,food=None,foodWithdraw=None,ID=None,lifeTime=None,location=None,speed=None,rad=None,lifewithdraw=None,timeToLay=None,AI=None,vision=None):

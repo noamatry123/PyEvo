@@ -22,7 +22,6 @@ class pyAlgorithm:
     def __init__(self): #temp
         self.myCell=classes.baseCell(None,0,0,200,100,360,0,100,classes.Location(100,100),3,10,600,10,1,1)
         self.cellList.append(classes.baseCell(None,0,0,100,100,360,1,1,classes.Location(200,200),3,10,1200,15,1,1))
-        self.cellList.append(classes.baseCell(None,0,0,100,100,360,1,1,classes.Location(150,150),3,10,1200,15,1,1))
         self.cellEggs.append(classes.Egg((100,100),self.cellList[0],None,6,0))
         for i in xrange(10):
             self.putFood()
