@@ -21,17 +21,19 @@ class Food:
 class Egg:
 
     location=Location(0,0)
-    __timeToHatch=0
+    timeToHatch=0
     __father=None
     __mother=None
     rad=0
-    def __init__(self,location,father,mother,rad):
+    def __init__(self,location,father,mother,rad,timeToHatch):
         self.location=Location(location[0],location[1])
         self.__father=father
         self._mother=mother
         self.rad=rad
-    def Hatch(self):
-        raise NotImplementedError
+        self.timeToHatch=timeToHatch
+    def Hatch(self): ##returns new cell to add
+        newCell = self.__father
+        newCell.location=Egg.location
 class AbCell:
     _angle=0
     _lifewithdraw=0
@@ -51,6 +53,7 @@ class AbCell:
     _timeToMove=0
     _lastMother=None
     dead=False
+    eggHatchTime=10
 
     def changeAngle(self, dir):
         self._angle=(self._angle+dir)%8 ##0 is up, clockwise (2 is right)

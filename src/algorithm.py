@@ -18,7 +18,7 @@ class pyAlgorithm:
     def __init__(self): #temp
         self.myCell=classes.baseCell(0,0,200,100,360,0,100,classes.Location(100,100),3,10,600,10,1,1)
         self.cellList.append(classes.baseCell(0,0,100,100,360,1,1,classes.Location(200,200),3,10,1200,15,1,1))
-        self.cellEggs.append(classes.Egg((100,100),None,None,6))
+        self.cellEggs.append(classes.Egg((100,100),self.cellList[0],None,6,3))
         for i in xrange(10):
             self.putFood()
     def putFood(self):
@@ -28,8 +28,12 @@ class pyAlgorithm:
             if math.sqrt(((cell.location.x-food.location.x)**2)+((cell.location.y-food.location.y)**2))<cell.rad+food.rad:
                 cell.eat(food)
                 self.foodList.remove(food)
-
-
+    def growCellEggs(self):
+        for egg in self.cellEggs:
+            if egg.timeToHatch==0:
+                newCell=egg.Hatch()
+                self.cellList.append(newCell)
+                self.cellEggs.remove(egg)
     def getInput(self):
         returnList=[]
         events = pygame.event.get(pygame.KEYDOWN)
@@ -94,4 +98,7 @@ class pyAlgorithm:
         if "a" in inputlist:
             if self.myCell.timeToLayLeft==0:
                 self.myEggs.append(self.myCell.layEgg())
+
+        ##check egg hatching
+        self.growCellEggs()
         self.__kinput=[]
