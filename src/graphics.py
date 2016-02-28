@@ -28,6 +28,7 @@ class pyGraphics:
             self.__screen.blit(label, (0,counter))
             counter+=20
     def drawBoard(self,playerCell,cellList,foodList,eggList):
+        IDtempfont=pygame.font.SysFont("Ariel", 20)
         ##fill screen
         self.__screen.fill((255,0,255))
         ##handle events
@@ -38,6 +39,9 @@ class pyGraphics:
         for cell in cellList:
             pygame.draw.circle(self.__screen,(255,0,0),(cell.location.getTupple()),cell.rad)
             pygame.draw.circle(self.__screen,(10,255,10),(cell.location_compensated()),2)
+            ##draw IDs:
+            label = IDtempfont.render(str(cell.ID), 1, (255,255,0))
+            self.__screen.blit(label,(cell.location.x,cell.location.y))
         for food in foodList:
             pygame.draw.circle(self.__screen,(80,255,80),(food.location.getTupple()),food.rad)
         ##prints attributes
@@ -50,6 +54,9 @@ class pyGraphics:
         ##draw player
         pygame.draw.circle(self.__screen,(0,0,0),(playerCell.location.getTupple()),playerCell.rad)
         pygame.draw.circle(self.__screen,(10,255,10),(playerCell.location_compensated()),2)
+        ##draw player ID
+        label = IDtempfont.render(str(playerCell.ID), 1, (255,255,0))
+        self.__screen.blit(label,(playerCell.location.x,playerCell.location.y))
         if playerCell.dead:
             pygame.draw.rect(self.__screen,(0,0,0),(0,0,800,600))
         ##tick and flip

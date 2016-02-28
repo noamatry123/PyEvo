@@ -7,6 +7,9 @@ import math
 import AI
 
 
+def getNextID():
+    classes.curID+=1
+    return classes.curID
 class pyAlgorithm:
     _counter=0
     __lastTimeSinceKey={"Left":0,"Right":0}

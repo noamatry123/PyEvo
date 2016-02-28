@@ -1,6 +1,9 @@
 __author__ = 'user-pc'
 import graphics
 import math
+import algorithm
+
+curID=0
 class Location:
     x=0
     y=0
@@ -165,7 +168,7 @@ class baseCell(AbCell):
             self.eggwithdraw=eggwithdraw
             self.food=food
             self.foodWithdraw=foodWithdraw
-            self.ID=ID
+            self.ID=algorithm.getNextID()
             self.rad=rad
             self.lifeTime=lifeTime
             self.location=location
@@ -181,7 +184,7 @@ class baseCell(AbCell):
             self.eggwithdraw=cell.eggwithdraw
             self.food=cell.food
             self.foodWithdraw=cell.foodWithdraw
-            self.ID=cell.ID
+            self.ID=algorithm.getNextID()
             self.rad=cell.rad
             self.lifeTime=cell.lifeTime
             self.location=cell.location
