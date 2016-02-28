@@ -38,6 +38,7 @@ class AI:
         return foodsee,cellsee
     def AI0(self,cell):
         pass
+        pass
     def AI1(self,cell,foodList,cellList):
         pass
     def AI2(self,cell,foodList,cellList):
