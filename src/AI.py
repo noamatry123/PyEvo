@@ -28,6 +28,8 @@ def nextStep(playerCell,cellList,foodList,currCell):
         input1=AI3(currCell,foodsee,cellsee)
     elif currCell.AI==4:
         input1=AI4(currCell,foodsee,cellsee)
+    elif currCell.AI==-1: ## dont move for debug purposes
+        input1 = []
     return input1
 
 def look4Food(cell,foodList,cellList):
