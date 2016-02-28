@@ -23,11 +23,6 @@ class pyAlgorithm:
             self.putFood()
     def putFood(self):
         self.foodList.append(classes.Food(classes.Location(random.randint(0,800),random.randint(0,600)),10,5))
-    def checkEat(self,cell):
-        for food in self.foodList:
-            if math.sqrt(((cell.location.x-food.location.x)**2)+((cell.location.y-food.location.y)**2))<cell.rad+food.rad:
-                cell.eat(food)
-                self.foodList.remove(food)
     def growCellEggs(self):
         for egg in self.cellEggs:
             if egg.timeToHatch==0:
@@ -83,13 +78,13 @@ class pyAlgorithm:
         if "Up" in self.__kinput:
             self.myCell.move()
         ##handle food and life
-        self.checkEat(self.myCell)
+        self.myCell.checkEat(self.foodList)
         self.myCell.consumeFood(self._counter)
         self.myCell.consumeLife(self._counter)
         self.myCell.consumeEggTime(self._counter)
         self.myCell.checkRIP()
         for cell in self.cellList:
-            self.checkEat(cell)
+            cell.checkEat(self.foodList)
             cell.consumeFood(self._counter)
             cell.consumeLife(self._counter)
             cell.checkRIP()

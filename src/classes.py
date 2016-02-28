@@ -1,5 +1,6 @@
 __author__ = 'user-pc'
 import graphics
+import math
 class Location:
     x=0
     y=0
@@ -54,7 +55,11 @@ class AbCell:
     _lastMother=None
     dead=False
     eggHatchTime=10
-
+    def checkEat(self,foodList):
+            for food in foodList:
+                if math.sqrt(((self.location.x-food.location.x)**2)+((self.location.y-food.location.y)**2))<self.rad+food.rad:
+                    self.eat(food)
+                    foodList.remove(food)
     def changeAngle(self, dir):
         self._angle=(self._angle+dir)%8 ##0 is up, clockwise (2 is right)
     def eat(self, food):
