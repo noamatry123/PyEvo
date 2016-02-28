@@ -7,6 +7,7 @@ import math
 
 
 class pyAlgorithm:
+    naxuiidi=20
     _counter=0
     __lastTimeSinceKey={"Left":0,"Right":0}
     __kinput=[]
