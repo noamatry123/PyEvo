@@ -153,36 +153,36 @@ class AbCell:
             self.dead=True
 
 class baseCell(AbCell):
-    def __init__(self,angle,carnivore,eggwithdraw,food,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw,timeToLay,AI,vision):
-        self.angle=angle
-        self.AI=AI
-        self.vision=vision
-        self.lifewithdraw=lifewithdraw
-        self.carnivore=carnivore
-        self.timeToLay=timeToLay
-        self.timeToLayLeft=timeToLay
-        self.eggwithdraw=eggwithdraw
-        self.food=food
-        self.foodWithdraw=foodWithdraw
-        self.ID=ID
-        self.rad=rad
-        self.lifeTime=lifeTime
-        self.location=location
-        self.speed=speed
-    '''def __init__(self,cell):
-        self.angle=cell.angle
-        self.AI=cell.AI
-        self.vision=cell.vision
-        self.lifewithdraw=cell.lifewithdraw
-        self.carnivore=cell.carnivore
-        self.timeToLay=cell.timeToLay
-        self.timeToLayLeft=cell.timeToLay
-        self.eggwithdraw=cell.eggwithdraw
-        self.food=cell.food
-        self.foodWithdraw=cell.foodWithdraw
-        self.ID=cell.ID
-        self.rad=cell.rad
-        self.lifeTime=cell.lifeTime
-        self.location=cell.location
-        self.speed=cell.speed
-    '''
+    def __init__(self,cell=None,angle=None,carnivore=None,eggwithdraw=None,food=None,foodWithdraw=None,ID=None,lifeTime=None,location=None,speed=None,rad=None,lifewithdraw=None,timeToLay=None,AI=None,vision=None):
+        if cell==None:
+            self.angle=angle
+            self.AI=AI
+            self.vision=vision
+            self.lifewithdraw=lifewithdraw
+            self.carnivore=carnivore
+            self.timeToLay=timeToLay
+            self.timeToLayLeft=timeToLay
+            self.eggwithdraw=eggwithdraw
+            self.food=food
+            self.foodWithdraw=foodWithdraw
+            self.ID=ID
+            self.rad=rad
+            self.lifeTime=lifeTime
+            self.location=location
+            self.speed=speed
+        else:
+            self.angle=cell.angle
+            self.AI=cell.AI
+            self.vision=cell.vision
+            self.lifewithdraw=cell.lifewithdraw
+            self.carnivore=cell.carnivore
+            self.timeToLay=cell.timeToLay
+            self.timeToLayLeft=cell.timeToLay
+            self.eggwithdraw=cell.eggwithdraw
+            self.food=cell.food
+            self.foodWithdraw=cell.foodWithdraw
+            self.ID=cell.ID
+            self.rad=cell.rad
+            self.lifeTime=cell.lifeTime
+            self.location=cell.location
+            self.speed=cell.speed
