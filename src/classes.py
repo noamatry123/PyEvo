@@ -87,10 +87,10 @@ class AbCell:
         return list
     def layEgg(self):
         if self.lastMother==None:
-            egg=Egg(self.location.getTupple(),self,self.lastMother,6,0)
+            egg=Egg(self.location.getTupple(),baseCell(self),self.lastMother,6,0)
             self.lastMother=None
             self.timeToLayLeft=self.timeToLay
-            print "layed egg"
+            print self.ID , "layed egg."
             return egg
     def location_compensated(self): #for heading indicator
         compensated_x=self.location.x
@@ -175,7 +175,7 @@ class baseCell(AbCell):
             self.ID=algorithm.getNextID()
             self.rad=rad
             self.lifeTime=lifeTime
-            self.location=location
+            self.location=Location(location.x,location.y)
             self.speed=speed
         else:
             self.angle=cell.angle
@@ -191,5 +191,5 @@ class baseCell(AbCell):
             self.ID=algorithm.getNextID()
             self.rad=cell.rad
             self.lifeTime=cell.lifeTime
-            self.location=cell.location
+            self.location=Location(cell.location.x,cell.location.y)
             self.speed=cell.speed
