@@ -62,8 +62,10 @@ def AI1(cell):
     input.append("Up")
     return input
 def AI2(cell,foodList,cellList):
-    i=random.randint(len(foodList))
-
+    i=random.randint(0,len(foodList)-1)
+    input=[]
+    input=goto(cell,foodList[i])
+    return input
 def AI3(cell,foodList,cellList):
     pass
 def AI4(cell,foodList,cellList):
@@ -72,21 +74,69 @@ def goto(cell,object):
     input=[]
     if cell.location.y<object.location.y:
         if cell.location.x==object.location.x:#1
-            if cell.angle==4:
-                input.append("Up")
+            input=moveDown(cell)
         if cell.location.x>object.location.x:#2
-            pass
+            if cell.location.y!=object.location.y:#check if same y if not move down
+                input=moveDown(cell)
+            else:#if yes move left
+                input=moveLeft(cell)
         if cell.location.x<object.location.x:#3
-            pass
+            if cell.location.y!=object.location.y:#check if same y if not move down
+                input=moveDown(cell)
+            else:#if yes move right
+                input=moveRight(cell)
     if cell.location.y>object.location.y:
         if cell.location.x==object.location.x:#4
-            pass
+            input=moveUp(cell)
         if cell.location.x>object.location.x:#5
-            pass
+            if cell.location.y!=object.location.y:#check if same y if not move Up
+                input=moveUp(cell)
+            else:#if yes move right
+                input=moveRight(cell)
         if cell.location.x<object.location.x:#6
-            pass
+            if cell.location.y!=object.location.y:#check if same y if not move Up
+                input=moveUp(cell)
+            else:#if yes move left
+                input=moveLeft(cell)
     if cell.location.y==object.location.y:
         if cell.location.x>object.location.x:#7
-            pass
+            input=moveRight(cell)
         if cell.location.x<object.location.x:#8
-            pass
+            input=moveLeft(cell)
+    return input
+def moveRight(cell):
+    input=[]
+    if cell.angle==2:
+        input.append("Up")
+        if 2<cell.angle<=6:
+            input.append("OLeft")
+        if 6<cell.angle<8 or 0<=cell.angle<2:
+            input.append("ORight")
+    return input
+def moveLeft(cell):
+    input=[]
+    if cell.angle==6:
+        input.append("Up")
+        if 2<cell.angle<6:
+            input.append("ORight")
+        if 6<cell.angle<8 or 0<=cell.angle<=2:
+            input.append("OLeft")
+    return input
+def moveUp(cell):
+    input=[]
+    if cell.angle==0:
+        input.append("Up")
+        if cell.angle>4:
+            input.append("ORight")
+        if 4>=cell.angle>0:
+            input.append("OLeft")
+    return input
+def moveDown(cell):
+    input=[]
+    if cell.angle==4:
+        input.append("Up")
+        if cell.angle<4:
+            input.append("ORight")
+        if cell.angle>4:
+            input.append("OLeft")
+    return input
