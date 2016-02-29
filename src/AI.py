@@ -62,8 +62,11 @@ def AI1(cell):
     input.append("Up")
     return input
 def AI2(cell,foodList,cellList):
-    i=random.randint(0,len(foodList)-1)
     input=[]
+    if len(foodList)==0:
+        input=AI1(cell)
+        return input
+    i=random.randint(0,len(foodList)-1)
     input=goto(cell,foodList[i])
     return input
 def AI3(cell,foodList,cellList):
@@ -108,35 +111,35 @@ def moveRight(cell):
     input=[]
     if cell.angle==2:
         input.append("Up")
-        if 2<cell.angle<=6:
-            input.append("OLeft")
-        if 6<cell.angle<8 or 0<=cell.angle<2:
-            input.append("ORight")
+    if 2<cell.angle<=6:
+        input.append("OLeft")
+    if cell.angle==7 or 0<=cell.angle<2:
+        input.append("ORight")
     return input
 def moveLeft(cell):
     input=[]
     if cell.angle==6:
         input.append("Up")
-        if 2<cell.angle<6:
-            input.append("ORight")
-        if 6<cell.angle<8 or 0<=cell.angle<=2:
-            input.append("OLeft")
+    if 2<cell.angle<6:
+        input.append("ORight")
+    if 6<cell.angle<8 or 0<=cell.angle<=2:
+        input.append("OLeft")
     return input
 def moveUp(cell):
     input=[]
     if cell.angle==0:
         input.append("Up")
-        if cell.angle>4:
-            input.append("ORight")
-        if 4>=cell.angle>0:
-            input.append("OLeft")
+    if cell.angle>4:
+        input.append("ORight")
+    if 4>=cell.angle>0:
+        input.append("OLeft")
     return input
 def moveDown(cell):
     input=[]
     if cell.angle==4:
         input.append("Up")
-        if cell.angle<4:
-            input.append("ORight")
-        if cell.angle>4:
-            input.append("OLeft")
+    if cell.angle<4:
+        input.append("ORight")
+    if cell.angle>4:
+        input.append("OLeft")
     return input
