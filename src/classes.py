@@ -2,6 +2,7 @@ __author__ = 'user-pc'
 import graphics
 import math
 import algorithm
+import pyEvoMain
 
 curID=0
 class Location:
@@ -39,6 +40,10 @@ class Egg:
         newCell = baseCell(self.father)
         newCell.location=Location(self.location.x, self.location.y)
         return newCell
+    def consumeHatch(self,counter):
+        if not self.timeToHatch==0: #egg is hatching
+            if counter%pyEvoMain.framerate==0:
+                self.timeToHatch-=1
 class AbCell:
     angle=0
     lifewithdraw=0
@@ -160,7 +165,7 @@ class AbCell:
             print str(self.ID), "Has died from hunger."
 
 class baseCell(AbCell):
-    def __init__(self,cell=None,angle=None,carnivore=None,eggwithdraw=None,food=None,foodWithdraw=None,ID=None,lifeTime=None,location=None,speed=None,rad=None,lifewithdraw=None,timeToLay=None,AI=None,vision=None):
+    def __init__(self,cell=None,angle=None,carnivore=None,eggwithdraw=None,food=None,foodWithdraw=None,ID=None,lifeTime=None,location=None,speed=None,rad=None,lifewithdraw=None,timeToLay=None,AI=None,vision=None,eggHatchTime=None):
         if cell==None:
             self.angle=angle
             self.AI=AI
@@ -177,6 +182,7 @@ class baseCell(AbCell):
             self.lifeTime=lifeTime
             self.location=Location(location.x,location.y)
             self.speed=speed
+            self.eggHatchTime=eggHatchTime
         else:
             self.angle=cell.angle
             self.AI=cell.AI
@@ -193,3 +199,4 @@ class baseCell(AbCell):
             self.lifeTime=cell.lifeTime
             self.location=Location(cell.location.x,cell.location.y)
             self.speed=cell.speed
+            self.eggHatchTime=cell.eggHatchTime
