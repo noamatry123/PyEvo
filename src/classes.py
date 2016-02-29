@@ -26,18 +26,18 @@ class Egg:
 
     location=Location(0,0)
     timeToHatch=0
-    __father=None
-    __mother=None
+    father=None
+    mother=None
     rad=0
-    def __init__(self,location,father,mother,rad,timeToHatch):
-        self.location=Location(location[0],location[1])
-        self.__father=baseCell(father)
-        self._mother=mother
+    def __init__(self,flocation,father,mother,rad,timeToHatch):
+        self.location=Location(flocation.x,flocation.y)
+        self.father=baseCell(father)
+        self.mother=mother
         self.rad=rad
         self.timeToHatch=timeToHatch
     def Hatch(self): ##returns new cell to add ##
-        newCell = baseCell(self.__father)
-        newCell.location=Egg.location
+        newCell = baseCell(self.father)
+        newCell.location=Location(self.location.x, self.location.y)
         return newCell
 class AbCell:
     angle=0
@@ -87,7 +87,7 @@ class AbCell:
         return list
     def layEgg(self):
         if self.lastMother==None:
-            egg=Egg(self.location.getTupple(),baseCell(self),self.lastMother,6,0)
+            egg=Egg(self.location,baseCell(self),self.lastMother,6,self.eggHatchTime)
             self.lastMother=None
             self.timeToLayLeft=self.timeToLay
             print self.ID , "layed egg."
