@@ -5,7 +5,6 @@ import algorithm
 
 framerate=200
 def main():
-
     screenwidth=600
     screenheight=800
     graphicModule = graphics.pyGraphics(framerate,screenheight,screenwidth)

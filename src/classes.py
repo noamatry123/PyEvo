@@ -3,6 +3,7 @@ import graphics
 import math
 import algorithm
 import pyEvoMain
+from termcolor import colored
 
 curID=0
 class Location:
@@ -30,16 +31,29 @@ class Egg:
     father=None
     mother=None
     rad=0
-    def __init__(self,flocation,father,mother,rad,timeToHatch):
+    Player = False
+    def __init__(self,flocation,father,mother,rad,timeToHatch,Player=False):
         self.location=Location(flocation.x,flocation.y)
         self.father=baseCell(father)
-        self.mother=mother
+        self.mother=baseCell(father) ##fix later
         self.rad=rad
         self.timeToHatch=timeToHatch
+        self.Player=Player
     def Hatch(self): ##returns new cell to add ##
-        newCell = baseCell(self.father)
-        newCell.location=Location(self.location.x, self.location.y)
-        return newCell
+        if not self.Player: ##normal cell egg hatching
+            newCell = baseCell(self.father)
+            newCell.location=Location(self.location.x, self.location.y)
+            return newCell
+        else: #normal cell hatching
+            pass
+    def mixPlayerCells(self,mother,father):
+        print "\n\n"
+        print colored("Father:                       Mother:","red")
+        for i in xrange(0,len(father.getAtts())):
+            print colored("(1)","blue"), colored(father.getAtts()[i].ljust(25),"magenta"),
+            print colored("(2)","blue"), colored(mother.getAtts()[i],"magenta")
+            ##choice=raw_input()
+
     def consumeHatch(self,counter):
         if not self.timeToHatch==0: #egg is hatching
             if counter%pyEvoMain.framerate==0:
@@ -90,9 +104,9 @@ class AbCell:
         list.append("location: "+str(self.location.getTupple()))
         list.append("rad: "+str(self.rad))
         return list
-    def layEgg(self):
+    def layEgg(self,Player=False):
         if self.lastMother==None:
-            egg=Egg(self.location,baseCell(self),self.lastMother,6,self.eggHatchTime)
+            egg=Egg(self.location,baseCell(self),self.lastMother,6,self.eggHatchTime,Player)
             self.lastMother=None
             self.timeToLayLeft=self.timeToLay
             print self.ID , "layed egg."
