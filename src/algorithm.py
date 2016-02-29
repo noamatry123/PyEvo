@@ -45,6 +45,7 @@ class pyAlgorithm:
             if event.key==pygame.K_RIGHT:
                 returnList.append("Right")
                 self.__lastTimeSinceKey["Right"]=0
+
             if event.key==pygame.K_a:
                 returnList.append("a")
         key=pygame.key.get_pressed()

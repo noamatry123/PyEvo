@@ -54,7 +54,7 @@ def AI0(cell):
     return input
 def AI1(cell):
     input=[]
-    i=random.randint(0,3)
+    i=random.randint(0,50)
     if i==0:
         input.append("ORight")
     if i==1:
@@ -62,8 +62,31 @@ def AI1(cell):
     input.append("Up")
     return input
 def AI2(cell,foodList,cellList):
-    pass
+    i=random.randint(len(foodList))
+
 def AI3(cell,foodList,cellList):
     pass
 def AI4(cell,foodList,cellList):
     pass
+def goto(cell,object):
+    input=[]
+    if cell.location.y<object.location.y:
+        if cell.location.x==object.location.x:#1
+            if cell.angle==4:
+                input.append("Up")
+        if cell.location.x>object.location.x:#2
+            pass
+        if cell.location.x<object.location.x:#3
+            pass
+    if cell.location.y>object.location.y:
+        if cell.location.x==object.location.x:#4
+            pass
+        if cell.location.x>object.location.x:#5
+            pass
+        if cell.location.x<object.location.x:#6
+            pass
+    if cell.location.y==object.location.y:
+        if cell.location.x>object.location.x:#7
+            pass
+        if cell.location.x<object.location.x:#8
+            pass
