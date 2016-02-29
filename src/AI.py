@@ -44,12 +44,12 @@ def look4Food(cell,foodList,cellList):
     return foodsee,cellsee
 def AI0(cell):
     input=[]
-    i=random.randint(0,3)
+    i=random.randint(0,50)
     if i==0:
         input.append("ORight")
     if i==1:
         input.append("OLeft")
-    if i==2:
+    if 1<i<10:
         input.append("Up")
     return input
 def AI1(cell):
