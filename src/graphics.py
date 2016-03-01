@@ -4,6 +4,9 @@ import time
 import classes
 import easygui
 import math
+import subprocess
+import sys
+
 screenwidth=800
 screenheight=600
 class pyGraphics:
@@ -14,6 +17,7 @@ class pyGraphics:
     __screen=None
     __clock=None
     __myfont =None
+    last_clickcheck=None
     def __init__(self,framerate,width,height):
         self.__framerate=framerate
         self.__screenheight=height
@@ -23,6 +27,7 @@ class pyGraphics:
         self.__screen = pygame.display.set_mode((self.__screenwidth, self.__screenheight))
         self.__clock = pygame.time.Clock()
         self.__running=True
+        self.last_clickcheck=0
     def printAtt(self,playerCell):
         counter=0
         for att in playerCell.getAtts():
@@ -72,7 +77,10 @@ class pyGraphics:
             pos = pygame.mouse.get_pos()
             for cell in cellList:
                 if math.sqrt(((pos[0]-cell.location.x)**2)+((pos[1]-cell.location.y)**2))<cell.rad:
-                    text=""
-                    for i in xrange(0,len(cell.getAtts())):
-                        text+=cell.getAtts()[i]+"\n"
-                    easygui.msgbox(text,str(cell.ID))
+                    if pygame.time.get_ticks()>self.last_clickcheck+500: ##500ms since last successful click
+                        self.last_clickcheck=pygame.time.get_ticks()
+                        text=""
+                        for i in xrange(0,len(cell.getAtts())):
+                            text+=cell.getAtts()[i]+"\n"
+                        cmd='cscript src/MessageBox.vbs "This will be shown in a popup."'
+                        proc = subprocess.Popen([cmd], shell=True,stdin=None, stdout=None, stderr=None, close_fds=True)
