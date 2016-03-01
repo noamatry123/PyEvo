@@ -63,6 +63,8 @@ def AI1(cell):
     return input
 def AI2(cell,foodList,cellList):
     input=[]
+    if 0==1:
+        pass
     if len(foodList)==0:
         input=AI1(cell)
         return input
