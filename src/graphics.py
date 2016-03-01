@@ -2,6 +2,8 @@ __author__ = 'user-pc'
 import pygame
 import time
 import classes
+import easygui
+import math
 screenwidth=800
 screenheight=600
 class pyGraphics:
@@ -62,4 +64,15 @@ class pyGraphics:
         ##tick and flip
         self.__clock.tick(self.__framerate)
         pygame.display.flip()
+
+        self.checkClickAndPrintToScreen(cellList)
         return True
+    def checkClickAndPrintToScreen(self,cellList):
+        if pygame.mouse.get_pressed()[0]==True:
+            pos = pygame.mouse.get_pos()
+            for cell in cellList:
+                if math.sqrt(((pos[0]-cell.location.x)**2)+((pos[1]-cell.location.y)**2))<cell.rad:
+                    text=""
+                    for i in xrange(0,len(cell.getAtts())):
+                        text+=cell.getAtts()[i]+"\n"
+                    easygui.msgbox(text,str(cell.ID))
