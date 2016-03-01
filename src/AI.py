@@ -24,7 +24,7 @@ def nextStep(playerCell,cellList,foodList,currCell):
         input1=AI1(currCell)
     elif currCell.AI==2:
         input1=AI2(currCell,foodsee,cellsee)
-    elif currCell.AI==3:
+    elif currCell.AI>=3:
         input1=AI3(currCell,foodsee,cellsee)
     elif currCell.AI==4:
         input1=AI4(currCell,foodsee,cellsee)
