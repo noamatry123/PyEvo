@@ -67,16 +67,36 @@ def AI2(cell,foodList,cellList):
         input=AI1(cell)
         return input
     i=random.randint(0,len(foodList)-1)
-    input=goto(cell,foodList[i])
+    if cell.target==None:
+        cell.target=foodList[i]
+    else:
+        if (cell.target in foodList) or (cell.target in cellList):
+            pass
+        else:
+            cell.target=foodList[i]
+    input=goto(cell,cell.target)
     return input
 def AI3(cell,foodList,cellList):
-    pass
+    input=[]
+    if len(foodList)==0:
+        input=AI1(cell)
+        return input
+    cell.target=closestFood(cell,foodList)
+    if cell.target==None:
+        cell.target=closestFood(cell,foodList)
+    else:
+        if (cell.target in foodList) or (cell.target in cellList):
+            pass
+        else:
+            cell.target=closestFood(cell,foodList)
+    input=goto(cell,cell.target)
+    return input
 def AI4(cell,foodList,cellList):
     pass
 def goto(cell,object):
     input=[]
     if cell.location.y<object.location.y:
-        if cell.location.x==object.location.x:#1
+        if cell.location.x==object.location.x or cell.location.x+2==object.location.x or cell.location.x-2==object.location.x or cell.location.x+2==object.location.x or cell.location.x-2==object.location.x:#1
             input=moveDown(cell)
         if cell.location.x>object.location.x:#2
             if cell.location.y!=object.location.y:#check if same y if not move down
@@ -89,7 +109,7 @@ def goto(cell,object):
             else:#if yes move right
                 input=moveRight(cell)
     if cell.location.y>object.location.y:
-        if cell.location.x==object.location.x:#4
+        if cell.location.x==object.location.x or cell.location.x+2==object.location.x or cell.location.x-2==object.location.x or cell.location.x+2==object.location.x or cell.location.x-2==object.location.x:#4
             input=moveUp(cell)
         if cell.location.x>object.location.x:#5
             if cell.location.y!=object.location.y:#check if same y if not move Up
@@ -101,11 +121,11 @@ def goto(cell,object):
                 input=moveUp(cell)
             else:#if yes move left
                 input=moveLeft(cell)
-    if cell.location.y==object.location.y:
+    if cell.location.y==object.location.y or cell.location.y+3==object.location.y or cell.location.y-3==object.location.y or cell.location.y+2==object.location.y or cell.location.y-2==object.location.y:
         if cell.location.x>object.location.x:#7
-            input=moveRight(cell)
-        if cell.location.x<object.location.x:#8
             input=moveLeft(cell)
+        if cell.location.x<object.location.x:#8
+            input=moveRight(cell)
     return input
 def moveRight(cell):
     input=[]
@@ -143,3 +163,11 @@ def moveDown(cell):
     if cell.angle>4:
         input.append("OLeft")
     return input
+def closestFood(cell,foodList):
+    big=10000000
+    index=None
+    for food in foodList:
+        if math.sqrt(((cell.location.x-food.location.x)**2)+((cell.location.y-food.location.y)**2))<big:
+            big=math.sqrt(((cell.location.x-food.location.x)**2)+((cell.location.y-food.location.y)**2))
+            index=food
+    return index

@@ -59,6 +59,7 @@ class Egg:
             if counter%pyEvoMain.framerate==0:
                 self.timeToHatch-=1
 class AbCell:
+    target=None
     angle=0
     lifewithdraw=0
     carnivore=0##to do
