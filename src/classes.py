@@ -38,7 +38,7 @@ class Egg:
     def __init__(self,flocation,father,mother,rad,timeToHatch,Player=False):
         self.location=Location(flocation.x,flocation.y)
         self.father=baseCell(father)
-        self.mother=baseCell(father) ##fix later
+        self.mother=baseCell(mother)
         self.rad=rad
         self.timeToHatch=timeToHatch
         self.Player=Player
@@ -48,11 +48,13 @@ class Egg:
             newCell.location=Location(self.location.x, self.location.y)
             newCell=self.mutateCell(newCell,True)
             advance=self.chooseCell(newCell)
+            newCell.randomStart=randint(0,10000)
             return advance,newCell
         else: #normal cell hatching
             newCell = baseCell(self.mixNormalCells(self.father,self.mother))
             newCell.location=Location(self.location.x, self.location.y)
             newCell=self.mutateCell(newCell)
+            newCell.randomStart=randint(0,10000)
             return newCell
     def chooseCell(self,newCell):
         newtext=""
@@ -204,7 +206,6 @@ class Egg:
                     else:
                         print text
         return cell
-
     def mixPlayerCells(self,mother,father):
         if easygui.buttonbox("Manual or Auto?","",["Manual","Auto"])=="Auto":
             return self.mixNormalCells(mother,father)
@@ -426,6 +427,7 @@ class AbCell:
     lastMother=None
     dead=False
     eggHatchTime=0
+    randomStart=0
     def checkEat(self,foodList):
             for food in foodList:
                 if math.sqrt(((self.location.x-food.location.x)**2)+((self.location.y-food.location.y)**2))<self.rad+food.rad:
@@ -460,12 +462,10 @@ class AbCell:
         list.append("mode : "+str(self.mode))
         return list
     def layEgg(self,Player=False):
-        if self.lastMother==None:
-            egg=Egg(self.location,baseCell(self),self.lastMother,6,self.eggHatchTime,Player)
-            self.lastMother=None
-            self.timeToLayLeft=self.timeToLay
-            print self.ID , "layed egg."
-            return egg
+        egg=Egg(self.location,baseCell(self),baseCell(self.lastMother),6,self.eggHatchTime,Player)
+        self.timeToLayLeft=self.timeToLay
+        print self.ID , "layed egg."
+        return egg
     def location_compensated(self): #for heading indicator
         compensated_x=self.location.x
         compensated_y=self.location.y
@@ -555,6 +555,8 @@ class baseCell(AbCell):
             self.speed=speed
             self.eggHatchTime=eggHatchTime
             self.mode='m'
+            self.lastMother=self
+            self.randomStart=randint(0,10000)
         else:
             self.angle=cell.angle
             self.AI=cell.AI
@@ -575,3 +577,5 @@ class baseCell(AbCell):
             self.speed=cell.speed
             self.eggHatchTime=cell.eggHatchTime
             self.mode='m'
+            self.lastMother=cell.lastMother
+            self.randomStart=cell.randomStart

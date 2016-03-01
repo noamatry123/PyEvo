@@ -20,8 +20,8 @@ class pyAlgorithm:
     cellList=[]
     foodList=[]
     def __init__(self): #temp
-        self.myCell=classes.baseCell(None,0,0,200,100,360,0,100,classes.Location(100,100),3,10,200,10,0,1,3)
-        self.cellList.append(classes.baseCell(None,0,0,100,100,360,1,10,classes.Location(200,200),3,10,200,15,2,1000,3))
+        self.myCell=classes.baseCell(None,0,0,200,100,360,0,100,classes.Location(100,100),3,10,201,10,0,1,3)
+        self.cellList.append(classes.baseCell(None,0,0,100,100,360,1,10,classes.Location(200,200),3,10,201,15,2,1000,3))
         self.cellEggs.append(self.cellList[0].layEgg())
         ##self.cellEggs[0].mixPlayerCells(self.myCell,self.myCell)
         ##self.cellEggs.append(classes.Egg((100,100),self.cellList[0],None,6,0))
@@ -163,6 +163,10 @@ class pyAlgorithm:
                             print str(cell.ID), "Ate", str(otherCell.ID)
                         else: ##cant eat
                             print str(cell.ID), "Tried to eat", str(otherCell.ID), "but failed."
+                    if cell.mode=='m': ##mate
+                        if otherCell.mode=='m' and not (cell.lastMother.randomStart==otherCell.randomStart): ##mate too
+                            cell.lastMother=classes.baseCell(otherCell)
+                            otherCell.lastMother=classes.baseCell(cell)
 
 
         #grow more food
