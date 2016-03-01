@@ -60,6 +60,8 @@ class pyAlgorithm:
 
             if event.key==pygame.K_a:
                 returnList.append("a")
+            if event.key==pygame.K_c:
+                returnList.append("c")
         key=pygame.key.get_pressed()
         #check for hold
         if key[pygame.K_LEFT]:
@@ -86,6 +88,8 @@ class pyAlgorithm:
         inputlist=self.getInput()
         for item in inputlist:
             if (item=="Left" or item=="Right") and (("Left" in self.__kinput) or ("Right" in self.__kinput)):
+                continue
+            elif (item=="c" and ("c" in self.__kinput)):
                 continue
             else:
                 self.__kinput.append(item)
@@ -122,9 +126,17 @@ class pyAlgorithm:
             cell.checkRIP()
             if cell.dead:
                 self.cellList.remove(cell)
+
+
         if "a" in inputlist:
             if self.myCell.timeToLayLeft==0:
                 self.myEggs.append(self.myCell.layEgg(True))
+
+        if "c" in inputlist: ##carnivore or mating
+            if self.myCell.mode=='m':
+                self.myCell.mode='c'
+            else:
+                self.myCell.mode='m'
 
         ##check egg hatching
         for egg in self.cellEggs:
@@ -133,6 +145,25 @@ class pyAlgorithm:
             egg.consumeHatch(self._counter)
         self.growCellEggs()
         self.growPlayerEggs()
+
+        ##check for carnivore eating and mating
+        allCells=[]
+        for cell in self.cellList:
+            allCells.append(cell)
+        allCells.append(self.myCell)
+        for cell in allCells:
+            for otherCell in allCells:
+                collision=math.sqrt(((cell.location.x-otherCell.location.x)**2)+((cell.location.y-otherCell.location.y)**2))<cell.rad+otherCell.rad
+                if (cell.ID!=otherCell.ID) and (collision): ##not the same cell
+                    if cell.mode=='c': ##carnivore
+                        if cell.foodLeft>otherCell.foodLeft: ##only eat if he has less food than you
+                            cell.foodLeft+=otherCell.foodLeft
+                            otherCell.lifetime=0
+                            otherCell.dead=True
+                            print str(cell.ID), "Ate", str(otherCell.ID)
+                        else: ##cant eat
+                            print str(cell.ID), "Tried to eat", str(otherCell.ID), "but failed."
+
 
         #grow more food
         if self._counter%50==0:

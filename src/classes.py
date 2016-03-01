@@ -65,8 +65,8 @@ class Egg:
     def mutateCell(self,cell,Player=False):
         mutationchance=50
         goodbadchance=50
-        mutationscale=[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] ##how much to mutate in every cell
-        attIgnoreList=[0,4,6,7,11,12] ##what not to mutate
+        mutationscale=[1,1,1,1,1,1,1,1,1,50,1,1,1,1,1,1] ##how much to mutate in every cell
+        attIgnoreList=[0,4,6,7,11,12,16,17,18,19] ##what not to mutate
 
         for i in xrange(0,len(cell.getAtts())):
             if i in attIgnoreList:
@@ -209,7 +209,7 @@ class Egg:
         if easygui.buttonbox("Manual or Auto?","",["Manual","Auto"])=="Auto":
             return self.mixNormalCells(mother,father)
         else: ## manual mode
-            attIgnoreList=[0,4,6,7,11,12]
+            attIgnoreList=[0,4,6,7,11,12,16,17,18,19]
             print "\n\n"
             print "mixing cells manual"
             newCell=baseCell(father)
@@ -305,7 +305,7 @@ class Egg:
                         newCell.eggHatchTime=mother.eggHatchTime
         return newCell
     def mixNormalCells(self,mother,father):
-        attIgnoreList=[0,4,6,7,11,12]
+        attIgnoreList=[0,4,6,7,11,12,16,17,18,19]
         print "\n\n"
         print "mixing normal cells"
         newCell=baseCell(father)
@@ -409,12 +409,15 @@ class AbCell:
     carnivore=0##to do
     eggwithdraw=0
     food=0
+    foodLeft=0
     foodWithdraw=0
     rad=0
     AI=0
     vision=0
+    mode='m'
     ID=0
     lifeTime=0
+    lifeTimeLeft=0
     location=Location(0,0)
     speed=0
     timeToLayLeft=0
@@ -431,7 +434,7 @@ class AbCell:
     def changeAngle(self, dir):
         self.angle=(self.angle+dir)%8 ##0 is up, clockwise (2 is right)
     def eat(self, food):
-        self.food+=food.getAmount()
+        self.foodLeft+=food.getAmount()
         print self.ID, "ate food"
     def getAtts(self):
         list=[]
@@ -451,6 +454,10 @@ class AbCell:
         list.append("AI: "+str(self.AI))
         list.append("vision: "+str(self.vision))
         list.append("eggHatchTime: "+str(self.eggHatchTime))
+        list.append(" ")
+        list.append("foodLeft: "+str(self.foodLeft))
+        list.append("lifeTimeLeft: "+str(self.lifeTimeLeft))
+        list.append("mode : "+str(self.mode))
         return list
     def layEgg(self,Player=False):
         if self.lastMother==None:
@@ -511,23 +518,23 @@ class AbCell:
             self.timeToMove-=1
     def consumeFood(self,tick):
         if tick%self.foodWithdraw==0:
-            self.food-=1
+            self.foodLeft-=1
     def consumeEggTime(self,tick):
         if tick%self.eggwithdraw==0 and self.timeToLayLeft>0:
             self.timeToLayLeft-=1
     def consumeLife(self,tick):
         if tick%self.lifewithdraw==0:
-            self.lifeTime-=1
+            self.lifeTimeLeft-=1
     def checkRIP(self):
-        if self.lifeTime<=0:
+        if self.lifeTimeLeft<=0:
             self.dead=True
             print str(self.ID), "Has died from old age."
-        if self.food<=0:
+        if self.foodLeft<=0:
             self.dead=True
             print str(self.ID), "Has died from hunger."
 
 class baseCell(AbCell):
-    def __init__(self,cell=None,angle=None,carnivore=None,eggwithdraw=None,food=None,foodWithdraw=None,ID=None,lifeTime=None,location=None,speed=None,rad=None,lifewithdraw=None,timeToLay=None,AI=None,vision=None,eggHatchTime=None):
+    def __init__(self,cell=None,angle=None,carnivore=None,eggwithdraw=None,foodLeft=None,foodWithdraw=None,ID=None,lifeTime=None,location=None,speed=None,rad=None,lifewithdraw=None,timeToLay=None,AI=None,vision=None,eggHatchTime=None):
         if cell==None:
             self.angle=angle
             self.AI=AI
@@ -537,14 +544,17 @@ class baseCell(AbCell):
             self.timeToLay=timeToLay
             self.timeToLayLeft=timeToLay
             self.eggwithdraw=eggwithdraw
-            self.food=food
+            self.food=foodLeft
+            self.foodLeft=foodLeft
             self.foodWithdraw=foodWithdraw
             self.ID=algorithm.getNextID()
             self.rad=rad
             self.lifeTime=lifeTime
+            self.lifeTimeLeft=lifeTime
             self.location=Location(location.x,location.y)
             self.speed=speed
             self.eggHatchTime=eggHatchTime
+            self.mode='m'
         else:
             self.angle=cell.angle
             self.AI=cell.AI
@@ -555,10 +565,13 @@ class baseCell(AbCell):
             self.timeToLayLeft=cell.timeToLay
             self.eggwithdraw=cell.eggwithdraw
             self.food=cell.food
+            self.foodLeft=cell.food
             self.foodWithdraw=cell.foodWithdraw
             self.ID=algorithm.getNextID()
             self.rad=cell.rad
             self.lifeTime=cell.lifeTime
+            self.lifeTimeLeft=cell.lifeTime
             self.location=Location(cell.location.x,cell.location.y)
             self.speed=cell.speed
             self.eggHatchTime=cell.eggHatchTime
+            self.mode='m'
