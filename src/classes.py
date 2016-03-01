@@ -3,7 +3,10 @@ import graphics
 import math
 import algorithm
 import pyEvoMain
-from termcolor import colored
+from random import randint
+
+
+import easygui
 
 curID=0
 class Location:
@@ -40,20 +43,352 @@ class Egg:
         self.timeToHatch=timeToHatch
         self.Player=Player
     def Hatch(self): ##returns new cell to add ##
-        if not self.Player: ##normal cell egg hatching
-            newCell = baseCell(self.father)
+        if self.Player: ##Player cell egg hatching
+            newCell = baseCell(self.mixPlayerCells(self.father,self.mother))
             newCell.location=Location(self.location.x, self.location.y)
+            newCell=self.mutateCell(newCell,True)
             return newCell
         else: #normal cell hatching
-            pass
-    def mixPlayerCells(self,mother,father):
-        print "\n\n"
-        print colored("Father:                       Mother:","red")
-        for i in xrange(0,len(father.getAtts())):
-            print colored("(1)","blue"), colored(father.getAtts()[i].ljust(25),"magenta"),
-            print colored("(2)","blue"), colored(mother.getAtts()[i],"magenta")
-            ##choice=raw_input()
+            newCell = baseCell(self.mixNormalCells(self.father,self.mother))
+            newCell.location=Location(self.location.x, self.location.y)
+            newCell=self.mutateCell(newCell)
+            return newCell
+    def mutateCell(self,cell,Player=False):
+        mutationchance=50
+        goodbadchance=50
+        mutationscale=[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] ##how much to mutate in every cell
+        attIgnoreList=[0,4,6,7,11,12] ##what not to mutate
 
+        for i in xrange(0,len(cell.getAtts())):
+            if i in attIgnoreList:
+                continue
+            randchance=randint(0,100)
+            if randchance<mutationchance: ##mutate attribute
+                if randint(0,100)<goodbadchance: #bad or good mutation
+                    mutationscale[i]*=-1
+
+                if i==0: ##angle
+                    cell.angle+=mutationscale[i]
+                    text=str(cell.ID)+" mutated angle"
+                    if Player:
+                        easygui.msgbox(text)
+                    else:
+                        print text
+                elif i==1: ##timeToLay+left
+                    cell.timeToLay+=mutationscale[i]
+                    cell.angle+=mutationscale[i]
+                    text=str(cell.ID)+" mutated Timetolay"
+                    if Player:
+                        easygui.msgbox(text)
+                    else:
+                        print text
+                elif i==2: ##eggWithdraw
+                    cell.eggwithdraw+=mutationscale[i]
+                    cell.angle+=mutationscale[i]
+                    text=str(cell.ID)+" mutated eggWithdraw"
+                    if Player:
+                        easygui.msgbox(text)
+                    else:
+                        print text
+                elif i==3: ##carnivore
+                    cell.carnivore+=mutationscale[i]
+                    cell.angle+=mutationscale[i]
+                    text=str(cell.ID)+" mutated carnivore"
+                    if Player:
+                        easygui.msgbox(text)
+                    else:
+                        print text
+                elif i==4: ##food
+                    cell.food+=mutationscale[i]
+                    cell.angle+=mutationscale[i]
+                    text=str(cell.ID)+" mutated food"
+                    if Player:
+                        easygui.msgbox(text)
+                    else:
+                        print text
+                elif i==5: ##foodWithdraw
+                    cell.foodWithdraw+=mutationscale[i]
+                    cell.angle+=mutationscale[i]
+                    text=str(cell.ID)+" mutated foodWithdraw"
+                    if Player:
+                        easygui.msgbox(text)
+                    else:
+                        print text
+                elif i==6: ##ID
+                    cell.ID+=mutationscale[i]
+                    cell.angle+=mutationscale[i]
+                    text=str(cell.ID)+" mutated ID"
+                    if Player:
+                        easygui.msgbox(text)
+                    else:
+                        print text
+                elif i==7: ##lastmother
+                    cell.lastmother+=mutationscale[i]
+                    cell.angle+=mutationscale[i]
+                    text=str(cell.ID)+" mutated lastmother"
+                    if Player:
+                        easygui.msgbox(text)
+                    else:
+                        print text
+                elif i==8: ##lifetime
+                    cell.lifeTime+=mutationscale[i]
+                    cell.angle+=mutationscale[i]
+                    text=str(cell.ID)+" mutated lifetime"
+                    if Player:
+                        easygui.msgbox(text)
+                    else:
+                        print text
+                elif i==9: ##lifetimeWithdraw
+                    cell.lifewithdraw+=mutationscale[i]
+                    cell.angle+=mutationscale[i]
+                    text=str(cell.ID)+" mutated lifetimeWithdraw"
+                    if Player:
+                        easygui.msgbox(text)
+                    else:
+                        print text
+                elif i==10: ##speed
+                    cell.speed+=mutationscale[i]
+                    cell.angle+=mutationscale[i]
+                    text=str(cell.ID)+" mutated speed"
+                    if Player:
+                        easygui.msgbox(text)
+                    else:
+                        print text
+                elif i==11: ##location
+                    cell.location+=mutationscale[i]
+                    cell.angle+=mutationscale[i]
+                    text=str(cell.ID)+" mutated location"
+                    if Player:
+                        easygui.msgbox(text)
+                    else:
+                        print text
+                elif i==12: ##rad
+                    cell.rad+=mutationscale[i]
+                    cell.angle+=mutationscale[i]
+                    text=str(cell.ID)+" mutated rad"
+                    if Player:
+                        easygui.msgbox(text)
+                    else:
+                        print text
+                elif i==13: ##ai
+                    cell.AI+=mutationscale[i]
+                    cell.angle+=mutationscale[i]
+                    text=str(cell.ID)+" mutated AI"
+                    if Player:
+                        easygui.msgbox(text)
+                    else:
+                        print text
+                elif i==14: ##vision
+                    cell.vision+=mutationscale[i]
+                    cell.angle+=mutationscale[i]
+                    text=str(cell.ID)+" mutated vision"
+                    if Player:
+                        easygui.msgbox(text)
+                    else:
+                        print text
+                elif i==15: ##eggHatchTime
+                    cell.eggHatchTime+=mutationscale[i]
+                    cell.angle+=mutationscale[i]
+                    text=str(cell.ID)+" mutated eggHatchTime"
+                    if Player:
+                        easygui.msgbox(text)
+                    else:
+                        print text
+        return cell
+
+    def mixPlayerCells(self,mother,father):
+        if easygui.buttonbox("Manual or Auto?","",["Manual","Auto"])=="Auto":
+            return self.mixNormalCells(mother,father)
+        else: ## manual mode
+            attIgnoreList=[0,4,6,7,11,12]
+            print "\n\n"
+            print "mixing cells manual"
+            newCell=baseCell(father)
+            for i in xrange(0,len(father.getAtts())):
+                if i in attIgnoreList:
+                    continue
+                ##print colored("(1)","blue"), colored(father.getAtts()[i].ljust(25),"magenta"),
+                ##print colored("(2)","blue"), colored(mother.getAtts()[i],"magenta")
+                ##choice=raw_input()
+                fathertext=father.getAtts()[i]
+                mothertext=mother.getAtts()[i]
+                choice=easygui.buttonbox("Choose attribute:","",[fathertext,mothertext])
+
+                if i==0: ##angle
+                    if choice==fathertext:
+                        newCell.angle=father.angle
+                    else:
+                        newCell.angle=mother.angle
+                elif i==1: ##timeToLay+left
+                    if choice==fathertext:
+                        newCell.timeToLay=father.timeToLay
+                    else:
+                        newCell.timeToLay=mother.timeToLay
+                elif i==2: ##eggWithdraw
+                    if choice==fathertext:
+                        newCell.eggwithdraw=father.eggwithdraw
+                    else:
+                        newCell.eggwithdraw=mother.eggwithdraw
+                elif i==3: ##carnivore
+                    if choice==fathertext:
+                        newCell.carnivore=father.carnivore
+                    else:
+                        newCell.carnivore=mother.carnivore
+                elif i==4: ##food
+                    if choice==fathertext:
+                        newCell.food=father.food
+                    else:
+                        newCell.food=mother.food
+                elif i==5: ##foodWithdraw
+                    if choice==fathertext:
+                        newCell.foodWithdraw=father.foodWithdraw
+                    else:
+                        newCell.foodWithdraw=mother.foodWithdraw
+                elif i==6: ##ID
+                    if choice==fathertext:
+                        newCell.ID=father.ID
+                    else:
+                        newCell.ID=mother.ID
+                elif i==7: ##lastmother
+                    if choice==fathertext:
+                        newCell.lastmother=father.lastmother
+                    else:
+                        newCell.lastmother=mother.lastmother
+                elif i==8: ##lifetime
+                    if choice==fathertext:
+                        newCell.lifeTime=father.lifeTime
+                    else:
+                        newCell.lifeTime=mother.lifeTime
+                elif i==9: ##lifetimeWithdraw
+                    if choice==fathertext:
+                        newCell.lifewithdraw=father.lifewithdraw
+                    else:
+                        newCell.lifewithdraw=mother.lifewithdraw
+                elif i==10: ##speed
+                    if choice==fathertext:
+                        newCell.speed=father.speed
+                    else:
+                        newCell.speed=mother.speed
+                elif i==11: ##location
+                    if choice==fathertext:
+                        newCell.location=father.location
+                    else:
+                        newCell.location=mother.location
+                elif i==12: ##rad
+                    if choice==fathertext:
+                        newCell.rad=father.rad
+                    else:
+                        newCell.rad=mother.rad
+                elif i==13: ##ai
+                    if choice==fathertext:
+                        newCell.AI=father.AI
+                    else:
+                        newCell.AI=mother.AI
+                elif i==14: ##vision
+                    if choice==fathertext:
+                        newCell.vision=father.vision
+                    else:
+                        newCell.vision=mother.vision
+                elif i==15: ##eggHatchTime
+                    if choice==fathertext:
+                        newCell.eggHatchTime=father.eggHatchTime
+                    else:
+                        newCell.eggHatchTime=mother.eggHatchTime
+        return newCell
+    def mixNormalCells(self,mother,father):
+        attIgnoreList=[0,4,6,7,11,12]
+        print "\n\n"
+        print "mixing normal cells"
+        newCell=baseCell(father)
+        for i in xrange(0,len(father.getAtts())):
+            if i in attIgnoreList:
+                continue
+
+            fathertext=0
+
+            choice=randint(0,1)
+
+            if i==0: ##angle
+                if choice==fathertext:
+                    newCell.angle=father.angle
+                else:
+                    newCell.angle=mother.angle
+            elif i==1: ##timeToLay+left
+                if choice==fathertext:
+                    newCell.timeToLay=father.timeToLay
+                else:
+                    newCell.timeToLay=mother.timeToLay
+            elif i==2: ##eggWithdraw
+                if choice==fathertext:
+                    newCell.eggwithdraw=father.eggwithdraw
+                else:
+                    newCell.eggwithdraw=mother.eggwithdraw
+            elif i==3: ##carnivore
+                if choice==fathertext:
+                    newCell.carnivore=father.carnivore
+                else:
+                    newCell.carnivore=mother.carnivore
+            elif i==4: ##food
+                if choice==fathertext:
+                    newCell.food=father.food
+                else:
+                    newCell.food=mother.food
+            elif i==5: ##foodWithdraw
+                if choice==fathertext:
+                    newCell.foodWithdraw=father.foodWithdraw
+                else:
+                    newCell.foodWithdraw=mother.foodWithdraw
+            elif i==6: ##ID
+                if choice==fathertext:
+                    newCell.ID=father.ID
+                else:
+                    newCell.ID=mother.ID
+            elif i==7: ##lastmother
+                if choice==fathertext:
+                    newCell.lastmother=father.lastmother
+                else:
+                    newCell.lastmother=mother.lastmother
+            elif i==8: ##lifetime
+                if choice==fathertext:
+                    newCell.lifeTime=father.lifeTime
+                else:
+                    newCell.lifeTime=mother.lifeTime
+            elif i==9: ##lifetimeWithdraw
+                if choice==fathertext:
+                    newCell.lifewithdraw=father.lifewithdraw
+                else:
+                    newCell.lifewithdraw=mother.lifewithdraw
+            elif i==10: ##speed
+                if choice==fathertext:
+                    newCell.speed=father.speed
+                else:
+                    newCell.speed=mother.speed
+            elif i==11: ##location
+                if choice==fathertext:
+                    newCell.location=father.location
+                else:
+                    newCell.location=mother.location
+            elif i==12: ##rad
+                if choice==fathertext:
+                    newCell.rad=father.rad
+                else:
+                    newCell.rad=mother.rad
+            elif i==13: ##ai
+                if choice==fathertext:
+                    newCell.AI=father.AI
+                else:
+                    newCell.AI=mother.AI
+            elif i==14: ##vision
+                if choice==fathertext:
+                    newCell.vision=father.vision
+                else:
+                    newCell.vision=mother.vision
+            elif i==15: ##eggHatchTime
+                if choice==fathertext:
+                    newCell.eggHatchTime=father.eggHatchTime
+                else:
+                    newCell.eggHatchTime=mother.eggHatchTime
+        return newCell
     def consumeHatch(self,counter):
         if not self.timeToHatch==0: #egg is hatching
             if counter%pyEvoMain.framerate==0:
@@ -104,6 +439,9 @@ class AbCell:
         list.append("speed: "+str(self.speed))
         list.append("location: "+str(self.location.getTupple()))
         list.append("rad: "+str(self.rad))
+        list.append("AI: "+str(self.AI))
+        list.append("vision: "+str(self.vision))
+        list.append("eggHatchTime: "+str(self.eggHatchTime))
         return list
     def layEgg(self,Player=False):
         if self.lastMother==None:
