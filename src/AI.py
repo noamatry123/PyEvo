@@ -44,6 +44,10 @@ def look4Food(cell,foodList,cellList):
     return foodsee,cellsee
 def AI0(cell):
     input=[]
+    ##lay egg if possible
+    if cell.timeToLayLeft==0:
+        input.append("a")
+
     i=random.randint(0,50)
     if i==0:
         input.append("ORight")
@@ -54,6 +58,10 @@ def AI0(cell):
     return input
 def AI1(cell):
     input=[]
+    ##lay egg if possible
+    if cell.timeToLayLeft==0:
+        input.append("a")
+
     i=random.randint(0,50)
     if i==0:
         input.append("ORight")
@@ -63,6 +71,7 @@ def AI1(cell):
     return input
 def AI2(cell,foodList,cellList):
     input=[]
+
     if 0==1:
         pass
     if len(foodList)==0:
@@ -77,9 +86,14 @@ def AI2(cell,foodList,cellList):
         else:
             cell.target=foodList[i]
     input=goto(cell,cell.target)
+
+    ##lay egg if possible
+    if cell.timeToLayLeft==0:
+        input.append("a")
     return input
 def AI3(cell,foodList,cellList):
     input=[]
+
     if len(foodList)==0:
         input=AI1(cell)
         return input
@@ -92,6 +106,10 @@ def AI3(cell,foodList,cellList):
         else:
             cell.target=closestFood(cell,foodList)
     input=goto(cell,cell.target)
+
+    ##lay egg if possible
+    if cell.timeToLayLeft==0:
+        input.append("a")
     return input
 def AI4(cell,foodList,cellList):
     pass

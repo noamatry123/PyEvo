@@ -21,7 +21,7 @@ class pyAlgorithm:
     foodList=[]
     def __init__(self): #temp
         self.myCell=classes.baseCell(None,0,0,200,100,360,0,100,classes.Location(100,100),3,10,600,10,0,1,3)
-        self.cellList.append(classes.baseCell(None,0,0,100,100,360,1,1,classes.Location(200,200),3,10,1200,15,2,1000,3))
+        self.cellList.append(classes.baseCell(None,0,0,100,100,360,1,20,classes.Location(200,200),3,10,1200,15,2,1000,3))
         self.cellEggs.append(self.cellList[0].layEgg())
         ##self.cellEggs[0].mixPlayerCells(self.myCell,self.myCell)
         ##self.cellEggs.append(classes.Egg((100,100),self.cellList[0],None,6,0))
@@ -112,9 +112,13 @@ class pyAlgorithm:
                     cell.changeAngle(1)
                 if "Up" in input:
                     cell.move()
+                if "a" in input:
+                    if cell.timeToLayLeft==0:
+                        self.cellEggs.append(cell.layEgg())
             cell.checkEat(self.foodList)
             cell.consumeFood(self._counter)
             cell.consumeLife(self._counter)
+            cell.consumeEggTime(self._counter)
             cell.checkRIP()
             if cell.dead:
                 self.cellList.remove(cell)
@@ -129,4 +133,8 @@ class pyAlgorithm:
             egg.consumeHatch(self._counter)
         self.growCellEggs()
         self.growPlayerEggs()
+
+        #grow more food
+        if self._counter%200==0:
+            self.putFood()
         self.__kinput=[]
