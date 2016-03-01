@@ -47,12 +47,21 @@ class Egg:
             newCell = baseCell(self.mixPlayerCells(self.father,self.mother))
             newCell.location=Location(self.location.x, self.location.y)
             newCell=self.mutateCell(newCell,True)
-            return newCell
+            advance=self.chooseCell(newCell)
+            return advance,newCell
         else: #normal cell hatching
             newCell = baseCell(self.mixNormalCells(self.father,self.mother))
             newCell.location=Location(self.location.x, self.location.y)
             newCell=self.mutateCell(newCell)
             return newCell
+    def chooseCell(self,newCell):
+        newtext=""
+        for line in newCell.getAtts():
+            newtext+=line+"\n"
+        choice=easygui.boolbox(newtext,"Advance to this Cell?",["Yes","No"])
+        if choice==0:
+            return False
+        return True
     def mutateCell(self,cell,Player=False):
         mutationchance=50
         goodbadchance=50

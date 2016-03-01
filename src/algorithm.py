@@ -36,6 +36,17 @@ class pyAlgorithm:
                 newCell=egg.Hatch()
                 self.cellList.append(newCell)
                 self.cellEggs.remove(egg)
+    def growPlayerEggs(self):
+        for egg in self.myEggs:
+            if egg.timeToHatch==0:
+                advance,newCell=egg.Hatch()
+                if advance:
+                    self.cellList.append(self.myCell)
+                    self.myEggs.remove(egg)
+                    self.myCell=newCell
+                else:
+                    self.cellList.append(newCell)
+                    self.myEggs.remove(egg)
     def getInput(self):
         returnList=[]
         events = pygame.event.get(pygame.KEYDOWN)
@@ -117,4 +128,5 @@ class pyAlgorithm:
         for egg in self.myEggs:
             egg.consumeHatch(self._counter)
         self.growCellEggs()
+        self.growPlayerEggs()
         self.__kinput=[]
