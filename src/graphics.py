@@ -2,10 +2,8 @@ __author__ = 'user-pc'
 import pygame
 import time
 import classes
-import easygui
 import math
-import subprocess
-import sys
+import termcolor
 
 screenwidth=800
 screenheight=600
@@ -82,5 +80,4 @@ class pyGraphics:
                         text=""
                         for i in xrange(0,len(cell.getAtts())):
                             text+=cell.getAtts()[i]+"\n"
-                        cmd='cscript src/MessageBox.vbs "This will be shown in a popup."'
-                        proc = subprocess.Popen([cmd], shell=True,stdin=None, stdout=None, stderr=None, close_fds=True)
+                        termcolor.cprint(text,"green")
