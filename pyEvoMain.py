@@ -5,10 +5,10 @@ import algorithm
 
 framerate=200
 def main():
-    screenwidth=600
-    screenheight=800
+    screenheight=1300
+    screenwidth=650
     graphicModule = graphics.pyGraphics(framerate,screenheight,screenwidth)
-    algoModule = algorithm.pyAlgorithm()
+    algoModule = algorithm.pyAlgorithm(screenwidth,screenheight)
     running = True
     while running:
         algoModule.nextStep()

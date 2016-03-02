@@ -8,7 +8,7 @@ from random import randint
 
 import easygui
 
-curID=0
+curID=10
 class Location:
     x=0
     y=0
@@ -28,7 +28,6 @@ class Food:
     def getAmount(self):
         return self.amount
 class Egg:
-
     location=Location(0,0)
     timeToHatch=0
     father=None
@@ -48,13 +47,11 @@ class Egg:
             newCell.location=Location(self.location.x, self.location.y)
             newCell=self.mutateCell(newCell,True)
             advance=self.chooseCell(newCell)
-            newCell.randomStart=randint(0,10000)
             return advance,newCell
         else: #normal cell hatching
             newCell = baseCell(self.mixNormalCells(self.father,self.mother))
             newCell.location=Location(self.location.x, self.location.y)
             newCell=self.mutateCell(newCell)
-            newCell.randomStart=randint(0,10000)
             return newCell
     def chooseCell(self,newCell):
         newtext=""
@@ -67,7 +64,7 @@ class Egg:
     def mutateCell(self,cell,Player=False):
         mutationchance=50
         goodbadchance=50
-        mutationscale=[1,1,1,1,1,1,1,1,1,50,1,1,1,1,1,1] ##how much to mutate in every cell
+        mutationscale=[1,1,1,1,1,1,1,1,1,50,1,1,1,1,1,1,0,0,0,0,1] ##how much to mutate in every cell
         attIgnoreList=[0,4,6,7,11,12,16,17,18,19] ##what not to mutate
 
         for i in xrange(0,len(cell.getAtts())):
@@ -78,16 +75,8 @@ class Egg:
                 if randint(0,100)<goodbadchance: #bad or good mutation
                     mutationscale[i]*=-1
 
-                if i==0: ##angle
-                    cell.angle+=mutationscale[i]
-                    text=str(cell.ID)+" mutated angle"
-                    if Player:
-                        easygui.msgbox(text)
-                    else:
-                        print text
                 elif i==1: ##timeToLay+left
                     cell.timeToLay+=mutationscale[i]
-                    cell.angle+=mutationscale[i]
                     text=str(cell.ID)+" mutated Timetolay"
                     if Player:
                         easygui.msgbox(text)
@@ -95,7 +84,6 @@ class Egg:
                         print text
                 elif i==2: ##eggWithdraw
                     cell.eggwithdraw+=mutationscale[i]
-                    cell.angle+=mutationscale[i]
                     text=str(cell.ID)+" mutated eggWithdraw"
                     if Player:
                         easygui.msgbox(text)
@@ -103,47 +91,20 @@ class Egg:
                         print text
                 elif i==3: ##carnivore
                     cell.carnivore+=mutationscale[i]
-                    cell.angle+=mutationscale[i]
                     text=str(cell.ID)+" mutated carnivore"
-                    if Player:
-                        easygui.msgbox(text)
-                    else:
-                        print text
-                elif i==4: ##food
-                    cell.food+=mutationscale[i]
-                    cell.angle+=mutationscale[i]
-                    text=str(cell.ID)+" mutated food"
                     if Player:
                         easygui.msgbox(text)
                     else:
                         print text
                 elif i==5: ##foodWithdraw
                     cell.foodWithdraw+=mutationscale[i]
-                    cell.angle+=mutationscale[i]
                     text=str(cell.ID)+" mutated foodWithdraw"
-                    if Player:
-                        easygui.msgbox(text)
-                    else:
-                        print text
-                elif i==6: ##ID
-                    cell.ID+=mutationscale[i]
-                    cell.angle+=mutationscale[i]
-                    text=str(cell.ID)+" mutated ID"
-                    if Player:
-                        easygui.msgbox(text)
-                    else:
-                        print text
-                elif i==7: ##lastmother
-                    cell.lastmother+=mutationscale[i]
-                    cell.angle+=mutationscale[i]
-                    text=str(cell.ID)+" mutated lastmother"
                     if Player:
                         easygui.msgbox(text)
                     else:
                         print text
                 elif i==8: ##lifetime
                     cell.lifeTime+=mutationscale[i]
-                    cell.angle+=mutationscale[i]
                     text=str(cell.ID)+" mutated lifetime"
                     if Player:
                         easygui.msgbox(text)
@@ -151,7 +112,6 @@ class Egg:
                         print text
                 elif i==9: ##lifetimeWithdraw
                     cell.lifewithdraw+=mutationscale[i]
-                    cell.angle+=mutationscale[i]
                     text=str(cell.ID)+" mutated lifetimeWithdraw"
                     if Player:
                         easygui.msgbox(text)
@@ -159,31 +119,13 @@ class Egg:
                         print text
                 elif i==10: ##speed
                     cell.speed+=mutationscale[i]
-                    cell.angle+=mutationscale[i]
                     text=str(cell.ID)+" mutated speed"
-                    if Player:
-                        easygui.msgbox(text)
-                    else:
-                        print text
-                elif i==11: ##location
-                    cell.location+=mutationscale[i]
-                    cell.angle+=mutationscale[i]
-                    text=str(cell.ID)+" mutated location"
-                    if Player:
-                        easygui.msgbox(text)
-                    else:
-                        print text
-                elif i==12: ##rad
-                    cell.rad+=mutationscale[i]
-                    cell.angle+=mutationscale[i]
-                    text=str(cell.ID)+" mutated rad"
                     if Player:
                         easygui.msgbox(text)
                     else:
                         print text
                 elif i==13: ##ai
                     cell.AI+=mutationscale[i]
-                    cell.angle+=mutationscale[i]
                     text=str(cell.ID)+" mutated AI"
                     if Player:
                         easygui.msgbox(text)
@@ -191,7 +133,6 @@ class Egg:
                         print text
                 elif i==14: ##vision
                     cell.vision+=mutationscale[i]
-                    cell.angle+=mutationscale[i]
                     text=str(cell.ID)+" mutated vision"
                     if Player:
                         easygui.msgbox(text)
@@ -199,7 +140,13 @@ class Egg:
                         print text
                 elif i==15: ##eggHatchTime
                     cell.eggHatchTime+=mutationscale[i]
-                    cell.angle+=mutationscale[i]
+                    text=str(cell.ID)+" mutated eggHatchTime"
+                    if Player:
+                        easygui.msgbox(text)
+                    else:
+                        print text
+                elif i==20: ##strength
+                    cell.strength+=mutationscale[i]
                     text=str(cell.ID)+" mutated eggHatchTime"
                     if Player:
                         easygui.msgbox(text)
@@ -210,7 +157,7 @@ class Egg:
         if easygui.buttonbox("Manual or Auto?","",["Manual","Auto"])=="Auto":
             return self.mixNormalCells(mother,father)
         else: ## manual mode
-            attIgnoreList=[0,4,6,7,11,12,16,17,18,19]
+            attIgnoreList=[0,4,7,11,12,16,17,18,19]
             print "\n\n"
             print "mixing cells manual"
             newCell=baseCell(father)
@@ -245,20 +192,14 @@ class Egg:
                     else:
                         newCell.carnivore=mother.carnivore
                 elif i==4: ##food
-                    if choice==fathertext:
-                        newCell.food=father.food
-                    else:
-                        newCell.food=mother.food
+                        newCell.food=50
                 elif i==5: ##foodWithdraw
                     if choice==fathertext:
                         newCell.foodWithdraw=father.foodWithdraw
                     else:
                         newCell.foodWithdraw=mother.foodWithdraw
                 elif i==6: ##ID
-                    if choice==fathertext:
-                        newCell.ID=father.ID
-                    else:
-                        newCell.ID=mother.ID
+                    newCell.ID=algorithm.getNextID()
                 elif i==7: ##lastmother
                     if choice==fathertext:
                         newCell.lastmother=father.lastmother
@@ -304,9 +245,14 @@ class Egg:
                         newCell.eggHatchTime=father.eggHatchTime
                     else:
                         newCell.eggHatchTime=mother.eggHatchTime
+                elif i==20: ##strength
+                    if choice==fathertext:
+                        newCell.strength=father.strength
+                    else:
+                        newCell.strength=mother.strength
         return newCell
     def mixNormalCells(self,mother,father):
-        attIgnoreList=[0,4,6,7,11,12,16,17,18,19]
+        attIgnoreList=[0,4,7,11,12,16,17,18,19]
         print "\n\n"
         print "mixing normal cells"
         newCell=baseCell(father)
@@ -339,20 +285,14 @@ class Egg:
                 else:
                     newCell.carnivore=mother.carnivore
             elif i==4: ##food
-                if choice==fathertext:
-                    newCell.food=father.food
-                else:
-                    newCell.food=mother.food
+                newCell.food=50
             elif i==5: ##foodWithdraw
                 if choice==fathertext:
                     newCell.foodWithdraw=father.foodWithdraw
                 else:
                     newCell.foodWithdraw=mother.foodWithdraw
             elif i==6: ##ID
-                if choice==fathertext:
-                    newCell.ID=father.ID
-                else:
-                    newCell.ID=mother.ID
+                newCell.ID=algorithm.getNextID()
             elif i==7: ##lastmother
                 if choice==fathertext:
                     newCell.lastmother=father.lastmother
@@ -398,6 +338,11 @@ class Egg:
                     newCell.eggHatchTime=father.eggHatchTime
                 else:
                     newCell.eggHatchTime=mother.eggHatchTime
+            elif i==20: ##strength
+                if choice==fathertext:
+                    newCell.strength=father.strength
+                else:
+                    newCell.strength=mother.strength
         return newCell
     def consumeHatch(self,counter):
         if not self.timeToHatch==0: #egg is hatching
@@ -427,7 +372,8 @@ class AbCell:
     lastMother=None
     dead=False
     eggHatchTime=0
-    randomStart=0
+    strength=0
+    timeToHurt=200
     def checkEat(self,foodList):
             for food in foodList:
                 if math.sqrt(((self.location.x-food.location.x)**2)+((self.location.y-food.location.y)**2))<self.rad+food.rad:
@@ -447,7 +393,7 @@ class AbCell:
         list.append("food: "+str(self.food))
         list.append("foodWithdraw: "+str(self.foodWithdraw))
         list.append("ID: "+str(self.ID))
-        list.append("lastmother: "+str(self.lastMother))
+        list.append("lastmother: "+str(self.lastMother.ID))
         list.append("lifeTime: "+str(self.lifeTime))
         list.append("lifeWithdraw: "+str(self.lifewithdraw))
         list.append("speed: "+str(self.speed))
@@ -460,6 +406,7 @@ class AbCell:
         list.append("foodLeft: "+str(self.foodLeft))
         list.append("lifeTimeLeft: "+str(self.lifeTimeLeft))
         list.append("mode : "+str(self.mode))
+        list.append("strength: "+str(self.strength))
         return list
     def layEgg(self,Player=False):
         egg=Egg(self.location,baseCell(self),baseCell(self.lastMother),6,self.eggHatchTime,Player)
@@ -534,7 +481,7 @@ class AbCell:
             print str(self.ID), "Has died from hunger."
 
 class baseCell(AbCell):
-    def __init__(self,cell=None,angle=None,carnivore=None,eggwithdraw=None,foodLeft=None,foodWithdraw=None,ID=None,lifeTime=None,location=None,speed=None,rad=None,lifewithdraw=None,timeToLay=None,AI=None,vision=None,eggHatchTime=None):
+    def __init__(self,cell=None,angle=None,carnivore=None,eggwithdraw=None,foodLeft=None,foodWithdraw=None,ID=None,lifeTime=None,location=None,speed=None,rad=None,lifewithdraw=None,timeToLay=None,AI=None,vision=None,eggHatchTime=None,strength=0):
         if cell==None:
             self.angle=angle
             self.AI=AI
@@ -547,7 +494,7 @@ class baseCell(AbCell):
             self.food=foodLeft
             self.foodLeft=foodLeft
             self.foodWithdraw=foodWithdraw
-            self.ID=algorithm.getNextID()
+            self.ID=ID
             self.rad=rad
             self.lifeTime=lifeTime
             self.lifeTimeLeft=lifeTime
@@ -556,7 +503,7 @@ class baseCell(AbCell):
             self.eggHatchTime=eggHatchTime
             self.mode='m'
             self.lastMother=self
-            self.randomStart=randint(0,10000)
+            self.strength=strength
         else:
             self.angle=cell.angle
             self.AI=cell.AI
@@ -569,7 +516,7 @@ class baseCell(AbCell):
             self.food=cell.food
             self.foodLeft=cell.food
             self.foodWithdraw=cell.foodWithdraw
-            self.ID=algorithm.getNextID()
+            self.ID=cell.ID
             self.rad=cell.rad
             self.lifeTime=cell.lifeTime
             self.lifeTimeLeft=cell.lifeTime
@@ -578,4 +525,4 @@ class baseCell(AbCell):
             self.eggHatchTime=cell.eggHatchTime
             self.mode='m'
             self.lastMother=cell.lastMother
-            self.randomStart=cell.randomStart
+            self.strength=cell.strength

@@ -42,11 +42,15 @@ class pyGraphics:
                 return False
         ##hadndle drawing cells and food
         for cell in cellList:
-            pygame.draw.circle(self.__screen,(255,0,0),(cell.location.getTupple()),cell.rad)
-            pygame.draw.circle(self.__screen,(10,255,10),(cell.location_compensated()),2)
-            ##draw IDs:
-            label = IDtempfont.render(str(cell.ID), 1, (255,255,0))
-            self.__screen.blit(label,(cell.location.x,cell.location.y))
+            if cell.timeToHurt%2==0:
+                pygame.draw.circle(self.__screen,(255,0,0),(cell.location.getTupple()),cell.rad)
+                pygame.draw.circle(self.__screen,(10,255,10),(cell.location_compensated()),2)
+                ##draw IDs:
+                label = IDtempfont.render(str(cell.ID), 1, (255,255,0))
+                self.__screen.blit(label,(cell.location.x+5,cell.location.y))
+                ##draw life:
+                label = IDtempfont.render(str(cell.lifeTimeLeft), 1, (0,0,0))
+                self.__screen.blit(label,(cell.location.x-15,cell.location.y))
         for food in foodList:
             pygame.draw.circle(self.__screen,(80,255,80),(food.location.getTupple()),food.rad)
         ##prints attributes
