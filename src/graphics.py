@@ -39,7 +39,7 @@ class pyGraphics:
             label = self.__myfont.render(att,1, (255,255,0))
             self.__screen.blit(label, (0,counter))
             counter+=20
-    def askBoard(self,text, mode):
+    def askBoard(self,mode, text):
         self.Button1 = Buttons.Button()
         self.__screen.fill((255,0,255))
 
@@ -47,10 +47,10 @@ class pyGraphics:
         screencenter_below=(self.__screenwidth/2,(self.__screenheight/2+(self.__screenheight/4)))
         ##switch mode
         if mode=="Prompt":
-            label = self.__myfont.render(text, 1, (255,0,255))
+            label = self.__myfont.render(text, 1, (0,0,0))
             self.__screen.blit(label,screencenter)
             #Parameters:               surface,      color,       x,   y,   length, height, width,    text,      text_color
-            self.Button1.create_button(self.screen, (107,142,35), screencenter_below[0], screencenter_below[1], 200,    100,    0,        "Okay", (255,255,255))
+            self.Button1.create_button(self.__screen, (107,142,35), screencenter_below[0], screencenter_below[1], 200,    100,    0,        "Okay", (255,255,255))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -62,6 +62,7 @@ class pyGraphics:
 
         self.__clock.tick(self.__framerate)
         pygame.display.flip()
+        return True,"Empty"
 
     def drawBoard(self,playerCell,cellList,foodList,eggList):
         if consts.askingQuestion: ##there is a pending question / prompt
