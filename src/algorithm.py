@@ -37,7 +37,7 @@ class pyAlgorithm:
         vision=50
         lifeTime=20
         speed=15
-        timeToLay=10
+        timeToLay=1
         eggHatchTime=3
         strength=10
         self.myCell=classes.baseCell(None,angle,1,eggwithdraw,food,foodWithdraw,0,50,classes.Location(400,400),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength)

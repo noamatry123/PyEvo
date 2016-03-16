@@ -75,8 +75,10 @@ class Egg:
         newtext=""
         for line in newCell.getAtts():
             newtext+=line+"\n"
-        choice=easygui.boolbox(newtext,"Advance to this Cell?",["Yes","No"])
-        if choice==0:
+        choice=None
+        while choice not in ["Yes","No"]:
+            choice=graphics.askBoard("manual",newtext,"Yes","No")
+        if choice=="No":
             return False
         return True
     def mutateCell(self,cell,Player=False):
@@ -162,7 +164,9 @@ class Egg:
                     else:
                         text+=str(cell.ID)+" mutated strength by "+str(mutationscale[i])+"\n"
         if Player:
-            easygui.msgbox(text)
+            choice=None
+            while choice!="Okay":
+                choice=graphics.askBoard("Prompt",text)
         else:
             print text
         return cell
@@ -183,7 +187,9 @@ class Egg:
                 if i!=6:
                     fathertext=father.getAtts()[i]
                     mothertext=mother.getAtts()[i]
-                    choice=easygui.buttonbox("Choose attribute:","",[fathertext,mothertext])
+                    choice=None
+                    while choice not in [fathertext,mothertext]:
+                        choice=graphics.askBoard("manual","choose attribute",fathertext,mothertext)
 
                 if i==1: ##timeToLay+left
                     if choice==fathertext:
