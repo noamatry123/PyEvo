@@ -2,13 +2,10 @@ __author__ = 'user-pc'
 import classes
 import graphics
 import algorithm
-
-framerate=100
+import consts
 def main():
-    screenheight=800
-    screenwidth=600
-    graphicModule = graphics.pyGraphics(framerate,screenheight,screenwidth)
-    algoModule = algorithm.pyAlgorithm(screenwidth,screenheight)
+    graphicModule = graphics.pyGraphics(consts.framerate,consts.screenwidth,consts.screenheight)
+    algoModule = algorithm.pyAlgorithm(consts.screenwidth,consts.screenheight)
     running = True
     while running:
         algoModule.nextStep()

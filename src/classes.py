@@ -3,6 +3,7 @@ import graphics
 import math
 import algorithm
 import pyEvoMain
+import consts
 from random import randint
 
 
@@ -322,7 +323,7 @@ class Egg:
         return newCell
     def consumeHatch(self,counter):
         if not self.timeToHatch==0: #egg is hatching
-            if counter%pyEvoMain.framerate==0:
+            if counter%consts.framerate==0:
                 self.timeToHatch-=1
 class AbCell:
     target=None
@@ -417,25 +418,25 @@ class AbCell:
     def move(self):
         if self.timeToMove<=0:
             if self.angle==0:#up
-                self.location.y=(self.location.y-4)%graphics.screenheight
+                self.location.y=(self.location.y-4)%consts.screenheight
             elif self.angle==1:#up right
-                self.location.y=(self.location.y-3)%graphics.screenheight
-                self.location.x=(self.location.x+3)%graphics.screenwidth
+                self.location.y=(self.location.y-3)%consts.screenheight
+                self.location.x=(self.location.x+3)%consts.screenwidth
             elif self.angle==2:#right
-                self.location.x=(self.location.x+4)%graphics.screenwidth
+                self.location.x=(self.location.x+4)%consts.screenwidth
             elif self.angle==3:#down right
-                self.location.y=(self.location.y+3)%graphics.screenheight
-                self.location.x=(self.location.x+3)%graphics.screenwidth
+                self.location.y=(self.location.y+3)%consts.screenheight
+                self.location.x=(self.location.x+3)%consts.screenwidth
             elif self.angle==4:#down
-                self.location.y=(self.location.y+4)%graphics.screenheight
+                self.location.y=(self.location.y+4)%consts.screenheight
             elif self.angle==5:#down left
-                self.location.y=(self.location.y+3)%graphics.screenheight
-                self.location.x=(self.location.x-3)%graphics.screenwidth
+                self.location.y=(self.location.y+3)%consts.screenheight
+                self.location.x=(self.location.x-3)%consts.screenwidth
             elif self.angle==6:#left
-                self.location.x=(self.location.x-4)%graphics.screenwidth
+                self.location.x=(self.location.x-4)%consts.screenwidth
             elif self.angle==7:#left up
-                self.location.y=(self.location.y-3)%graphics.screenheight
-                self.location.x=(self.location.x-3)%graphics.screenwidth
+                self.location.y=(self.location.y-3)%consts.screenheight
+                self.location.x=(self.location.x-3)%consts.screenwidth
             self.timeToMove+=50
         else:
             self.timeToMove-=self.speed

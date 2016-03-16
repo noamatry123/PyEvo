@@ -5,8 +5,6 @@ import classes
 import math
 import termcolor
 
-screenwidth=800
-screenheight=600
 class pyGraphics:
 
     __framerate=0
@@ -22,7 +20,7 @@ class pyGraphics:
         self.__screenwidth=width
         pygame.init()
         self.__myfont= pygame.font.SysFont("Ariel", 20)
-        self.__screen = pygame.display.set_mode((self.__screenwidth, self.__screenheight))
+        self.__screen = pygame.display.set_mode((self.__screenwidth, self.__screenheight),pygame.FULLSCREEN)
         self.__clock = pygame.time.Clock()
         self.__running=True
         self.last_clickcheck=0
