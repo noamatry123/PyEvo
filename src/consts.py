@@ -1,4 +1,4 @@
 __author__ = 'user-pc'
-screenwidth=1350
-screenheight=750
-framerate=100
+screenwidth=1024
+screenheight=768
+framerate=60

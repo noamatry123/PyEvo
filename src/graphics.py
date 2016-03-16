@@ -4,6 +4,7 @@ import time
 import classes
 import math
 import termcolor
+import easygui
 
 class pyGraphics:
 
@@ -20,7 +21,11 @@ class pyGraphics:
         self.__screenwidth=width
         pygame.init()
         self.__myfont= pygame.font.SysFont("Ariel", 20)
-        self.__screen = pygame.display.set_mode((self.__screenwidth, self.__screenheight),pygame.FULLSCREEN)
+        choice=easygui.boolbox("Fulscreen?","",["Yes","No"])
+        if choice==0:
+            self.__screen = pygame.display.set_mode((self.__screenwidth, self.__screenheight))
+        else:
+            self.__screen = pygame.display.set_mode((self.__screenwidth, self.__screenheight),pygame.FULLSCREEN)
         self.__clock = pygame.time.Clock()
         self.__running=True
         self.last_clickcheck=0

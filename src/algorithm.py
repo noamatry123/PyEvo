@@ -2,10 +2,10 @@ __author__ = 'user-pc'
 import pygame
 import graphics
 import classes
+import consts
 import random
 import math
 import AI
-framerate=200
 
 def getNextID():
     classes.curID+=1
@@ -96,13 +96,13 @@ class pyAlgorithm:
         key=pygame.key.get_pressed()
         #check for hold
         if key[pygame.K_LEFT]:
-            if self.__lastTimeSinceKey["Left"]>17:
+            if self.__lastTimeSinceKey["Left"]>consts.framerate/11:
                 returnList.append("OLeft")
                 self.__lastTimeSinceKey["Left"]=0
             else:
                 self.__lastTimeSinceKey["Left"]+=1
         if key[pygame.K_RIGHT]:
-            if self.__lastTimeSinceKey["Right"]>17:
+            if self.__lastTimeSinceKey["Right"]>consts.framerate/11:
                 returnList.append("ORight")
                 self.__lastTimeSinceKey["Right"]=0
             else:

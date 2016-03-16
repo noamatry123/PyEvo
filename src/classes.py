@@ -450,7 +450,7 @@ class AbCell:
             elif self.angle==7:#left up
                 self.location.y=(self.location.y-3)%consts.screenheight
                 self.location.x=(self.location.x-3)%consts.screenwidth
-            self.timeToMove+=50
+            self.timeToMove+=consts.framerate/4
         else:
             self.timeToMove-=self.speed
     def consumeFood(self,tick):
