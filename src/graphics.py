@@ -72,6 +72,8 @@ class pyGraphics:
         if playerCell.dead:
             pygame.draw.rect(self.__screen,(0,0,0),(0,0,consts.screenwidth,consts.screenheight))
         ##tick and flip
+
+
         self.__clock.tick(self.__framerate)
         pygame.display.flip()
 
