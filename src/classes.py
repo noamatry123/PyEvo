@@ -62,6 +62,7 @@ class Egg:
             return False
         return True
     def mutateCell(self,cell,Player=False):
+        text=""
         mutationchance=50
         goodbadchance=50
         mutationscale=[10,10,10,1,1234,10,1234,1234,10,10,5,1234,1234,1,50,2,0,0,0,0,5] ##how much to mutate in every cell
@@ -78,114 +79,74 @@ class Egg:
                 elif i==1: ##timeToLay+left
                     cell.timeToLay+=mutationscale[i]
                     if mutationscale[i]<0:
-                        text=str(cell.ID)+" mutated Timetolay by "+str(mutationscale[i])
+                        text+=str(cell.ID)+" mutated Timetolay by "+str(mutationscale[i])+"\n"
                     else:
-                        text=str(cell.ID)+" mutated Timetolay by "+str(mutationscale[i])
-                    if Player:
-                        easygui.msgbox(text)
-                    else:
-                        print text
+                        text+=str(cell.ID)+" mutated Timetolay by "+str(mutationscale[i])+"\n"
                 elif i==2: ##eggWithdraw
                     cell.eggwithdraw+=mutationscale[i]
                     if mutationscale[i]<0:
-                        text=str(cell.ID)+" mutated eggWithdraw by "+str(mutationscale[i])
+                        text+=str(cell.ID)+" mutated eggWithdraw by "+str(mutationscale[i])+"\n"
                     else:
-                        text=str(cell.ID)+" mutated eggWithdraw by "+str(mutationscale[i])
-                    if Player:
-                        easygui.msgbox(text)
-                    else:
-                        print text
+                        text+=str(cell.ID)+" mutated eggWithdraw by "+str(mutationscale[i])+"\n"
                 elif i==3: ##carnivore
                     if mutationscale[i]<0:
                         cell.carnivore=0
-                        text=str(cell.ID)+" mutated carnivore negative"
+                        text+=str(cell.ID)+" mutated carnivore negative"
                     else:
                         cell.carnivore=1
-                        text=str(cell.ID)+" mutated carnivore positive"
-                    if Player:
-                        easygui.msgbox(text)
-                    else:
-                        print text
+                        text+=str(cell.ID)+" mutated carnivore positive"
                 elif i==5: ##foodWithdraw
                     cell.foodWithdraw+=mutationscale[i]
                     if mutationscale[i]<0:
-                        text=str(cell.ID)+" mutated foodWithdraw by "+str(mutationscale[i])
+                        text+=str(cell.ID)+" mutated foodWithdraw by "+str(mutationscale[i])+"\n"
                     else:
-                        text=str(cell.ID)+" mutated foodWithdraw by "+str(mutationscale[i])
-                    if Player:
-                        easygui.msgbox(text)
-                    else:
-                        print text
+                        text+=str(cell.ID)+" mutated foodWithdraw by "+str(mutationscale[i])+"\n"
                 elif i==8: ##lifetime
                     cell.lifeTime+=mutationscale[i]
                     if mutationscale[i]<0:
-                        text=str(cell.ID)+" mutated lifeTime by "+str(mutationscale[i])
+                        text+=str(cell.ID)+" mutated lifeTime by "+str(mutationscale[i])+"\n"
                     else:
-                        text=str(cell.ID)+" mutated lifeTime by "+str(mutationscale[i])
-                    if Player:
-                        easygui.msgbox(text)
-                    else:
-                        print text
+                        text+=str(cell.ID)+" mutated lifeTime by "+str(mutationscale[i])+"\n"
                 elif i==9: ##lifetimeWithdraw
                     cell.lifewithdraw+=mutationscale[i]
                     if mutationscale[i]<0:
-                        text=str(cell.ID)+" mutated lifetimeWithdraw by "+str(mutationscale[i])
+                        text+=str(cell.ID)+" mutated lifetimeWithdraw by "+str(mutationscale[i])+"\n"
                     else:
-                        text=str(cell.ID)+" mutated lifetimeWithdraw by "+str(mutationscale[i])
-                    if Player:
-                        easygui.msgbox(text)
-                    else:
-                        print text
+                        text+=str(cell.ID)+" mutated lifetimeWithdraw by "+str(mutationscale[i])+"\n"
                 elif i==10: ##speed
                     cell.speed+=mutationscale[i]
                     if mutationscale[i]<0:
-                        text=str(cell.ID)+" mutated speed by "+str(mutationscale[i])
+                        text+=str(cell.ID)+" mutated speed by "+str(mutationscale[i])+"\n"
                     else:
-                        text=str(cell.ID)+" mutated speed by "+str(mutationscale[i])
-                    if Player:
-                        easygui.msgbox(text)
-                    else:
-                        print text
+                        text+=str(cell.ID)+" mutated speed by "+str(mutationscale[i])+"\n"
                 elif i==13: ##ai
                     cell.AI+=mutationscale[i]
                     if mutationscale[i]<0:
-                        text=str(cell.ID)+" mutated AI by "+str(mutationscale[i])
+                        text+=str(cell.ID)+" mutated AI by "+str(mutationscale[i])+"\n"
                     else:
-                        text=str(cell.ID)+" mutated AI by "+str(mutationscale[i])
-                    if Player:
-                        easygui.msgbox(text)
-                    else:
-                        print text
+                        text+=str(cell.ID)+" mutated AI by "+str(mutationscale[i])+"\n"
                 elif i==14: ##vision
                     cell.vision+=mutationscale[i]
                     if mutationscale[i]<0:
-                        text=str(cell.ID)+" mutated vision by "+str(mutationscale[i])
+                        text+=str(cell.ID)+" mutated vision by "+str(mutationscale[i])+"\n"
                     else:
-                        text=str(cell.ID)+" mutated vision by "+str(mutationscale[i])
-                    if Player:
-                        easygui.msgbox(text)
-                    else:
-                        print text
+                        text+=str(cell.ID)+" mutated vision by "+str(mutationscale[i])+"\n"
                 elif i==15: ##eggHatchTime
                     cell.eggHatchTime+=mutationscale[i]
                     if mutationscale[i]<0:
-                        text=str(cell.ID)+" mutated eggHatchTime by "+str(mutationscale[i])
+                        text+=str(cell.ID)+" mutated eggHatchTime by "+str(mutationscale[i])+"\n"
                     else:
-                        text=str(cell.ID)+" mutated eggHatchTime by "+str(mutationscale[i])
-                    if Player:
-                        easygui.msgbox(text)
-                    else:
-                        print text
+                        text+=str(cell.ID)+" mutated eggHatchTime by "+str(mutationscale[i])+"\n"
                 elif i==20: ##strength
                     cell.strength+=mutationscale[i]
                     if mutationscale[i]<0:
-                        text=str(cell.ID)+" mutated strength by "+str(mutationscale[i])
+                        text+=str(cell.ID)+" mutated strength by "+str(mutationscale[i])+"\n"
                     else:
-                        text=str(cell.ID)+" mutated strength by "+str(mutationscale[i])
-                    if Player:
-                        easygui.msgbox(text)
-                    else:
-                        print text
+                        text+=str(cell.ID)+" mutated strength by "+str(mutationscale[i])+"\n"
+        if Player:
+            easygui.msgbox(text)
+        else:
+            print text
         return cell
     def mixPlayerCells(self,mother,father):
         if easygui.buttonbox("Manual or Auto?","",["Manual","Auto"])=="Auto":
