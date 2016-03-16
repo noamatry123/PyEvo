@@ -4,3 +4,4 @@ screenheight=768
 framerate=60
 text=""
 askingQuestion=True
+Season=6.6 ##summer

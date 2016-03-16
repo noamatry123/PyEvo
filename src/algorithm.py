@@ -213,6 +213,15 @@ class pyAlgorithm:
 
 
         #grow more food
-        if self._counter%consts.framerate%6.6==0:
+        if self._counter%(consts.framerate/consts.Season)==0:
             self.putFood()
+        if self._counter%(consts.framerate*4)==0: ##change season
+            if consts.Season==6: ##summer
+                consts.Season=13 ##fall
+            elif consts.Season==13: ##fall
+                consts.Season=26 ##winter
+            elif consts.Season==26: ##winter
+                consts.Season=14 ##spring
+            elif consts.Season==14: ##spring
+                consts.Season=6 ##summer
         self.__kinput=[]
