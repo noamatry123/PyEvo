@@ -26,7 +26,7 @@ class pyGraphics:
         self.last_clickcheck=0
     def printAtt(self,playerCell):
         counter=0
-        for att in playerCell.getAtts():
+        for att in playerCell.getUsefullAtts():
             label = self.__myfont.render(att,1, (255,255,0))
             self.__screen.blit(label, (0,counter))
             counter+=20

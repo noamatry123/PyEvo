@@ -208,6 +208,6 @@ class pyAlgorithm:
 
 
         #grow more food
-        if self._counter%50==0:
+        if self._counter%30==0:
             self.putFood()
         self.__kinput=[]

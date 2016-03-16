@@ -385,6 +385,19 @@ class AbCell:
         list.append("mode : "+str(self.mode))
         list.append("strength: "+str(self.strength))
         return list
+    def getUsefullAtts(self):
+        list=[]
+        list.append("foodLeft: "+str(self.foodLeft))
+        list.append("lifeTimeLeft: "+str(self.lifeTimeLeft))
+        list.append("timeToLay(Left): "+str(self.timeToLay) + "(" + str(self.timeToLayLeft)+")")
+        list.append("carnivore: "+str(self.carnivore))
+        list.append("ID: "+str(self.ID))
+        list.append("lastmother: "+str(self.lastMother.ID))
+        list.append("speed: "+str(self.speed))
+        list.append("eggHatchTime: "+str(self.eggHatchTime))
+        list.append("mode : "+str(self.mode))
+        list.append("strength: "+str(self.strength))
+        return list
     def layEgg(self,Player=False):
         egg=Egg(self.location,baseCell(self),baseCell(self.lastMother),6,self.eggHatchTime,Player)
         self.timeToLayLeft=self.timeToLay
