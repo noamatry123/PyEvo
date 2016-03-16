@@ -37,10 +37,10 @@ class pyAlgorithm:
         vision=50
         lifeTime=20
         speed=15
-        timeToLay=1
+        timeToLay=10
         eggHatchTime=3
         strength=10
-        self.myCell=classes.baseCell(None,angle,1,eggwithdraw,food,foodWithdraw,0,50,classes.Location(400,400),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength)
+        self.myCell=classes.baseCell(None,angle,1,eggwithdraw,food,foodWithdraw,0,50,classes.Location(400,400),speed,rad,lifewithdraw,timeToLay-9,AI,vision,eggHatchTime,strength)
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,1,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,2,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,3,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))

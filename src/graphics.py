@@ -10,7 +10,7 @@ import Buttons
 screen=None
 clock=None
 myfont =pygame.font.SysFont("Ariel", 20)
-myfont1=pygame.font.SysFont("Ariel", 40)
+myfont1=pygame.font.SysFont("Ariel", 30)
 last_clickcheck=None
 
 def printAtt(playerCell):
@@ -24,7 +24,7 @@ def askBoard(mode, text,option1="",option2=""):
     Button2 = Buttons.Button()
     screen.fill((255,0,255))
 
-    screencenter=(consts.screenwidth/2-100,consts.screenheight/2-100)
+    screencenter=(consts.screenwidth/2,consts.screenheight/2)
     screencenter_below=(consts.screenwidth/2-100,(consts.screenheight/2+(consts.screenheight/4)))
     ##switch mode
     if mode=="Prompt":
@@ -33,7 +33,7 @@ def askBoard(mode, text,option1="",option2=""):
         for p in ptext:
             plabel.append(myfont1.render(p, 1, (0,0,0)))
         for i in range(0,len(plabel)):
-            screen.blit(plabel[i],(screencenter[0],i*40))
+            screen.blit(plabel[i],(screencenter[0]-100,10+i*35))
         #Parameters:               surface,      color,       x,   y,   length, height, width,    text,      text_color
         Button1.create_button(screen, (107,142,35), screencenter_below[0], screencenter_below[1], 200,    100,    0,        "Okay", (255,255,255))
         for event in pygame.event.get():
@@ -48,10 +48,10 @@ def askBoard(mode, text,option1="",option2=""):
         for p in ptext:
             plabel.append(myfont1.render(p, 1, (0,0,0)))
         for i in range(0,len(plabel)):
-            screen.blit(plabel[i],(screencenter[0],i*40))
+            screen.blit(plabel[i],(screencenter[0]-100,10+i*20))
         #Parameters:          surface,      color,       x,                         y,              length, height, width,       text,      text_color
-        Button1.create_button(screen, (107,142,35), screencenter_below[0]+100, screencenter_below[1], 200,    100,    0,        option1, (255,255,255))
-        Button2.create_button(screen, (107,142,35), screencenter_below[0]-100, screencenter_below[1], 200,    100,    0,        option2, (255,255,255))
+        Button1.create_button(screen, (107,142,35), 40,                        consts.screenheight-40-100, 300,    100,    0,        option1, (255,255,255))
+        Button2.create_button(screen, (107,142,35), consts.screenwidth-40-300, consts.screenheight-40-100, 300,    100,    0,        option2, (255,255,255))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()

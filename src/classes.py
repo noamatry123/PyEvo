@@ -10,21 +10,6 @@ import pygame
 import easygui
 
 curID=10
-class Block(pygame.sprite.Sprite):
-
-    # Constructor. Pass in the color of the block,
-    # and its x and y position
-    def __init__(self, color=(0,0,0), width=20, height=20):
-       # Call the parent class (Sprite) constructor
-       super( Block, self).__init__()
-       # Create an image of the block, and fill it with a color.
-       # This could also be an image loaded from the disk.
-       self.image = pygame.Surface([width, height])
-       self.image.fill(color)
-
-       # Fetch the rectangle object that has the dimensions of the image
-       # Update the position of this object by setting the values of rect.x and rect.y
-       self.rect = self.image.get_rect()
 class Location:
     x=0
     y=0
@@ -72,7 +57,7 @@ class Egg:
             newCell=self.mutateCell(newCell)
             return newCell
     def chooseCell(self,newCell):
-        newtext=""
+        newtext="Switch to this cell?\n"
         for line in newCell.getAtts():
             newtext+=line+"\n"
         choice=None
@@ -111,10 +96,10 @@ class Egg:
                 elif i==3: ##carnivore
                     if mutationscale[i]<0:
                         cell.carnivore=0
-                        text+=str(cell.ID)+" mutated carnivore negative"
+                        text+=str(cell.ID)+" mutated carnivore negative\n"
                     else:
                         cell.carnivore=1
-                        text+=str(cell.ID)+" mutated carnivore positive"
+                        text+=str(cell.ID)+" mutated carnivore positive\n"
                 elif i==5: ##foodWithdraw
                     cell.foodWithdraw+=mutationscale[i]
                     if mutationscale[i]<0:
@@ -171,7 +156,10 @@ class Egg:
             print text
         return cell
     def mixPlayerCells(self,mother,father):
-        if easygui.buttonbox("Manual or Auto?","",["Manual","Auto"])=="Auto":
+        choice=None
+        while choice not in ["Manual","Auto"]:
+            choice=graphics.askBoard("manual","Choose attributes:\nManually or Automatically?","Manual","Auto")
+        if choice=="Auto":
             return self.mixNormalCells(mother,father)
         else: ## manual mode
             attIgnoreList=[0,4,7,11,12,16,17,18,19]
@@ -189,7 +177,7 @@ class Egg:
                     mothertext=mother.getAtts()[i]
                     choice=None
                     while choice not in [fathertext,mothertext]:
-                        choice=graphics.askBoard("manual","choose attribute",fathertext,mothertext)
+                        choice=graphics.askBoard("manual","Choose",fathertext,mothertext)
 
                 if i==1: ##timeToLay+left
                     if choice==fathertext:
