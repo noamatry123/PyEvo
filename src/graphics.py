@@ -11,12 +11,13 @@ screen=None
 clock=None
 myfont =pygame.font.SysFont("Ariel", 20)
 myfont1=pygame.font.SysFont("Ariel", 30)
+bg = pygame.image.load("src/IMG/test1.jpg")
 last_clickcheck=None
 
 def printAtt(playerCell):
     counter=0
     for att in playerCell.getUsefullAtts():
-        label = myfont.render(att,1, (255,255,0))
+        label = myfont.render(att,1, (255,0,0))
         screen.blit(label, (0,counter))
         counter+=20
 def askBoard(mode, text,option1="",option2=""):
@@ -67,7 +68,8 @@ def askBoard(mode, text,option1="",option2=""):
 def drawBoard(playerCell,cellList,foodList,eggList):
     IDtempfont=pygame.font.SysFont("Ariel", 20)
     ##fill screen
-    screen.fill((255,0,255))
+    ##screen.fill((255,0,255))
+    screen.blit(bg,(0,0))
     ##handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -89,9 +91,9 @@ def drawBoard(playerCell,cellList,foodList,eggList):
     printAtt(playerCell)
     ##draw player eggs
     for egg in eggList[0]:
-        pygame.draw.circle(screen,(255,255,255),(egg.location.getTupple()),egg.rad)
+        pygame.draw.circle(screen,(10,10,255),(egg.location.getTupple()),egg.rad)
     for egg in eggList[1]:
-        pygame.draw.circle(screen,(255,255,255),(egg.location.getTupple()),egg.rad)
+        pygame.draw.circle(screen,(10,10,255),(egg.location.getTupple()),egg.rad)
     ##draw player
     ##pygame.draw.circle(screen,(0,0,0),(playerCell.location.getTupple()),playerCell.rad)
     ##pygame.draw.circle(screen,(10,255,10),(playerCell.location_compensated()),2)
