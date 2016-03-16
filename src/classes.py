@@ -368,6 +368,8 @@ class AbCell:
     eggHatchTime=0
     strength=0
     timeToHurt=200
+    base90=None
+    base45=None
     image=None
 
     def checkEat(self,foodList):
@@ -377,6 +379,22 @@ class AbCell:
                     foodList.remove(food)
     def changeAngle(self, dir):
         self.angle=(self.angle+dir)%8 ##0 is up, clockwise (2 is right)
+        if self.angle==0:
+            self.image=pygame.transform.rotate(self.base90,180)
+        elif self.angle==2:
+            self.image=pygame.transform.rotate(self.base90,90)
+        elif self.angle==4:
+            self.image=pygame.transform.rotate(self.base90,0)
+        elif self.angle==6:
+            self.image=pygame.transform.rotate(self.base90,270)
+        elif self.angle==1:
+            self.image=pygame.transform.rotate(self.base45,270)
+        elif self.angle==3:
+            self.image=pygame.transform.rotate(self.base45,180)
+        elif self.angle==5:
+            self.image=pygame.transform.rotate(self.base45,90)
+        elif self.angle==7:
+            self.image=pygame.transform.rotate(self.base45,0)
     def eat(self, food):
         self.foodLeft+=food.getAmount()
         print self.ID, "ate food"
@@ -513,7 +531,8 @@ class baseCell(AbCell):
             self.mode='m'
             self.lastMother=self
             self.strength=strength
-            self.image = pygame.image.load('src/IMG/HeadR.png')
+            self.base90, self.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
+            self.image=self.base90
         else:
             self.angle=cell.angle
             self.AI=cell.AI
@@ -536,4 +555,5 @@ class baseCell(AbCell):
             self.mode='m'
             self.lastMother=cell.lastMother
             self.strength=cell.strength
-            self.image = pygame.image.load('src/IMG/HeadR.png')
+            self.base90, self.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
+            self.image=self.base90
