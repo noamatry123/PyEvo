@@ -5,7 +5,7 @@ import classes
 import random
 import math
 import AI
-
+framerate=200
 
 def getNextID():
     classes.curID+=1
@@ -21,25 +21,26 @@ class pyAlgorithm:
     foodList=[]
     screenwidth=0
     screenheight=0
+    framerate=100
     def __init__(self,height,width): #temp
         ##(cell,angle,carnivore,eggwithdraw,food,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength=0):
         self.screenheight=height
         self.screenwidth=width
         angle=0
-        lifewithdraw=200
+        lifewithdraw=self.framerate
         carnivore=0
-        eggwithdraw=200
+        eggwithdraw=self.framerate
         food=30
-        foodWithdraw=200
+        foodWithdraw=self.framerate
         rad=10
         AI=0
         vision=50
         lifeTime=20
-        speed=5
+        speed=15
         timeToLay=10
         eggHatchTime=3
         strength=10
-        self.myCell=classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,0,50,classes.Location(400,400),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength)
+        self.myCell=classes.baseCell(None,angle,1,eggwithdraw,food,foodWithdraw,0,50,classes.Location(400,400),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength)
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,1,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,2,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,3,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
@@ -188,12 +189,12 @@ class pyAlgorithm:
                 collision=math.sqrt(((cell.location.x-otherCell.location.x)**2)+((cell.location.y-otherCell.location.y)**2))<cell.rad+otherCell.rad
                 if (cell.ID!=otherCell.ID) and (collision): ##not the same cell
                     if cell.mode=='c': ##carnivore
-                        if otherCell.timeToHurt==0:
+                        if otherCell.timeToHurt<=0:
                             otherCell.timeToHurt=200
-                            otherCell.lifeTime-=cell.strength
-                            if otherCell.lifeTime<=0: ##only eat if you killed him
+                            otherCell.lifeTimeLeft-=cell.strength
+                            if otherCell.lifeTimeLeft<=0: ##only eat if you killed him
                                 cell.foodLeft+=otherCell.foodLeft
-                                otherCell.lifeTime=0
+                                otherCell.lifeTimeLeft=0
                                 otherCell.dead=True
                                 print str(cell.ID), "Ate", str(otherCell.ID)
                             else: ##cant eat
