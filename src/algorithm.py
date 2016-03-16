@@ -192,7 +192,7 @@ class pyAlgorithm:
                 if (cell.ID!=otherCell.ID) and (collision): ##not the same cell
                     if cell.mode=='c': ##carnivore
                         if otherCell.timeToHurt<=0:
-                            otherCell.timeToHurt=200
+                            otherCell.timeToHurt=consts.framerate
                             otherCell.lifeTimeLeft-=cell.strength
                             if otherCell.lifeTimeLeft<=0: ##only eat if you killed him
                                 cell.foodLeft+=otherCell.foodLeft
@@ -208,6 +208,6 @@ class pyAlgorithm:
 
 
         #grow more food
-        if self._counter%30==0:
+        if self._counter%consts.framerate%6.6==0:
             self.putFood()
         self.__kinput=[]

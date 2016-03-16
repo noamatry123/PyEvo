@@ -5,7 +5,7 @@ import classes
 import math
 import termcolor
 import easygui
-
+import consts
 class pyGraphics:
 
     __framerate=0
@@ -70,7 +70,7 @@ class pyGraphics:
         label = IDtempfont.render(str(playerCell.ID), 1, (255,255,0))
         self.__screen.blit(label,(playerCell.location.x,playerCell.location.y))
         if playerCell.dead:
-            pygame.draw.rect(self.__screen,(0,0,0),(0,0,800,600))
+            pygame.draw.rect(self.__screen,(0,0,0),(0,0,consts.screenwidth,consts.screenheight))
         ##tick and flip
         self.__clock.tick(self.__framerate)
         pygame.display.flip()
