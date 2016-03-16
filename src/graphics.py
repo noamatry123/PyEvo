@@ -11,13 +11,12 @@ screen=None
 clock=None
 myfont =pygame.font.SysFont("Ariel", 20)
 myfont1=pygame.font.SysFont("Ariel", 30)
-bg = pygame.image.load("src/IMG/test1.jpg")
 last_clickcheck=None
 
 def printAtt(playerCell):
     counter=0
     for att in playerCell.getUsefullAtts():
-        label = myfont.render(att,1, (255,0,0))
+        label = myfont.render(att,1, (255,255,0))
         screen.blit(label, (0,counter))
         counter+=20
 def askBoard(mode, text,option1="",option2=""):
@@ -68,8 +67,7 @@ def askBoard(mode, text,option1="",option2=""):
 def drawBoard(playerCell,cellList,foodList,eggList):
     IDtempfont=pygame.font.SysFont("Ariel", 20)
     ##fill screen
-    ##screen.fill((255,0,255))
-    screen.blit(bg,(0,0))
+    screen.fill((255,0,255))
     ##handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
