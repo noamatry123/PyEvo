@@ -4,3 +4,4 @@ screenheight=None
 framerate=60
 text=""
 askingQuestion=True
+counter=0

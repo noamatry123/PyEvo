@@ -348,7 +348,7 @@ class AbCell:
     rad=0
     AI=0
     vision=0
-    mode='m'
+    mode='c'
     ID=0
     lifeTime=0
     lifeTimeLeft=0

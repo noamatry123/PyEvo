@@ -103,7 +103,10 @@ def drawBoard(playerCell,cellList,foodList,eggList):
 
 
     if playerCell.dead:
-        pygame.draw.rect(screen,(0,0,0),(0,0,consts.screenwidth,consts.screenheight))
+        choice = None
+        while choice!="Okay":
+            choice=askBoard("Prompt","You died!\nYou lived " + str(consts.counter/consts.framerate) + " Seconds!")
+        pygame.quit()
     ##tick and flip
 
 
