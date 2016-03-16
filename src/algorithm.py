@@ -113,7 +113,10 @@ class pyAlgorithm:
         return returnList
 
 
-    def nextStep(self):
+    def nextStep(self,text):
+        if text!="Empty":
+            consts.askingQuestion=False
+
         self._counter+=1
         ##handle input
         inputlist=self.getInput()

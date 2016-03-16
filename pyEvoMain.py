@@ -11,10 +11,10 @@ def main():
     graphicModule = graphics.pyGraphics(consts.framerate,consts.screenwidth,consts.screenheight)
     algoModule = algorithm.pyAlgorithm(consts.screenwidth,consts.screenheight)
     running = True
+    text="Empty"
     while running:
-        algoModule.nextStep()
-        running = graphicModule.drawBoard(algoModule.myCell, algoModule.cellList, algoModule.foodList,
-                                          [algoModule.myEggs, algoModule.cellEggs])
+        algoModule.nextStep(text)
+        running,text = graphicModule.drawBoard(algoModule.myCell, algoModule.cellList, algoModule.foodList,[algoModule.myEggs, algoModule.cellEggs])
 
 
 if __name__ == "__main__":

@@ -6,6 +6,8 @@ import math
 import termcolor
 import easygui
 import consts
+import Buttons
+
 class pyGraphics:
 
     __framerate=0
@@ -21,6 +23,7 @@ class pyGraphics:
         self.__screenwidth=width
         pygame.init()
         self.__myfont= pygame.font.SysFont("Ariel", 20)
+        self.__myfont1= pygame.font.SysFont("Ariel", 20)
         choice=easygui.boolbox("Fulscreen?","",["Yes","No"])
         if choice==0:
             self.__screen = pygame.display.set_mode((self.__screenwidth, self.__screenheight))
@@ -29,20 +32,47 @@ class pyGraphics:
         self.__clock = pygame.time.Clock()
         self.__running=True
         self.last_clickcheck=0
+
     def printAtt(self,playerCell):
         counter=0
         for att in playerCell.getUsefullAtts():
             label = self.__myfont.render(att,1, (255,255,0))
             self.__screen.blit(label, (0,counter))
             counter+=20
+    def askBoard(self,text, mode):
+        self.Button1 = Buttons.Button()
+        self.__screen.fill((255,0,255))
+
+        screencenter=(self.__screenwidth/2,self.__screenheight/2)
+        screencenter_below=(self.__screenwidth/2,(self.__screenheight/2+(self.__screenheight/4)))
+        ##switch mode
+        if mode=="Prompt":
+            label = self.__myfont.render(text, 1, (255,0,255))
+            self.__screen.blit(label,screencenter)
+            #Parameters:               surface,      color,       x,   y,   length, height, width,    text,      text_color
+            self.Button1.create_button(self.screen, (107,142,35), screencenter_below[0], screencenter_below[1], 200,    100,    0,        "Okay", (255,255,255))
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return False, "End"
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.Button1.pressed(pygame.mouse.get_pos()):
+                        print "Give me a command!"
+                        return True, "Okay"
+
+        self.__clock.tick(self.__framerate)
+        pygame.display.flip()
+
     def drawBoard(self,playerCell,cellList,foodList,eggList):
+        if consts.askingQuestion: ##there is a pending question / prompt
+            return self.askBoard("Prompt","Continue?")
         IDtempfont=pygame.font.SysFont("Ariel", 20)
         ##fill screen
         self.__screen.fill((255,0,255))
         ##handle events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return False
+                return False,"End"
         ##hadndle drawing cells and food
         for cell in cellList:
             if cell.timeToHurt%2==0:
@@ -82,7 +112,7 @@ class pyGraphics:
         pygame.display.flip()
 
         self.checkClickAndPrintToScreen(cellList)
-        return True
+        return True,"Empty"
     def checkClickAndPrintToScreen(self,cellList):
         if pygame.mouse.get_pressed()[0]==True:
             pos = pygame.mouse.get_pos()
