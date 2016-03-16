@@ -23,7 +23,7 @@ class pyGraphics:
         self.__screenwidth=width
         pygame.init()
         self.__myfont= pygame.font.SysFont("Ariel", 20)
-        self.__myfont1= pygame.font.SysFont("Ariel", 20)
+        self.__myfont1= pygame.font.SysFont("Ariel", 40)
         choice=easygui.boolbox("Fulscreen?","",["Yes","No"])
         if choice==0:
             self.__screen = pygame.display.set_mode((self.__screenwidth, self.__screenheight))
@@ -43,11 +43,11 @@ class pyGraphics:
         self.Button1 = Buttons.Button()
         self.__screen.fill((255,0,255))
 
-        screencenter=(self.__screenwidth/2,self.__screenheight/2)
-        screencenter_below=(self.__screenwidth/2,(self.__screenheight/2+(self.__screenheight/4)))
+        screencenter=(self.__screenwidth/2-100,self.__screenheight/2-100)
+        screencenter_below=(self.__screenwidth/2-100,(self.__screenheight/2+(self.__screenheight/4)))
         ##switch mode
         if mode=="Prompt":
-            label = self.__myfont.render(text, 1, (0,0,0))
+            label = self.__myfont1.render(text, 1, (0,0,0))
             self.__screen.blit(label,screencenter)
             #Parameters:               surface,      color,       x,   y,   length, height, width,    text,      text_color
             self.Button1.create_button(self.__screen, (107,142,35), screencenter_below[0], screencenter_below[1], 200,    100,    0,        "Okay", (255,255,255))

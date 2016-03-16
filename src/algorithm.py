@@ -116,6 +116,8 @@ class pyAlgorithm:
     def nextStep(self,text):
         if text!="Empty":
             consts.askingQuestion=False
+            ##parse input
+
 
         self._counter+=1
         ##handle input
