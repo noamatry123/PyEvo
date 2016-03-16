@@ -64,8 +64,10 @@ class pyGraphics:
         for egg in eggList[1]:
             pygame.draw.circle(self.__screen,(255,255,255),(egg.location.getTupple()),egg.rad)
         ##draw player
-        pygame.draw.circle(self.__screen,(0,0,0),(playerCell.location.getTupple()),playerCell.rad)
-        pygame.draw.circle(self.__screen,(10,255,10),(playerCell.location_compensated()),2)
+        ##pygame.draw.circle(self.__screen,(0,0,0),(playerCell.location.getTupple()),playerCell.rad)
+        ##pygame.draw.circle(self.__screen,(10,255,10),(playerCell.location_compensated()),2)
+        self.__screen.blit(playerCell.image,(playerCell.location.x-playerCell.rad,playerCell.location.y-playerCell.rad))
+
         ##draw player ID
         label = IDtempfont.render(str(playerCell.ID), 1, (255,255,0))
         self.__screen.blit(label,(playerCell.location.x,playerCell.location.y))

@@ -50,6 +50,7 @@ class Egg:
     mother=None
     rad=0
     Player = False
+    image = None
     def __init__(self,flocation,father,mother,rad,timeToHatch,Player=False):
         self.location=Location(flocation.x,flocation.y)
         self.father=baseCell(father)
@@ -57,6 +58,7 @@ class Egg:
         self.rad=rad
         self.timeToHatch=timeToHatch
         self.Player=Player
+
     def Hatch(self): ##returns new cell to add ##
         if self.Player: ##Player cell egg hatching
             newCell = baseCell(self.mixPlayerCells(self.father,self.mother))
@@ -366,6 +368,8 @@ class AbCell:
     eggHatchTime=0
     strength=0
     timeToHurt=200
+    image=None
+
     def checkEat(self,foodList):
             for food in foodList:
                 if math.sqrt(((self.location.x-food.location.x)**2)+((self.location.y-food.location.y)**2))<self.rad+food.rad:
@@ -509,6 +513,7 @@ class baseCell(AbCell):
             self.mode='m'
             self.lastMother=self
             self.strength=strength
+            self.image = pygame.image.load('src/IMG/HeadR.png')
         else:
             self.angle=cell.angle
             self.AI=cell.AI
@@ -531,3 +536,4 @@ class baseCell(AbCell):
             self.mode='m'
             self.lastMother=cell.lastMother
             self.strength=cell.strength
+            self.image = pygame.image.load('src/IMG/HeadR.png')
