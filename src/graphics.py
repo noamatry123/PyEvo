@@ -10,7 +10,7 @@ import Buttons
 screen=None
 clock=None
 myfont =pygame.font.SysFont("Ariel", 20)
-myfont1=pygame.font.SysFont("Ariel", 40)
+myfont1=pygame.font.SysFont("Ariel", 30)
 last_clickcheck=None
 
 def printAtt(playerCell):
@@ -19,7 +19,7 @@ def printAtt(playerCell):
         label = myfont.render(att,1, (255,255,0))
         screen.blit(label, (0,counter))
         counter+=20
-def askBoard(mode, text,option1="",option2=""):
+def askBoard(mode, text,option1="",option2="",text2=""):
     Button1 = Buttons.Button()
     Button2 = Buttons.Button()
     screen.fill((255,0,255))
@@ -33,7 +33,7 @@ def askBoard(mode, text,option1="",option2=""):
         for p in ptext:
             plabel.append(myfont1.render(p, 1, (0,0,0)))
         for i in range(0,len(plabel)):
-            screen.blit(plabel[i],(screencenter[0],i*40))
+            screen.blit(plabel[i],(screencenter[0],i*30))
         #Parameters:               surface,      color,       x,   y,   length, height, width,    text,      text_color
         Button1.create_button(screen, (107,142,35), screencenter_below[0], screencenter_below[1], 200,    100,    0,        "Okay", (255,255,255))
         for event in pygame.event.get():
@@ -48,7 +48,31 @@ def askBoard(mode, text,option1="",option2=""):
         for p in ptext:
             plabel.append(myfont1.render(p, 1, (0,0,0)))
         for i in range(0,len(plabel)):
-            screen.blit(plabel[i],(screencenter[0],i*40))
+            screen.blit(plabel[i],(screencenter[0],i*30))
+        #Parameters:          surface,      color,       x,                         y,              length, height, width,       text,      text_color
+        Button1.create_button(screen, (107,142,35), screencenter_below[0]+100, screencenter_below[1], 200,    100,    0,        option1, (255,255,255))
+        Button2.create_button(screen, (107,142,35), screencenter_below[0]-100, screencenter_below[1], 200,    100,    0,        option2, (255,255,255))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if Button1.pressed(pygame.mouse.get_pos()):
+                    return option1
+                if Button2.pressed(pygame.mouse.get_pos()):
+                    return option2
+    if mode=="manualAuto":
+        ptext=text.split("\n")
+        ptext2=text2.split("\n")
+        plabel=[]
+        plabel2=[]
+        for p in ptext:
+            plabel.append(myfont1.render(p, 1, (0,0,0)))
+        for i in range(0,len(plabel)):
+            screen.blit(plabel[i],(screencenter[0]-(screencenter[0]/2+screencenter[0]/4),i*30))
+        for p in ptext2:
+            plabel2.append(myfont1.render(p, 1, (0,0,0)))
+        for i in range(0,len(plabel2)):
+            screen.blit(plabel2[i],(screencenter[0]+(screencenter[0]/2+screencenter[0]/4),i*30))
         #Parameters:          surface,      color,       x,                         y,              length, height, width,       text,      text_color
         Button1.create_button(screen, (107,142,35), screencenter_below[0]+100, screencenter_below[1], 200,    100,    0,        option1, (255,255,255))
         Button2.create_button(screen, (107,142,35), screencenter_below[0]-100, screencenter_below[1], 200,    100,    0,        option2, (255,255,255))

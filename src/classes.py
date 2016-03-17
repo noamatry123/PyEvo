@@ -72,13 +72,17 @@ class Egg:
             newCell=self.mutateCell(newCell)
             return newCell
     def chooseCell(self,newCell):
-        newtext=""
-        for line in newCell.getAtts():
-            newtext+=line+"\n"
+        newtext="new\n"
+        oldtext="old\n"
+        newatt,oldatt=newCell.getAtts(),self.father.getAtts()
+        for i in range(0,len(newatt)):
+            newtext+=newatt[i]+"\n"
+        for i in range(0,len(oldatt)):
+            oldtext+=oldatt[i]+"\n"
         choice=None
-        while choice not in ["Yes","No"]:
-            choice=graphics.askBoard("manual",newtext,"Yes","No")
-        if choice=="No":
+        while choice not in ["Old","New"]:
+            choice=graphics.askBoard("manualAuto",newtext,"Old","New",oldtext)
+        if choice=="Old":
             return False
         return True
     def mutateCell(self,cell,Player=False):
@@ -171,7 +175,10 @@ class Egg:
             print text
         return cell
     def mixPlayerCells(self,mother,father):
-        if easygui.buttonbox("Manual or Auto?","",["Manual","Auto"])=="Auto":
+        choice=None
+        while choice not in ["Manual","Auto"]:
+            choice=graphics.askBoard("manual","Manual or Auto?","Manual","Auto")
+        if choice=="Auto":
             return self.mixNormalCells(mother,father)
         else: ## manual mode
             attIgnoreList=[0,4,7,11,12,16,17,18,19]
