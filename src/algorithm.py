@@ -37,10 +37,10 @@ class pyAlgorithm:
         vision=50
         lifeTime=20
         speed=15
-        timeToLay=10
+        timeToLay=15
         eggHatchTime=3
         strength=10
-        self.myCell=classes.baseCell(None,angle,1,eggwithdraw,food,foodWithdraw,0,50,classes.Location(400,400),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength)
+        self.myCell=classes.baseCell(None,angle,1,eggwithdraw,10000000,foodWithdraw,0,1000000,classes.Location(400,400),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength)
         self.myCell.base90, self.myCell.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
         self.myCell.image=self.myCell.base90
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,1,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
@@ -60,7 +60,7 @@ class pyAlgorithm:
             self.putFood()
 
     def putFood(self):
-        self.foodList.append(classes.Food(classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),10,5))
+        self.foodList.append(classes.Food(classes.Location(random.randint(0,consts.screenwidth),random.randint(0,consts.screenheight)),10,5))
     def growCellEggs(self):
         for egg in self.cellEggs:
             if egg.timeToHatch==0:
@@ -125,10 +125,10 @@ class pyAlgorithm:
         if text!="Empty":
             consts.askingQuestion=False
             ##parse input
-
-
         self._counter+=1
         ##handle input
+        if self._counter%(consts.framerate*60)==0:
+            consts.season=(consts.season+1)%4
         inputlist=self.getInput()
         for item in inputlist:
             if (item=="Left" or item=="Right") and (("Left" in self.__kinput) or ("Right" in self.__kinput)):
@@ -221,8 +221,24 @@ class pyAlgorithm:
 
 
         #grow more food
-        if self._counter%(consts.framerate/4)==0:
-            self.putFood()
+        """
+        0-Summer 75%
+        1-Autumn 50%
+        2-winter 25%
+        3-spring 100%
+        """
+        if consts.season==0:
+            if self._counter%(consts.framerate/6)==0:
+                self.putFood()
+        elif consts.season==1:
+            if self._counter%(consts.framerate/4)==0:
+                self.putFood()
+        elif consts.season==2:
+            if self._counter%(consts.framerate/2)==0:
+                self.putFood()
+        elif consts.season==3:
+            if self._counter%(consts.framerate/8)==0:
+                self.putFood()
 
         consts.counter=self._counter
         self.__kinput=[]

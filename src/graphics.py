@@ -16,7 +16,7 @@ last_clickcheck=None
 def printAtt(playerCell):
     counter=0
     for att in playerCell.getUsefullAtts():
-        label = myfont.render(att,1, (255,255,0))
+        label = myfont.render(att,1, (0,0,0))
         screen.blit(label, (0,counter))
         counter+=20
 def askBoard(mode, text,option1="",option2="",text2=""):
@@ -91,7 +91,14 @@ def askBoard(mode, text,option1="",option2="",text2=""):
 def drawBoard(playerCell,cellList,foodList,eggList):
     IDtempfont=pygame.font.SysFont("Ariel", 20)
     ##fill screen
-    screen.fill((255,0,255))
+    if consts.season==0:
+        screen.fill((255,255,0))
+    elif consts.season==1:
+        screen.fill((236,39,39))
+    elif consts.season==2:
+        screen.fill((213,244,252))
+    elif consts.season==3:
+        screen.fill((252,88,181))
     ##handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
