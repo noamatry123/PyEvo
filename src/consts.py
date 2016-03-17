@@ -1,6 +1,7 @@
 __author__ = 'user-pc'
-screenwidth=1024
-screenheight=768
+screenwidth=None
+screenheight=None
 framerate=60
 text=""
 askingQuestion=True
+counter=0
