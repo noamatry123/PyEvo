@@ -19,7 +19,7 @@ def printAtt(playerCell):
         label = myfont.render(att,1, (255,255,0))
         screen.blit(label, (0,counter))
         counter+=20
-def askBoard(mode, text,option1="",option2=""):
+def askBoard(mode, text,option1="",option2="",text2=""):
     Button1 = Buttons.Button()
     Button2 = Buttons.Button()
     screen.fill((255,0,255))
