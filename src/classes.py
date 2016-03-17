@@ -544,7 +544,7 @@ class baseCell(AbCell):
             self.mode='m'
             self.lastMother=self
             self.strength=strength
-            self.base90, self.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
+            self.base90, self.base45 = pygame.image.load('src/IMG/e_HeadD.png'),pygame.image.load('src/IMG/e_HeadUL.png')
             self.image=self.base90
         else:
             self.angle=cell.angle
@@ -568,5 +568,5 @@ class baseCell(AbCell):
             self.mode='m'
             self.lastMother=cell.lastMother
             self.strength=cell.strength
-            self.base90, self.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
+            self.base90, self.base45 = pygame.image.load('src/IMG/e_HeadD.png'),pygame.image.load('src/IMG/e_HeadUL.png')
             self.image=self.base90
