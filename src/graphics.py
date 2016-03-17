@@ -75,8 +75,10 @@ def drawBoard(playerCell,cellList,foodList,eggList):
     ##hadndle drawing cells and food
     for cell in cellList:
         if cell.timeToHurt%2==0:
-            pygame.draw.circle(screen,(255,0,0),(cell.location.getTupple()),cell.rad)
-            pygame.draw.circle(screen,(10,255,10),(cell.location_compensated()),2)
+            ##pygame.draw.circle(screen,(255,0,0),(cell.location.getTupple()),cell.rad)
+            ##pygame.draw.circle(screen,(10,255,10),(cell.location_compensated()),2)
+            screen.blit(cell.image,(cell.location.x-cell.rad,cell.location.y-cell.rad))
+
             ##draw IDs:
             label = IDtempfont.render(str(cell.ID), 1, (255,255,0))
             screen.blit(label,(cell.location.x+5,cell.location.y))
