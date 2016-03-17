@@ -100,7 +100,7 @@ class pyAlgorithm:
             if event.key==pygame.K_c:
                 returnList.append("c")
             if event.key==pygame.K_p:
-                pygame.event.post(pygame.QUIT)
+                pygame.event.post(pygame.event.Event(pygame.QUIT))
         key=pygame.key.get_pressed()
         #check for hold
         if key[pygame.K_LEFT]:
