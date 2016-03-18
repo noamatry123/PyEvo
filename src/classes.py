@@ -37,10 +37,12 @@ class Food:
     location=Location(0,0)
     amount=0
     rad=0
+    image=None
     def __init__(self,location,amount,rad):
         self.location=location
         self.amount=amount
         self.rad=rad
+        self.image=pygame.image.load('src/IMG/food.png')
     def getAmount(self):
         return self.amount
 class Egg:
@@ -58,6 +60,7 @@ class Egg:
         self.rad=rad
         self.timeToHatch=timeToHatch
         self.Player=Player
+        self.image=pygame.image.load('src/IMG/egg.png')
 
     def Hatch(self): ##returns new cell to add ##
         if self.Player: ##Player cell egg hatching

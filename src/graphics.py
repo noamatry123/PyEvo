@@ -117,14 +117,17 @@ def drawBoard(playerCell,cellList,foodList,eggList):
             label = IDtempfont.render(str(cell.lifeTimeLeft), 1, (0,0,0))
             screen.blit(label,(cell.location.x-15,cell.location.y))
     for food in foodList:
-        pygame.draw.circle(screen,(80,255,80),(food.location.getTupple()),food.rad)
+        #pygame.draw.circle(screen,(80,255,80),(food.location.getTupple()),food.rad)
+        screen.blit(food.image,(food.location.x-food.rad,food.location.y-food.rad))
     ##prints attributes
     printAtt(playerCell)
     ##draw player eggs
     for egg in eggList[0]:
-        pygame.draw.circle(screen,(255,255,255),(egg.location.getTupple()),egg.rad)
+        screen.blit(egg.image,(egg.location.x-egg.rad,egg.location.y-egg.rad))
+        #pygame.draw.circle(screen,(255,255,255),(egg.location.getTupple()),egg.rad)
     for egg in eggList[1]:
-        pygame.draw.circle(screen,(255,255,255),(egg.location.getTupple()),egg.rad)
+        screen.blit(egg.image,(egg.location.x-egg.rad,egg.location.y-egg.rad))
+        #pygame.draw.circle(screen,(255,255,255),(egg.location.getTupple()),egg.rad)
     ##draw player
     ##pygame.draw.circle(screen,(0,0,0),(playerCell.location.getTupple()),playerCell.rad)
     ##pygame.draw.circle(screen,(10,255,10),(playerCell.location_compensated()),2)
