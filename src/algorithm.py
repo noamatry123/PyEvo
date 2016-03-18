@@ -26,7 +26,7 @@ class pyAlgorithm:
         ##(cell,angle,carnivore,eggwithdraw,food,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength=0):
         self.screenheight=height
         self.screenwidth=width
-        angle=0
+        angle=4
         lifewithdraw=self.framerate
         carnivore=0
         eggwithdraw=self.framerate
@@ -40,7 +40,7 @@ class pyAlgorithm:
         timeToLay=15
         eggHatchTime=3
         strength=10
-        self.myCell=classes.baseCell(None,angle,1,eggwithdraw,10000000,foodWithdraw,0,1000000,classes.Location(400,400),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength)
+        self.myCell=classes.baseCell(None,angle,1,eggwithdraw,20,foodWithdraw,0,30,classes.Location(400,400),speed,rad,lifewithdraw,1,AI,vision,eggHatchTime,strength)
         self.myCell.base90, self.myCell.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
         self.myCell.image=self.myCell.base90
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,1,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
@@ -104,13 +104,13 @@ class pyAlgorithm:
         key=pygame.key.get_pressed()
         #check for hold
         if key[pygame.K_LEFT]:
-            if self.__lastTimeSinceKey["Left"]>consts.framerate/11:
+            if self.__lastTimeSinceKey["Left"]>consts.framerate/17:
                 returnList.append("OLeft")
                 self.__lastTimeSinceKey["Left"]=0
             else:
                 self.__lastTimeSinceKey["Left"]+=1
         if key[pygame.K_RIGHT]:
-            if self.__lastTimeSinceKey["Right"]>consts.framerate/11:
+            if self.__lastTimeSinceKey["Right"]>consts.framerate/17:
                 returnList.append("ORight")
                 self.__lastTimeSinceKey["Right"]=0
             else:
@@ -242,3 +242,9 @@ class pyAlgorithm:
 
         consts.counter=self._counter
         self.__kinput=[]
+
+        if self.myCell.dead:
+            choice=None
+            while choice!="Okay":
+                choice = graphics.askBoard("Prompt","You have died")
+                pygame.quit()

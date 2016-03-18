@@ -10,7 +10,8 @@ import Buttons
 screen=None
 clock=None
 myfont =pygame.font.SysFont("Ariel", 20)
-myfont1=pygame.font.SysFont("Ariel", 40)
+myfont1=pygame.font.SysFont("Ariel", 30)
+myfont2=pygame.font.SysFont("Ariel", 20)
 last_clickcheck=None
 
 def printAtt(playerCell):
@@ -50,8 +51,8 @@ def askBoard(mode, text,option1="",option2="",text2=""):
         for i in range(0,len(plabel)):
             screen.blit(plabel[i],(screencenter[0]-100,10+i*20))
         #Parameters:          surface,      color,       x,                         y,              length, height, width,       text,      text_color
-        Button1.create_button(screen, (107,142,35), screencenter_below[0]+100, screencenter_below[1], 200,    100,    0,        option1, (255,255,255))
-        Button2.create_button(screen, (107,142,35), screencenter_below[0]-100, screencenter_below[1], 200,    100,    0,        option2, (255,255,255))
+        Button1.create_button(screen, (107,142,35), 40,                        consts.screenheight-40-100, 300,    100,    0,        option1, (255,255,255))
+        Button2.create_button(screen, (107,142,35), consts.screenwidth-40-300, consts.screenheight-40-100, 300,    100,    0,        option2, (255,255,255))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -68,14 +69,14 @@ def askBoard(mode, text,option1="",option2="",text2=""):
         for p in ptext:
             plabel.append(myfont1.render(p, 1, (0,0,0)))
         for i in range(0,len(plabel)):
-            screen.blit(plabel[i],(screencenter[0]-(screencenter[0]/2+screencenter[0]/4),i*30))
+            screen.blit(plabel[i],(screencenter[0]-(screencenter[0]/2+screencenter[0]/4),10+i*25))
         for p in ptext2:
             plabel2.append(myfont1.render(p, 1, (0,0,0)))
         for i in range(0,len(plabel2)):
-            screen.blit(plabel2[i],(screencenter[0]+(screencenter[0]/2+screencenter[0]/4),i*30))
+            screen.blit(plabel2[i],(screencenter[0]+(screencenter[0]/2+screencenter[0]/4),10+i*25))
         #Parameters:          surface,      color,       x,                         y,              length, height, width,       text,      text_color
-        Button1.create_button(screen, (107,142,35), screencenter_below[0]+100, screencenter_below[1], 200,    100,    0,        option1, (255,255,255))
-        Button2.create_button(screen, (107,142,35), screencenter_below[0]-100, screencenter_below[1], 200,    100,    0,        option2, (255,255,255))
+        Button1.create_button(screen, (107,142,35), (screencenter[0]),80,         100,    100,    0,        option1, (255,255,255))
+        Button2.create_button(screen, (107,142,35), (screencenter[0]), 80+100+40, 100,    100,    0,        option2, (255,255,255))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -90,7 +91,7 @@ def askBoard(mode, text,option1="",option2="",text2=""):
 
 def drawBoard(playerCell,cellList,foodList,eggList):
     IDtempfont=pygame.font.SysFont("Ariel", 20)
-    ##fill screen
+    ##fill screen / season
     if consts.season==0:
         screen.fill((255,255,0))
     elif consts.season==1:
