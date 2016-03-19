@@ -26,7 +26,7 @@ def nextStep(playerCell,cellList,foodList,currCell):
         input1=AI2(currCell,foodsee,cellsee)
     elif currCell.AI==3:
         input1=AI3(currCell,foodsee,cellsee)
-    elif currCell.AI==4:
+    elif currCell.AI>=4:
         input1=AI4(currCell,foodsee,cellsee)
     elif currCell.AI==-1: ## dont move for debug purposes
         input1 = []
@@ -258,6 +258,11 @@ def bestMate(cell,cellList):
     pass
 def goto(cell,object):
     input=[]
+    if kindOfTheSame(cell.location.y,object.location.y):
+        if cell.location.x>object.location.x:#6
+            input=moveLeft(cell)
+        if cell.location.x<object.location.x:#2
+            input=moveRight(cell)
     if cell.location.y<object.location.y:#target is under cell
         if kindOfTheSame(cell.location.x,object.location.x):#4
             input=moveDown(cell)
@@ -284,24 +289,15 @@ def goto(cell,object):
                 input=moveUp(cell)
             else:#if yes move left
                 input=moveRight(cell)
+    return input
+def goodGoTo(cell,object):
+    input=[]
+    input=AI1(cell)
     if kindOfTheSame(cell.location.y,object.location.y):
         if cell.location.x>object.location.x:#6
             input=moveLeft(cell)
         if cell.location.x<object.location.x:#2
             input=moveRight(cell)
-    return input
-def goodGoTo(cell,object):
-    input=[]
-    if cell.location.y<object.location.y:#target is under cell
-        if kindOfTheSame(cell.location.x,object.location.x):#4
-            input=moveDown(cell)
-        elif cell.location.x>object.location.x:#5
-            input=moveDL(cell)
-        elif cell.location.x<object.location.x:#3
-            input=moveDR(cell)
-        else:
-            input=AI1(cell)
-            return
     elif cell.location.y>object.location.y:#target is above cell
         if kindOfTheSame(cell.location.x,object.location.x):#0
             input=moveUp(cell)
@@ -309,20 +305,16 @@ def goodGoTo(cell,object):
             input=moveUL(cell)
         elif cell.location.x<object.location.x:#1
             input=moveUR(cell)
-        else:
-            input=AI1(cell)
-    elif kindOfTheSame(cell.location.y,object.location.y):
-        if cell.location.x>object.location.x:#6
-            input=moveLeft(cell)
-        if cell.location.x<object.location.x:#2
-            input=moveRight(cell)
-        else:
-            input=AI1(cell)
-    else:
-            input=AI1(cell)
+    elif cell.location.y<object.location.y:#target is under cell
+        if kindOfTheSame(cell.location.x,object.location.x):#4
+            input=moveDown(cell)
+        elif cell.location.x>object.location.x:#5
+            input=moveDL(cell)
+        elif cell.location.x<object.location.x:#3
+            input=moveDR(cell)
     return input
 def kindOfTheSame(a1,a2):
-    if a1==a2 or a1+1==a2 or a1-1==a2 or a1+2==a2 or a1-2==a2 or a1+3==a2 or a1-3==a2:
+    if a1==a2 or a1+1==a2 or a1-1==a2 or a1+2==a2 or a1-2==a2 or a1+3==a2 or a1-3==a2 or a1-4==a2 or a1+4==a2:
         return True
     else:
         return False
@@ -330,35 +322,36 @@ def moveUR(cell):
     input=[]
     if cell.angle==1:#1
         input.append("Up")
-    if 1<cell.angle<=5:#2345
+    elif 1<cell.angle<=5:#2345
         input.append("OLeft")
-    if 6<=cell.angle<=7 or 0==cell.angle:#670
+    elif 6<=cell.angle<=7 or 0==cell.angle:#670
         input.append("ORight")
     return input
 def moveDR(cell):
     input=[]
     if cell.angle==3:#3
         input.append("Up")
-    if 3<cell.angle<=7:#4567
+    elif 3<cell.angle<=7:#4567
         input.append("OLeft")
-    if 0<=cell.angle<=2 :#012
+    elif 0<=cell.angle<=2 :#012
         input.append("ORight")
     return input
 def moveDL(cell):
     input=[]
     if cell.angle==5:#5
         input.append("Up")
-    if 1<=cell.angle<5:#1234
+    elif 1<=cell.angle<5:#1234
         input.append("ORight")
-    if 6<=cell.angle<=7 or 0==cell.angle:#670
+    elif 6<=cell.angle<=7 or 0==cell.angle:#670
         input.append("OLeft")
+    return input
 def moveUL(cell):
     input=[]
     if cell.angle==7:#7
         input.append("Up")
-    if 3<=cell.angle<7:#3456
+    elif 3<=cell.angle<7:#3456
         input.append("ORight")
-    if 0<=cell.angle<=2 :#012
+    elif 0<=cell.angle<=2 :#012
         input.append("OLeft")
     return input
 def moveRight(cell):
