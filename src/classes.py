@@ -423,7 +423,10 @@ class AbCell:
         list.append("food: "+str(self.food))
         list.append("foodWithdraw: "+str(self.foodWithdraw))
         list.append("ID: "+str(self.ID))
-        list.append("lastmother: "+str(self.lastMother.ID))
+        if self.lastMother==None:
+            list.append("lastmother: None")
+        else:
+            list.append("lastmother: "+str(self.lastMother.ID))
         list.append("lifeTime: "+str(self.lifeTime))
         list.append("lifeWithdraw: "+str(self.lifewithdraw))
         list.append("speed: "+str(self.speed))
@@ -445,7 +448,10 @@ class AbCell:
         list.append("timeToLay(Left): "+str(self.timeToLay) + "(" + str(self.timeToLayLeft)+")")
         list.append("carnivore: "+str(self.carnivore))
         list.append("ID: "+str(self.ID))
-        list.append("lastmother: "+str(self.lastMother.ID))
+        if self.lastMother==None:
+            list.append("lastmother: None")
+        else:
+            list.append("lastmother: "+str(self.lastMother.ID))
         list.append("speed: "+str(self.speed))
         list.append("eggHatchTime: "+str(self.eggHatchTime))
         list.append("mode : "+str(self.mode))
@@ -559,7 +565,7 @@ class baseCell(AbCell):
             self.speed=speed
             self.eggHatchTime=eggHatchTime
             self.mode='m'
-            self.lastMother=self
+            self.lastMother=None
             self.strength=strength
             self.base90, self.base45 = pygame.image.load('src/IMG/e_HeadD.png'),pygame.image.load('src/IMG/e_HeadUL.png')
             self.image=self.base90
@@ -583,7 +589,7 @@ class baseCell(AbCell):
             self.speed=cell.speed
             self.eggHatchTime=cell.eggHatchTime
             self.mode='m'
-            self.lastMother=self
+            self.lastMother=None
             self.strength=cell.strength
             self.base90, self.base45 = pygame.image.load('src/IMG/e_HeadD.png'),pygame.image.load('src/IMG/e_HeadUL.png')
             self.image=self.base90

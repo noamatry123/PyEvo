@@ -33,7 +33,7 @@ class pyAlgorithm:
         food=15
         foodWithdraw=consts.framerate
         rad=10
-        AI=4
+        AI=3
         vision=500
         lifeTime=20
         speed=15
@@ -45,9 +45,11 @@ class pyAlgorithm:
         self.myCell.base90, self.myCell.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
         self.myCell.image=self.myCell.base90
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,1,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
+
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,2,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,3,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,4,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
+        """
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,5,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,6,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,7,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
@@ -55,6 +57,7 @@ class pyAlgorithm:
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,9,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,10,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
         self.cellEggs.append(self.cellList[0].layEgg())
+"""
         ##self.cellEggs[0].mixPlayerCells(self.myCell,self.myCell)
         ##self.cellEggs.append(classes.Egg((100,100),self.cellList[0],None,6,0))
         for i in xrange(10):
@@ -164,8 +167,9 @@ class pyAlgorithm:
                 if "Up" in input:
                     cell.move()
                 if "a" in input:
-                    if cell.timeToLayLeft==0 and cell.lastMother!=cell:
+                    if cell.timeToLayLeft==0 and cell.lastMother!=None:
                         self.cellEggs.append(cell.layEgg())
+                        cell.lastMother=None
             cell.checkEat(self.foodList)
             cell.consumeFood(self._counter)
             cell.consumeLife(self._counter)
@@ -178,7 +182,8 @@ class pyAlgorithm:
 
 
         if "a" in inputlist:
-            if self.myCell.timeToLayLeft==0 and self.myCell.lastMother!=self.myCell:
+            if self.myCell.timeToLayLeft==0 and self.myCell.lastMother!=None:
+                self.myCell.lastMother=None
                 self.myEggs.append(self.myCell.layEgg(True))
 
         if "c" in inputlist: ##carnivore or mating
@@ -216,9 +221,9 @@ class pyAlgorithm:
                             else: ##cant eat
                                 print str(cell.ID), "hurt", str(otherCell.ID), "but did not kill him."
                     if cell.mode=='m': ##mate
-                        if otherCell.mode=='m' and not (cell.lastMother.ID==otherCell.ID): ##mate too
-                            cell.lastMother=classes.baseCell(otherCell)
-                            otherCell.lastMother=classes.baseCell(cell)
+                        if otherCell.mode=='m': ##mate too
+                            cell.lastMother=otherCell
+                            otherCell.lastMother=cell
 
 
         #grow more food

@@ -78,7 +78,7 @@ def AI2(cell,foodList,cellList):
         input=AI1(cell)
         return input
     ##search mate if its mating time
-    if cell.timeToLayLeft<cell.timeToLay/3 and len(cellList)!=0:
+    if cell.timeToLayLeft<cell.timeToLay/3 and cell.lastMother==None:
         i=random.randint(0,len(cellList)-1)
         if cell!=cellList[i]:
             if cell.target==None:
@@ -91,7 +91,7 @@ def AI2(cell,foodList,cellList):
             input=goto(cell,cell.target)
             if cell.mode!="m":
                 input.append("c")
-            if cell.timeToLayLeft==0 and cell.lastMother!=cell:##lay egg if possible
+            if cell.timeToLayLeft==0 and cell.lastMother!=None:##lay egg if possible
                 input.append("a")
             return input
     ##search food
@@ -130,7 +130,7 @@ def AI2(cell,foodList,cellList):
             else:
                 cell.target=foodList[i]
         input=goto(cell,cell.target)
-    if cell.timeToLayLeft==0 and cell.lastMother!=cell:##lay egg if possible
+    if cell.timeToLayLeft==0 and cell.lastMother!=None:##lay egg if possible
             input.append("a")
     return input
 """
@@ -141,7 +141,7 @@ def AI3(cell,foodList,cellList):
     if len(foodList)==0:
         input=AI1(cell)
         return input
-    if cell.timeToLayLeft<cell.timeToLay/3:
+    if cell.timeToLayLeft<cell.timeToLay/3 and cell.lastMother==None:
         target=closestFood(cell,cellList)
         if cell!=target:
             if cell.target==None:
@@ -154,7 +154,7 @@ def AI3(cell,foodList,cellList):
             input=goto(cell,cell.target)
             if cell.mode!="m":
                 input.append("c")
-            if cell.timeToLayLeft==0 and cell.lastMother!=cell:##lay egg if possible
+            if cell.timeToLayLeft==0 and cell.lastMother!=None:##lay egg if possible
                 input.append("a")
             return input
     ##search food
@@ -190,7 +190,7 @@ def AI3(cell,foodList,cellList):
             else:
                 cell.target=closestFood(cell,foodList)
         input=goto(cell,cell.target)
-    if cell.timeToLayLeft==0 and cell.lastMother!=cell:##lay egg if possible
+    if cell.timeToLayLeft==0 and cell.lastMother!=None:##lay egg if possible
             input.append("a")
     return input
 """
@@ -201,7 +201,7 @@ def AI4(cell,foodList,cellList):
     if len(foodList)==0:
         input=AI1(cell)
         return input
-    if cell.timeToLayLeft<cell.timeToLay/3:
+    if cell.timeToLayLeft<cell.timeToLay/3 and cell.lastMother==None:
         #target=bestMate(cell,cellList)##fill
         target=closestFood(cell,cellList)
         if cell!=target:
@@ -215,7 +215,7 @@ def AI4(cell,foodList,cellList):
             input=goodGoTo(cell,cell.target)
             if cell.mode!="m":
                 input.append("c")
-            if cell.timeToLayLeft==0 and cell.lastMother!=cell:##lay egg if possible
+            if cell.timeToLayLeft==0 and cell.lastMother!=None:##lay egg if possible
                 input.append("a")
             return input
     ##search food
@@ -251,7 +251,7 @@ def AI4(cell,foodList,cellList):
             else:
                 cell.target=closestFood(cell,foodList)
         input=goodGoTo(cell,cell.target)
-    if cell.timeToLayLeft==0 and cell.lastMother!=cell:##lay egg if possible
+    if cell.timeToLayLeft==0 and cell.lastMother!=None:##lay egg if possible
             input.append("a")
     return input
 def bestMate(cell,cellList):
@@ -263,7 +263,7 @@ def goto(cell,object):
             input=moveLeft(cell)
         if cell.location.x<object.location.x:#2
             input=moveRight(cell)
-    if cell.location.y<object.location.y:#target is under cell
+    elif cell.location.y<object.location.y:#target is under cell
         if kindOfTheSame(cell.location.x,object.location.x):#4
             input=moveDown(cell)
         if cell.location.x>object.location.x:#5
@@ -276,7 +276,7 @@ def goto(cell,object):
                 input=moveDown(cell)
             else:#if yes move right
                 input=moveRight(cell)
-    if cell.location.y>object.location.y:#target is above cell
+    elif cell.location.y>object.location.y:#target is above cell
         if kindOfTheSame(cell.location.x,object.location.x):#0
             input=moveUp(cell)
         if cell.location.x>object.location.x:#7
@@ -394,7 +394,7 @@ def closestFood(cell,foodList):
     big=10000000
     index=None
     for food in foodList:
-        if math.sqrt(((cell.location.x-food.location.x)**2)+((cell.location.y-food.location.y)**2))<big:
+        if math.sqrt(((cell.location.x-food.location.x)**2)+((cell.location.y-food.location.y)**2))<big and math.sqrt(((cell.location.x-food.location.x)**2)+((cell.location.y-food.location.y)**2))!=0 :
             big=math.sqrt(((cell.location.x-food.location.x)**2)+((cell.location.y-food.location.y)**2))
             index=food
     return index
