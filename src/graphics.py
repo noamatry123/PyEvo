@@ -66,12 +66,38 @@ def askBoard(mode, text,option1="",option2="",text2=""):
         ptext2=text2.split("\n")
         plabel=[]
         plabel2=[]
-        for p in ptext:
-            plabel.append(myfont1.render(p, 1, (0,0,0)))
+        color1=(0,0,0)
+        color2=(0,0,0)
+        for p,p2 in zip(ptext,ptext2):
+            if p in ["new","old"]:
+                    color1=(0,0,0)
+                    color2=(0,0,0)
+            #bad if bigger
+            elif p[0:p.find(":")]in ["timeToLay","foodWithdraw","lifeWithdraw","eggHatchTime"]:
+                if p[p.find(":"):len(p)]>p2[p2.find(":"):len(p)]:
+                    color1=(255,0,0)
+                    color2=(0,255,0)
+                elif p[p.find(":"):len(p)]<p2[p2.find(":"):len(p)]:
+                    color1=(0,255,0)
+                    color2=(255,0,0)
+                else:
+                    color1=(0,0,0)
+                    color2=(0,0,0)
+            #bad if smaller
+            else:
+                if p[p.find(":"):len(p)]>p2[p2.find(":"):len(p)]:
+                    color1=(0,255,0)
+                    color2=(255,0,0)
+                elif p[p.find(":"):len(p)]<p2[p2.find(":"):len(p)]:
+                    color1=(255,0,0)
+                    color2=(0,255,0)
+                else:
+                    color1=(0,0,0)
+                    color2=(0,0,0)
+            plabel.append(myfont1.render(p, 1, color1))
+            plabel2.append(myfont1.render(p2, 1, color2))
         for i in range(0,len(plabel)):
             screen.blit(plabel[i],(screencenter[0]-(screencenter[0]/2+screencenter[0]/4),10+i*25))
-        for p in ptext2:
-            plabel2.append(myfont1.render(p, 1, (0,0,0)))
         for i in range(0,len(plabel2)):
             screen.blit(plabel2[i],(screencenter[0]+(screencenter[0]/2+screencenter[0]/4),10+i*25))
         #Parameters:          surface,      color,       x,                         y,              length, height, width,       text,      text_color

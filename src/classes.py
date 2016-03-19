@@ -77,7 +77,7 @@ class Egg:
     def chooseCell(self,newCell):
         newtext="new\n"
         oldtext="old\n"
-        newatt,oldatt=newCell.getAtts(),self.father.getAtts()
+        newatt,oldatt=newCell.getOldNewAtts(),self.father.getOldNewAtts()
         for i in range(0,len(newatt)):
             newtext+=newatt[i]+"\n"
         for i in range(0,len(oldatt)):
@@ -118,10 +118,10 @@ class Egg:
                 elif i==3: ##carnivore
                     if mutationscale[i]<0:
                         cell.carnivore=0
-                        text+=str(cell.ID)+" mutated carnivore negative"
+                        text+=str(cell.ID)+" mutated carnivore negative\n"
                     else:
                         cell.carnivore=1
-                        text+=str(cell.ID)+" mutated carnivore positive"
+                        text+=str(cell.ID)+" mutated carnivore positive\n"
                 elif i==5: ##foodWithdraw
                     cell.foodWithdraw+=mutationscale[i]
                     if mutationscale[i]<0:
@@ -451,6 +451,20 @@ class AbCell:
         list.append("mode : "+str(self.mode))
         list.append("strength: "+str(self.strength))
         return list
+    def getOldNewAtts(self):
+        list=[]
+        list.append("timeToLay: "+str(self.timeToLay))
+        list.append("eggWithDraw: "+str(self.eggwithdraw))
+        list.append("carnivore: "+str(self.carnivore))
+        list.append("foodWithdraw: "+str(self.foodWithdraw))
+        list.append("lifeTime: "+str(self.lifeTime))
+        list.append("lifeWithdraw: "+str(self.lifewithdraw))
+        list.append("speed: "+str(self.speed))
+        list.append("AI: "+str(self.AI))
+        list.append("vision: "+str(self.vision))
+        list.append("eggHatchTime: "+str(self.eggHatchTime))
+        list.append("strength: "+str(self.strength))
+        return list
     def layEgg(self,Player=False):
         egg=Egg(self.location,baseCell(self),baseCell(self.lastMother),6,self.eggHatchTime,Player)
         self.timeToLayLeft=self.timeToLay
@@ -569,7 +583,7 @@ class baseCell(AbCell):
             self.speed=cell.speed
             self.eggHatchTime=cell.eggHatchTime
             self.mode='m'
-            self.lastMother=cell.lastMother
+            self.lastMother=self
             self.strength=cell.strength
             self.base90, self.base45 = pygame.image.load('src/IMG/e_HeadD.png'),pygame.image.load('src/IMG/e_HeadUL.png')
             self.image=self.base90

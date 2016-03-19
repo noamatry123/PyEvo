@@ -6,9 +6,8 @@ import easygui
 import consts
 import pygame
 def main():
-    consts.screenwidth=int(easygui.enterbox("Enter width","","800"))
-    consts.screenheight=int(easygui.enterbox("Enter height","","600"))
-
+    consts.screenwidth=int(easygui.enterbox("Enter width","","1366"))
+    consts.screenheight=int(easygui.enterbox("Enter height","","768"))
     algoModule = algorithm.pyAlgorithm(consts.screenwidth,consts.screenheight)
     running = True
     text="Empty"

@@ -27,23 +27,25 @@ class pyAlgorithm:
         self.screenheight=height
         self.screenwidth=width
         angle=4
-        lifewithdraw=self.framerate
+        lifewithdraw=consts.framerate
         carnivore=0
-        eggwithdraw=self.framerate
-        food=30
-        foodWithdraw=self.framerate
+        eggwithdraw=consts.framerate
+        food=15
+        foodWithdraw=consts.framerate
         rad=10
-        AI=0
-        vision=50
+        AI=4
+        vision=500
         lifeTime=20
         speed=15
-        timeToLay=15
+        timeToLay=10
         eggHatchTime=3
         strength=10
-        self.myCell=classes.baseCell(None,angle,1,eggwithdraw,20,foodWithdraw,0,30,classes.Location(400,400),speed,rad,lifewithdraw,1,AI,vision,eggHatchTime,strength)
+        #                            cell,angle,carnivore,eggwithdraw,foodleft,foodwithdraw,ID,Lifetime,location,speed,rad,lifewithdeaw,timetolay,AI,vision,eggHatchtime,strngth
+        self.myCell=classes.baseCell(None,angle,1,eggwithdraw,1000,foodWithdraw,0,1000,classes.Location(400,400),speed,rad,lifewithdraw,2,AI,vision,eggHatchTime,strength)
         self.myCell.base90, self.myCell.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
         self.myCell.image=self.myCell.base90
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,1,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
+        """
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,2,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,3,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,4,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
@@ -54,6 +56,7 @@ class pyAlgorithm:
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,9,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,10,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
         self.cellEggs.append(self.cellList[0].layEgg())
+        """
         ##self.cellEggs[0].mixPlayerCells(self.myCell,self.myCell)
         ##self.cellEggs.append(classes.Egg((100,100),self.cellList[0],None,6,0))
         for i in xrange(10):
@@ -163,7 +166,7 @@ class pyAlgorithm:
                 if "Up" in input:
                     cell.move()
                 if "a" in input:
-                    if cell.timeToLayLeft==0:
+                    if cell.timeToLayLeft==0 and cell.lastMother!=cell:
                         self.cellEggs.append(cell.layEgg())
             cell.checkEat(self.foodList)
             cell.consumeFood(self._counter)
@@ -177,7 +180,7 @@ class pyAlgorithm:
 
 
         if "a" in inputlist:
-            if self.myCell.timeToLayLeft==0:
+            if self.myCell.timeToLayLeft==0 and self.myCell.lastMother!=self.myCell:
                 self.myEggs.append(self.myCell.layEgg(True))
 
         if "c" in inputlist: ##carnivore or mating
