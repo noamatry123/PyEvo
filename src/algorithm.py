@@ -33,7 +33,7 @@ class pyAlgorithm:
         food=15
         foodWithdraw=consts.framerate
         rad=10
-        AI=3
+        AI=2
         vision=500
         lifeTime=20
         speed=15
@@ -64,7 +64,7 @@ class pyAlgorithm:
             self.putFood()
 
     def putFood(self):
-        self.foodList.append(classes.Food(classes.Location(random.randint(0,consts.screenwidth),random.randint(0,consts.screenheight)),10,5))
+        self.foodList.append(classes.Food(classes.Location(random.randint(0,consts.screenwidth),random.randint(0,consts.screenheight)),1,5))
     def growCellEggs(self):
         for egg in self.cellEggs:
             if egg.timeToHatch==0:
@@ -183,8 +183,8 @@ class pyAlgorithm:
 
         if "a" in inputlist:
             if self.myCell.timeToLayLeft==0 and self.myCell.lastMother!=None:
-                self.myCell.lastMother=None
                 self.myEggs.append(self.myCell.layEgg(True))
+                self.myCell.lastMother=None
 
         if "c" in inputlist: ##carnivore or mating
             if self.myCell.mode=='m':

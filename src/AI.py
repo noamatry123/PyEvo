@@ -11,7 +11,6 @@ ai1=random movement
 ai2=random food,random mate,doesnt move across
 ai3=closest food,closest mate,doesnt move across
 ai4-closest food,best mate,does move across
-
 """
 def nextStep(playerCell,cellList,foodList,currCell):
     foodsee=[]
@@ -88,7 +87,8 @@ def AI2(cell,foodList,cellList):
                     pass
                 else:
                     cell.target=cellList[i]
-            input=goto(cell,cell.target)
+            if cell.target!=None:
+                input=goto(cell,cell.target)
             if cell.mode!="m":
                 input.append("c")
             if cell.timeToLayLeft==0 and cell.lastMother!=None:##lay egg if possible
@@ -107,7 +107,8 @@ def AI2(cell,foodList,cellList):
                     pass
                 else:
                     cell.target=foodList[i]
-            input=goto(cell,cell.target)
+            if cell.target!=None:
+                input=goto(cell,cell.target)
         else:#real food
             i=random.randint(0,len(cellList)-1)
             if cell.target==None:
@@ -117,7 +118,8 @@ def AI2(cell,foodList,cellList):
                     pass
                 else:
                     cell.target=cellList[i]
-            input=goto(cell,cell.target)
+            if cell.target!=None:
+                input=goto(cell,cell.target)
             if cell.mode!="c":
                 input.append("c")
     else:
@@ -129,7 +131,8 @@ def AI2(cell,foodList,cellList):
                 pass
             else:
                 cell.target=foodList[i]
-        input=goto(cell,cell.target)
+        if cell.target!=None:
+            input=goto(cell,cell.target)
     if cell.timeToLayLeft==0 and cell.lastMother!=None:##lay egg if possible
             input.append("a")
     return input
@@ -169,7 +172,8 @@ def AI3(cell,foodList,cellList):
                     pass
                 else:
                     cell.target=closestFood(cell,foodList)
-            input=goto(cell,cell.target)
+            if cell.target!=None:
+                input=goto(cell,cell.target)
         else:#real food
             if cell.target==None:
                 cell.target=closestFood(cell,cellList)
@@ -178,7 +182,8 @@ def AI3(cell,foodList,cellList):
                     pass
                 else:
                     cell.target=closestFood(cell,cellList)
-            input=goto(cell,cell.target)
+            if cell.target!=None:
+                input=goto(cell,cell.target)
             if cell.mode!="c":
                 input.append("c")
     else:
@@ -189,7 +194,8 @@ def AI3(cell,foodList,cellList):
                 pass
             else:
                 cell.target=closestFood(cell,foodList)
-        input=goto(cell,cell.target)
+        if cell.target!=None:
+            input=goto(cell,cell.target)
     if cell.timeToLayLeft==0 and cell.lastMother!=None:##lay egg if possible
             input.append("a")
     return input
