@@ -64,20 +64,26 @@ def askBoard(mode, text,option1="",option2="",text2=""):
     if mode=="manualAuto":
         ptext=text.split("\n")
         ptext2=text2.split("\n")
+        ptext.remove("")
+        ptext2.remove("")
         plabel=[]
         plabel2=[]
         color1=(0,0,0)
         color2=(0,0,0)
+        pt1=""
+        pt2=""
         for p,p2 in zip(ptext,ptext2):
+            pt1=p[p.find(":")+1:len(p)]
+            pt2=p2[p2.find(":")+1:len(p2)]
             if p in ["new","old"]:
                     color1=(0,0,0)
                     color2=(0,0,0)
             #bad if bigger
             elif p[0:p.find(":")]in ["timeToLay","foodWithdraw","lifeWithdraw","eggHatchTime"]:
-                if p[p.find(":"):len(p)]>p2[p2.find(":"):len(p)]:
+                if int(pt1)>int(pt2):
                     color1=(255,0,0)
                     color2=(0,255,0)
-                elif p[p.find(":"):len(p)]<p2[p2.find(":"):len(p)]:
+                elif int(pt1)<int(pt2):
                     color1=(0,255,0)
                     color2=(255,0,0)
                 else:
@@ -85,10 +91,10 @@ def askBoard(mode, text,option1="",option2="",text2=""):
                     color2=(0,0,0)
             #bad if smaller
             else:
-                if p[p.find(":"):len(p)]>p2[p2.find(":"):len(p)]:
+                if int(pt1)>int(pt2):
                     color1=(0,255,0)
                     color2=(255,0,0)
-                elif p[p.find(":"):len(p)]<p2[p2.find(":"):len(p)]:
+                elif int(pt1)<int(pt2):
                     color1=(255,0,0)
                     color2=(0,255,0)
                 else:
