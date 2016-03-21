@@ -92,7 +92,7 @@ class Egg:
         text=""
         mutationchance=50
         goodbadchance=50
-        mutationscale=[10,10,10,1,1234,10,1234,1234,10,10,5,1234,1234,1,50,2,0,0,0,0,5] ##how much to mutate in every cell
+        mutationscale=[10,10,10,1,1234,10,1234,1234,10,10,1,1234,1234,1,50,2,0,0,0,0,5] ##how much to mutate in every cell
         attIgnoreList=[0,4,6,7,11,12,16,17,18,19] ##what not to mutate
 
         for i in xrange(0,len(cell.getAtts())):
@@ -141,7 +141,7 @@ class Egg:
                     else:
                         text+=str(cell.ID)+" mutated lifetimeWithdraw by "+str(mutationscale[i])+"\n"
                 elif i==10: ##speed
-                    cell.speed+=mutationscale[i]
+                    cell.speed=(cell.speed+mutationscale[i])%5
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated speed by "+str(mutationscale[i])+"\n"
                     else:
@@ -502,6 +502,39 @@ class AbCell:
 
         return compensated_x,compensated_y
     def move(self):
+        if self.speed==1:
+            a=3
+            b=4
+        elif self.speed==2:
+            a=4
+            b=5
+        elif self.speed==3:
+            a=5
+            b=6
+        elif self.speed==4:
+            a=6
+            b=7
+        if self.angle==0:#up
+            self.location.y=(self.location.y-b)%consts.screenheight
+        elif self.angle==1:#up right
+            self.location.y=(self.location.y-a)%consts.screenheight
+            self.location.x=(self.location.x+a)%consts.screenwidth
+        elif self.angle==2:#right
+            self.location.x=(self.location.x+b)%consts.screenwidth
+        elif self.angle==3:#down right
+            self.location.y=(self.location.y+a)%consts.screenheight
+            self.location.x=(self.location.x+a)%consts.screenwidth
+        elif self.angle==4:#down
+            self.location.y=(self.location.y+b)%consts.screenheight
+        elif self.angle==5:#down left
+            self.location.y=(self.location.y+a)%consts.screenheight
+            self.location.x=(self.location.x-a)%consts.screenwidth
+        elif self.angle==6:#left
+            self.location.x=(self.location.x-b)%consts.screenwidth
+        elif self.angle==7:#left up
+            self.location.y=(self.location.y-a)%consts.screenheight
+            self.location.x=(self.location.x-a)%consts.screenwidth
+        """
         if self.timeToMove<=0:
             if self.angle==0:#up
                 self.location.y=(self.location.y-4)%consts.screenheight
@@ -523,9 +556,10 @@ class AbCell:
             elif self.angle==7:#left up
                 self.location.y=(self.location.y-3)%consts.screenheight
                 self.location.x=(self.location.x-3)%consts.screenwidth
-            self.timeToMove+=consts.framerate/4
+            self.timeToMove+=consts.framerate
         else:
             self.timeToMove-=self.speed
+            """
     def consumeFood(self,tick):
         if tick%self.foodWithdraw==0:
             self.foodLeft-=1

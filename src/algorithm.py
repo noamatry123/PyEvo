@@ -21,7 +21,6 @@ class pyAlgorithm:
     foodList=[]
     screenwidth=0
     screenheight=0
-    framerate=100
     def __init__(self,height,width): #temp
         ##(cell,angle,carnivore,eggwithdraw,food,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength=0):
         self.screenheight=height
@@ -36,12 +35,12 @@ class pyAlgorithm:
         AI=2
         vision=500
         lifeTime=20
-        speed=15
+        speed=1
         timeToLay=10
         eggHatchTime=3
         strength=10
         #                            cell,angle,carnivore,eggwithdraw,foodleft,foodwithdraw,ID,Lifetime,location,speed,rad,lifewithdeaw,timetolay,AI,vision,eggHatchtime,strngth
-        self.myCell=classes.baseCell(None,angle,1,eggwithdraw,1000,foodWithdraw,0,1000,classes.Location(400,400),50,rad,lifewithdraw,2,AI,vision,eggHatchTime,strength)
+        self.myCell=classes.baseCell(None,angle,1,eggwithdraw,1000,foodWithdraw,0,1000,classes.Location(400,400),1,rad,lifewithdraw,2,AI,vision,eggHatchTime,strength)
         self.myCell.base90, self.myCell.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
         self.myCell.image=self.myCell.base90
         self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,1,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))

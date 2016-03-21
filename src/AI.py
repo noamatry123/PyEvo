@@ -154,7 +154,8 @@ def AI3(cell,foodList,cellList):
                     pass
                 else:
                     cell.target=target
-            input=goto(cell,cell.target)
+            if cell.target!=None:
+                input=goto(cell,cell.target)
             if cell.mode!="m":
                 input.append("c")
             if cell.timeToLayLeft==0 and cell.lastMother!=None:##lay egg if possible
