@@ -143,7 +143,10 @@ def drawBoard(playerCell,cellList,foodList,eggList):
             ##pygame.draw.circle(screen,(10,255,10),(cell.location_compensated()),2)
             screen.blit(cell.image,(cell.location.x-cell.rad,cell.location.y-cell.rad))
             ##draw IDs:
-            label = IDtempfont.render(str(cell.ID), 1, (255,255,0))
+            color=(0,0,0)
+            if cell.mode=="c":
+                color=(255,0,0)
+            label = IDtempfont.render(str(cell.ID), 1, color)
             screen.blit(label,(cell.location.x+5,cell.location.y))
             ##draw life:
             label = IDtempfont.render(str(cell.lifeTimeLeft), 1, (0,0,0))
@@ -163,15 +166,12 @@ def drawBoard(playerCell,cellList,foodList,eggList):
     ##draw player
     ##pygame.draw.circle(screen,(0,0,0),(playerCell.location.getTupple()),playerCell.rad)
     ##pygame.draw.circle(screen,(10,255,10),(playerCell.location_compensated()),2)
-    screen.blit(playerCell.image,(playerCell.location.x-playerCell.rad,playerCell.location.y-playerCell.rad))
+    if playerCell.timeToHurt%2==0:
+        screen.blit(playerCell.image,(playerCell.location.x-playerCell.rad,playerCell.location.y-playerCell.rad))
 
-    ##draw player ID
-    label = IDtempfont.render(str(playerCell.ID), 1, (255,255,0))
-    screen.blit(label,(playerCell.location.x,playerCell.location.y))
-
-
-    if playerCell.dead:
-        pygame.draw.rect(screen,(0,0,0),(0,0,consts.screenwidth,consts.screenheight))
+        ##draw player ID
+        label = IDtempfont.render(str(playerCell.ID), 1, (255,255,0))
+        screen.blit(label,(playerCell.location.x,playerCell.location.y))
     ##tick and flip
 
 
