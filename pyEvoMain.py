@@ -14,7 +14,6 @@ def main():
     pygame.init()
     choice=easygui.boolbox("Fulscreen?","",["Yes","No"])
     if choice==0:
-
         screen = pygame.display.set_mode((consts.screenwidth, consts.screenheight))
     else:
         screen = pygame.display.set_mode((consts.screenwidth, consts.screenheight),pygame.FULLSCREEN)
