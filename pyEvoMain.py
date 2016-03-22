@@ -3,6 +3,7 @@ import classes
 import graphics
 import algorithm
 import easygui
+
 import consts
 import pygame
 def main():
@@ -10,6 +11,7 @@ def main():
     consts.screenheight=int(easygui.enterbox("Enter height","","768"))
     algoModule = algorithm.pyAlgorithm(consts.screenwidth,consts.screenheight)
     running = True
+
     text="Empty"
     pygame.init()
     choice=easygui.boolbox("Fulscreen?","",["Yes","No"])

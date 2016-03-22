@@ -9,7 +9,7 @@ import consts
 import Buttons
 screen=None
 clock=None
-myfont =pygame.font.SysFont("Ariel", 20)
+myfont =pygame.font.SysFont("Ariel", 30)
 myfont1=pygame.font.SysFont("Ariel", 30)
 myfont2=pygame.font.SysFont("Ariel", 20)
 last_clickcheck=None
@@ -19,7 +19,7 @@ def printAtt(playerCell):
     for att in playerCell.getUsefullAtts():
         label = myfont.render(att,1, (0,0,0))
         screen.blit(label, (0,counter))
-        counter+=20
+        counter+=30
 def askBoard(mode, text,option1="",option2="",text2=""):
     Button1 = Buttons.Button()
     Button2 = Buttons.Button()
@@ -151,6 +151,8 @@ def drawBoard(playerCell,cellList,foodList,eggList):
             ##draw life:
             label = IDtempfont.render(str(cell.lifeTimeLeft), 1, (0,0,0))
             screen.blit(label,(cell.location.x-15,cell.location.y))
+            pygame.draw.rect(screen,(255,0,0),(cell.location.x-10,cell.location.y-15,(30*(cell.lifeTimeLeft/float(cell.lifeTime))),6))
+
     for food in foodList:
         #pygame.draw.circle(screen,(80,255,80),(food.location.getTupple()),food.rad)
         screen.blit(food.image,(food.location.x-food.rad,food.location.y-food.rad))
@@ -168,7 +170,7 @@ def drawBoard(playerCell,cellList,foodList,eggList):
     ##pygame.draw.circle(screen,(10,255,10),(playerCell.location_compensated()),2)
     if playerCell.timeToHurt%2==0:
         screen.blit(playerCell.image,(playerCell.location.x-playerCell.rad,playerCell.location.y-playerCell.rad))
-
+        pygame.draw.rect(screen,(255,0,0),(playerCell.location.x-10,playerCell.location.y-15,(30*(playerCell.lifeTimeLeft/float(playerCell.lifeTime))),6))
         ##draw player ID
         label = IDtempfont.render(str(playerCell.ID), 1, (255,255,0))
         screen.blit(label,(playerCell.location.x,playerCell.location.y))
