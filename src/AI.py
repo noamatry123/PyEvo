@@ -76,19 +76,22 @@ ai2=random food,random mate
 def AI2(cell,foodList,cellList):
     input=[]
     ##search mate if its mating time
-    if cell.timeToLayLeft<=cell.timeToLay/3 and cell.lastMother==None and len(cellList)!=1 and not validMate(cell.target):
-        i=random.randint(-1,len(cellList)-1)
-        while cellList[i].ID==cell.ID:
-            i=random.randint(0,len(cellList)-1)
-        if cellList[i].mode=="m":
-            cell.target=cellList[i]
-            if cell.target!=None:
-                input=goto(cell,cell.target)
-            if cell.mode!="m":
-                input.append("c")
-            if cell.timeToLayLeft==0 and cell.lastMother!=None:##lay egg if possible
-                input.append("a")
-            return input
+    if cell.timeToLayLeft<=cell.timeToLay/3 and cell.lastMother==None and len(cellList)!=1:
+        if cell.mode=="c":
+            cell.target=None
+        if not validMate(cell.target):
+            i=random.randint(-1,len(cellList)-1)
+            while cellList[i].ID==cell.ID:
+                i=random.randint(0,len(cellList)-1)
+            if cellList[i].mode=="m":
+                cell.target=cellList[i]
+                if cell.target!=None:
+                    input=goto(cell,cell.target)
+                if cell.mode!="m":
+                    input.append("c")
+                if cell.timeToLayLeft==0 and cell.lastMother!=None:##lay egg if possible
+                    input.append("a")
+                return input
     if len(foodList)==0:
         input=AI1(cell)
         return input
@@ -142,9 +145,11 @@ def AI3(cell,foodList,cellList):
     if len(foodList)==0:
         input=AI1(cell)
         return input
-    if cell.timeToLayLeft<=cell.timeToLay/3 and cell.lastMother==None and len(cellList)!=1 and not validMate(cell.target):
-        target=closestMate(cell,cellList)
-        if target!=None:
+    if cell.timeToLayLeft<=cell.timeToLay/3 and cell.lastMother==None and len(cellList)!=1 :
+        if cell.mode=="c":
+            cell.target=None
+        if not validMate(cell.target):
+            target=closestMate(cell,cellList)
             cell.target=target
             if cell.target!=None:
                 input=goto(cell,cell.target)
@@ -200,16 +205,19 @@ def AI4(cell,foodList,cellList):
     if len(foodList)==0:
         input=AI1(cell)
         return input
-    if cell.timeToLayLeft<cell.timeToLay/3 and cell.lastMother==None and len(cellList)!=1 and not validMate(cell.target):
-        target=bestMate(cell,cellList)
-        cell.target=target
-        if cell.target!=None:
-            input=goodGoTo(cell,cell.target)
-        if cell.mode!="m":
-            input.append("c")
-        if cell.timeToLayLeft==0 and cell.lastMother!=None:##lay egg if possible
-            input.append("a")
-        return input
+    if cell.timeToLayLeft<cell.timeToLay/3 and cell.lastMother==None and len(cellList)!=1:#and not validMate(cell.target)
+        if cell.mode=="c":
+            cell.target=None
+        if not validMate(cell.target):
+            target=bestMate(cell,cellList)
+            cell.target=target
+            if cell.target!=None:
+                input=goodGoTo(cell,cell.target)
+            if cell.mode!="m":
+                input.append("c")
+            if cell.timeToLayLeft==0 and cell.lastMother!=None:##lay egg if possible
+                input.append("a")
+            return input
     ##search food
     a=0
     if cell.carnivore==1:
@@ -480,6 +488,8 @@ def compareCells(c1,c2):
         p2+=1
     return p1-p2
 def validMate(cell):
+    if cell==None:
+        return False
     if isinstance(cell,classes.baseCell):
         if cell.mode=="m":
             return True

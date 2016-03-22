@@ -122,7 +122,6 @@ def askBoard(mode, text,option1="",option2="",text2=""):
     return "Empty"
 
 def drawBoard(playerCell,cellList,foodList,eggList):
-    IDtempfont=pygame.font.SysFont("Ariel", 20)
     ##fill screen / season
     if consts.season==0:
         screen.fill((255,255,0))
@@ -146,10 +145,10 @@ def drawBoard(playerCell,cellList,foodList,eggList):
             color=(0,0,0)
             if cell.mode=="c":
                 color=(255,0,0)
-            label = IDtempfont.render(str(cell.ID), 1, color)
+            label = myfont2.render(str(cell.ID), 1, color)
             screen.blit(label,(cell.location.x+5,cell.location.y))
             ##draw life:
-            label = IDtempfont.render(str(cell.lifeTimeLeft), 1, (0,0,0))
+            label = myfont2.render(str(cell.lifeTimeLeft), 1, (0,0,0))
             screen.blit(label,(cell.location.x-15,cell.location.y))
             pygame.draw.rect(screen,(255,0,0),(cell.location.x-10,cell.location.y-15,(30*(cell.lifeTimeLeft/float(cell.lifeTime))),6))
 
@@ -172,7 +171,7 @@ def drawBoard(playerCell,cellList,foodList,eggList):
         screen.blit(playerCell.image,(playerCell.location.x-playerCell.rad,playerCell.location.y-playerCell.rad))
         pygame.draw.rect(screen,(255,0,0),(playerCell.location.x-10,playerCell.location.y-15,(30*(playerCell.lifeTimeLeft/float(playerCell.lifeTime))),6))
         ##draw player ID
-        label = IDtempfont.render(str(playerCell.ID), 1, (255,255,0))
+        label = myfont2.render(str(playerCell.ID), 1, (255,255,0))
         screen.blit(label,(playerCell.location.x,playerCell.location.y))
     ##tick and flip
 

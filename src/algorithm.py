@@ -24,7 +24,7 @@ class pyAlgorithm:
     screenwidth=0
     screenheight=0
     def __init__(self,height,width): #temp
-        if True: ##new game ##change true to 'consts.loadedGame==False'
+        if consts.loadedGame==False: ##new game ##change true to 'consts.loadedGame==False'
             ##(cell,angle,carnivore,eggwithdraw,food,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength=0):
             self.screenheight=height
             self.screenwidth=width
@@ -58,13 +58,11 @@ class pyAlgorithm:
             self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,10,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
             ##self.cellEggs[0].mixPlayerCells(self.myCell,self.myCell)
             ##self.cellEggs.append(classes.Egg((100,100),self.cellList[0],None,6,0))
-            if consts.loadedGame==False:
-                for i in xrange(10):
-                    self.putFood()
-            else:
-                self.undumpFood()
+            self.putFood()
         else: ##later code goes here
-            pass
+            self.load()
+            self.myCell.base90, self.myCell.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
+            self.myCell.image=self.myCell.base90
 
     def putFood(self):
         self.foodList.append(classes.Food(classes.Location(random.randint(0,consts.screenwidth),random.randint(0,consts.screenheight)),1,5))
@@ -128,39 +126,89 @@ class pyAlgorithm:
         if key[pygame.K_UP]:
             returnList.append("Up")
         return returnList
-    def dumpFood(self):
-        dumptext=""
+    def save(self):
+        dt=""
         for food in self.foodList:
-            dumptext+=str(food.location.x)+"|"
-            dumptext+=str(food.location.y)+"|"
-            dumptext+=str(food.amount)+"|"
-            dumptext+=str(food.rad)+"|"
-            dumptext+="\n"
-        return dumptext
-    def undumpFood(self):
+            dt+="F|"
+            dt+=str(food.location.x)+"|"
+            dt+=str(food.location.y)+"|"
+            dt+=str(food.amount)+"|"
+            dt+="\n"
+        for egg in self.cellEggs:
+            dt+="EC|"
+            dt+=str(egg.location.x)+"|"
+            dt+=str(egg.location.y)+"|"
+            dt+=str(egg.father)+"|"
+            dt+=str(egg.mother)+"|"
+            dt+=str(egg.timeToHatch)+"|"
+            dt+="\n"
+        for egg in self.myEggs:
+            dt+="EP|"
+            dt+=str(egg.location.x)+"|"
+            dt+=str(egg.location.y)+"|"
+            dt+=str(egg.father)+"|"
+            dt+=str(egg.mother)+"|"
+            dt+=str(egg.timeToHatch)+"|"
+            dt+="\n"
+        #self,cell,angle,carnivore,eggwithdraw,foodLeft,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength=0):
+        for cell in self.cellList:
+            dt+="C|"#0
+            dt+=str(cell.location.x)+"|"#1
+            dt+=str(cell.location.y)+"|"#2
+            dt+=str(cell.angle)+"|"#3
+            dt+=str(cell.carnivore)+"|"
+            dt+=str(cell.eggwithdraw)+"|"
+            dt+=str(cell.foodLeft)+"|"
+            dt+=str(cell.foodWithdraw)+"|"
+            dt+=str(cell.ID)+"|"
+            dt+=str(cell.lifeTime)+"|"
+            dt+=str(cell.speed)+"|"
+            dt+=str(cell.lifewithdraw)+"|"
+            dt+=str(cell.timeToLay)+"|"
+            dt+=str(cell.AI)+"|"
+            dt+=str(cell.vision)+"|"
+            dt+=str(cell.eggHatchTime)+"|"
+            dt+=str(cell.strength)+"|"
+            dt+="\n"
+        dt+="CP|"#0
+        dt+=str(self.myCell.location.x)+"|"#1
+        dt+=str(self.myCell.location.y)+"|"#2
+        dt+=str(self.myCell.angle)+"|"#3
+        dt+=str(self.myCell.carnivore)+"|"
+        dt+=str(self.myCell.eggwithdraw)+"|"
+        dt+=str(self.myCell.foodLeft)+"|"
+        dt+=str(self.myCell.foodWithdraw)+"|"
+        dt+=str(self.myCell.ID)+"|"
+        dt+=str(self.myCell.lifeTime)+"|"
+        dt+=str(self.myCell.speed)+"|"
+        dt+=str(self.myCell.lifewithdraw)+"|"
+        dt+=str(self.myCell.timeToLay)+"|"
+        dt+=str(self.myCell.AI)+"|"
+        dt+=str(self.myCell.vision)+"|"
+        dt+=str(self.myCell.eggHatchTime)+"|"
+        dt+=str(self.myCell.strength)+"|"
+        dt+="\n"
+        return dt
+    def load(self):
         file_path = path.relpath("src/SAV/foodList.sav")
         file = open(file_path,"r")
-        splitted=file.read().split('\n')
-
-        loc=None
-        amount=None
-        rad=None
-        for food in splitted:
-            if food=="":
+        sp=file.read().split('\n')
+        for object in sp:
+            if object=="":
                 break
-            splittedMore=food.split('|')
-            for i in xrange(0,len(splittedMore)):
-                if i==0: ##location x
-                    loc = classes.Location(int(splittedMore[i]),0)
-                elif i==1: ##location y
-                    loc.y=int(splittedMore[i])
-                elif i==2: ##amount
-                    amount=int(splittedMore[i])
-                elif i==3: ##rad
-                    rad=int(splittedMore[i])
-            self.foodList.append(classes.Food(loc,amount,rad))
+            spp=object.split('|')
+            if spp[0]=="F":
+                self.foodList.append(classes.Food(classes.Location(int(spp[1]),int(spp[2])),int(spp[3]),5))
+            if spp[0]=="EC":
+                self.cellEggs.append(classes.Egg(classes.Location(int(spp[1]),int(spp[2])),int(spp[3]),int(spp[4]),6,int(spp[5]),False))
+            if spp[0]=="EP":
+                self.cellEggs.append(classes.Egg(classes.Location(int(spp[1]),int(spp[2])),int(spp[3]),int(spp[4]),6,int(spp[5]),True))
+            if spp[0]=="C":
+                #self,cell,angle,carnivore,eggwithdraw,foodLeft,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength=0):
+                self.cellList.append(classes.baseCell(None,int(spp[3]),int(spp[4]),int(spp[5]),int(spp[6]),int(spp[7]),int(spp[8]),int(spp[9]),classes.Location(int(spp[1]),int(spp[2])),int(spp[10]),10,int(spp[11]),int(spp[12]),int(spp[13]),int(spp[14]),int(spp[15]),int(spp[16])))
+            if spp[0]=="CP":
+                self.myCell=classes.baseCell(None,int(spp[3]),int(spp[4]),int(spp[5]),int(spp[6]),int(spp[7]),int(spp[8]),int(spp[9]),classes.Location(int(spp[1]),int(spp[2])),int(spp[10]),10,int(spp[11]),int(spp[12]),int(spp[13]),int(spp[14]),int(spp[15]),int(spp[16]))
         file.close()
-
     def LoadSaveMenu(self):
         choice=None
         while choice not in ["Save and Quit","Resume"]:
@@ -168,10 +216,9 @@ class pyAlgorithm:
         if choice=="Save and Quit":
             file_path = path.relpath("src/SAV/foodList.sav")
             file = open(file_path,"wb")
-            file.write(self.dumpFood())
+            file.write(self.save())
             file.close()
-
-            pygame.quit()
+            pygame.event.post(pygame.event.Event(pygame.QUIT))
     def nextStep(self,text):
         if text!="Empty":
             consts.askingQuestion=False
@@ -310,4 +357,4 @@ class pyAlgorithm:
             choice=None
             while choice!="Okay":
                 choice = graphics.askBoard("Prompt","You have died")
-            pygame.quit()
+            pygame.event.post(pygame.event.Event(pygame.QUIT))
