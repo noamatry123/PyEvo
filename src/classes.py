@@ -383,7 +383,7 @@ class AbCell:
     dead=False
     eggHatchTime=0
     strength=0
-    timeToHurt=200
+    timeToHurt=consts.framerate
     base90=None
     base45=None
     image=None

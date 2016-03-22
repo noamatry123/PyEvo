@@ -76,7 +76,7 @@ ai2=random food,random mate
 def AI2(cell,foodList,cellList):
     input=[]
     ##search mate if its mating time
-    if cell.timeToLayLeft<=cell.timeToLay/3 and cell.lastMother==None and len(cellList)!=1:
+    if cell.timeToLayLeft<=cell.timeToLay/3 and cell.lastMother==None and len(cellList)!=1 and not validMate(cell.target):
         i=random.randint(-1,len(cellList)-1)
         while cellList[i].ID==cell.ID:
             i=random.randint(0,len(cellList)-1)
@@ -142,7 +142,7 @@ def AI3(cell,foodList,cellList):
     if len(foodList)==0:
         input=AI1(cell)
         return input
-    if cell.timeToLayLeft<=cell.timeToLay/3 and cell.lastMother==None and len(cellList)!=1:
+    if cell.timeToLayLeft<=cell.timeToLay/3 and cell.lastMother==None and len(cellList)!=1 and not validMate(cell.target):
         target=closestMate(cell,cellList)
         if target!=None:
             cell.target=target
@@ -200,11 +200,11 @@ def AI4(cell,foodList,cellList):
     if len(foodList)==0:
         input=AI1(cell)
         return input
-    if cell.timeToLayLeft<cell.timeToLay/3 and cell.lastMother==None and len(cellList)!=1:
-        #target=bestMate(cell,cellList)##fill
-        target=closestFood(cell,cellList)
+    if cell.timeToLayLeft<cell.timeToLay/3 and cell.lastMother==None and len(cellList)!=1 and not validMate(cell.target):
+        target=bestMate(cell,cellList)
         cell.target=target
-        input=goodGoTo(cell,cell.target)
+        if cell.target!=None:
+            input=goodGoTo(cell,cell.target)
         if cell.mode!="m":
             input.append("c")
         if cell.timeToLayLeft==0 and cell.lastMother!=None:##lay egg if possible
@@ -222,7 +222,8 @@ def AI4(cell,foodList,cellList):
                     pass
                 else:
                     cell.target=closestFood(cell,foodList)
-            input=goodGoTo(cell,cell.target)
+            if cell.target!=None:
+                input=goodGoTo(cell,cell.target)
         else:#real food
             if cell.target==None:
                 cell.target=closestFood(cell,cellList)
@@ -231,7 +232,8 @@ def AI4(cell,foodList,cellList):
                     pass
                 else:
                     cell.target=closestFood(cell,cellList)
-            input=goodGoTo(cell,cell.target)
+            if cell.target!=None:
+                input=goodGoTo(cell,cell.target)
             if cell.mode=="m":
                 input.append("c")
     else:
@@ -242,7 +244,8 @@ def AI4(cell,foodList,cellList):
                 pass
             else:
                 cell.target=closestFood(cell,foodList)
-        input=goodGoTo(cell,cell.target)
+        if cell.target!=None:
+            input=goodGoTo(cell,cell.target)
     if cell.timeToLayLeft==0 and cell.lastMother!=None:##lay egg if possible
             input.append("a")
     return input
@@ -397,7 +400,26 @@ def closestMate(cell,cellList):
             index=cell
     return index
 def bestMate(cell,cellList):
-    pass
+    diff=-1000000
+    end=None
+    for curr1 in cellList:
+        for curr2 in cellList:
+            if math.fabs(compareCells(curr1,curr2))>diff:
+                if compareCells(curr1,curr2)>0 and curr1.mode=="m":
+                    end=curr1
+                    diff=math.fabs(compareCells(curr1,curr2))
+                elif compareCells(curr1,curr2)<0 and curr2.mode=="m":
+                    end=curr2
+                    diff=math.fabs(compareCells(curr1,curr2))
+                else:
+                    i=random.randint(0,1)
+                    if i==0 and curr1.mode=="m":
+                        end=curr1
+                        diff=math.fabs(compareCells(curr1,curr2))
+                    elif curr2.mode=="m":
+                        end=curr2
+                        diff=math.fabs(compareCells(curr1,curr2))
+    return end
 def compareCells(c1,c2):
     p1=0
     p2=0
@@ -456,13 +478,9 @@ def compareCells(c1,c2):
         p1+=1
     if c1.eggHatchTime <c2.eggHatchTime:
         p2+=1
-    if p1>p2:
-        return c1
-    if p2>p1:
-        return c2
-    if p1==p2:
-        i=random.randint(0,1)
-        if i==0:
-            return p1
-        else:
-            return p2
+    return p1-p2
+def validMate(cell):
+    if isinstance(cell,classes.baseCell):
+        if cell.mode=="m":
+            return True
+    return False
