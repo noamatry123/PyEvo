@@ -6,6 +6,8 @@ import consts
 import random
 import math
 import AI
+import pickle
+from os import path
 
 def getNextID():
     classes.curID+=1
@@ -22,41 +24,47 @@ class pyAlgorithm:
     screenwidth=0
     screenheight=0
     def __init__(self,height,width): #temp
-        ##(cell,angle,carnivore,eggwithdraw,food,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength=0):
-        self.screenheight=height
-        self.screenwidth=width
-        angle=4
-        lifewithdraw=consts.framerate
-        carnivore=0
-        eggwithdraw=consts.framerate
-        food=15
-        foodWithdraw=consts.framerate
-        rad=10
-        AI=2
-        vision=500
-        lifeTime=20
-        speed=1
-        timeToLay=10
-        eggHatchTime=3
-        strength=5
-        #                            cell,angle,carnivore,eggwithdraw,foodleft,foodwithdraw,ID,Lifetime,location,speed,rad,lifewithdeaw,timetolay,AI,vision,eggHatchtime,strngth
-        self.myCell=classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,0,lifeTime,classes.Location(400,400),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength)
-        self.myCell.base90, self.myCell.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
-        self.myCell.image=self.myCell.base90
-        self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,1,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
-        self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,2,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
-        self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,3,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
-        self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,4,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
-        self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,5,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
-        self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,6,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
-        self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,7,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
-        self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,8,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
-        self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,9,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
-        self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,10,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
-        ##self.cellEggs[0].mixPlayerCells(self.myCell,self.myCell)
-        ##self.cellEggs.append(classes.Egg((100,100),self.cellList[0],None,6,0))
-        for i in xrange(10):
-            self.putFood()
+        if True: ##new game ##change true to 'consts.loadedGame==False'
+            ##(cell,angle,carnivore,eggwithdraw,food,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength=0):
+            self.screenheight=height
+            self.screenwidth=width
+            angle=4
+            lifewithdraw=consts.framerate
+            carnivore=0
+            eggwithdraw=consts.framerate
+            food=15
+            foodWithdraw=consts.framerate
+            rad=10
+            AI=2
+            vision=500
+            lifeTime=20
+            speed=1
+            timeToLay=10
+            eggHatchTime=3
+            strength=5
+            #                            cell,angle,carnivore,eggwithdraw,foodleft,foodwithdraw,ID,Lifetime,location,speed,rad,lifewithdeaw,timetolay,AI,vision,eggHatchtime,strngth
+            self.myCell=classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,0,lifeTime,classes.Location(400,400),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength)
+            self.myCell.base90, self.myCell.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
+            self.myCell.image=self.myCell.base90
+            self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,1,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
+            self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,2,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
+            self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,3,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
+            self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,4,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
+            self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,5,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
+            self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,6,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
+            self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,7,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
+            self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,8,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
+            self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,9,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
+            self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,10,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
+            ##self.cellEggs[0].mixPlayerCells(self.myCell,self.myCell)
+            ##self.cellEggs.append(classes.Egg((100,100),self.cellList[0],None,6,0))
+            if consts.loadedGame==False:
+                for i in xrange(10):
+                    self.putFood()
+            else:
+                self.undumpFood()
+        else: ##later code goes here
+            pass
 
     def putFood(self):
         self.foodList.append(classes.Food(classes.Location(random.randint(0,consts.screenwidth),random.randint(0,consts.screenheight)),1,5))
@@ -96,6 +104,8 @@ class pyAlgorithm:
 
             if event.key==pygame.K_a:
                 returnList.append("a")
+            if event.key==pygame.K_m:
+                returnList.append("m")
             if event.key==pygame.K_c:
                 returnList.append("c")
             if event.key==pygame.K_p:
@@ -118,8 +128,50 @@ class pyAlgorithm:
         if key[pygame.K_UP]:
             returnList.append("Up")
         return returnList
+    def dumpFood(self):
+        dumptext=""
+        for food in self.foodList:
+            dumptext+=str(food.location.x)+"|"
+            dumptext+=str(food.location.y)+"|"
+            dumptext+=str(food.amount)+"|"
+            dumptext+=str(food.rad)+"|"
+            dumptext+="\n"
+        return dumptext
+    def undumpFood(self):
+        file_path = path.relpath("src/SAV/foodList.sav")
+        file = open(file_path,"r")
+        splitted=file.read().split('\n')
 
+        loc=None
+        amount=None
+        rad=None
+        for food in splitted:
+            if food=="":
+                break
+            splittedMore=food.split('|')
+            for i in xrange(0,len(splittedMore)):
+                if i==0: ##location x
+                    loc = classes.Location(int(splittedMore[i]),0)
+                elif i==1: ##location y
+                    loc.y=int(splittedMore[i])
+                elif i==2: ##amount
+                    amount=int(splittedMore[i])
+                elif i==3: ##rad
+                    rad=int(splittedMore[i])
+            self.foodList.append(classes.Food(loc,amount,rad))
+        file.close()
 
+    def LoadSaveMenu(self):
+        choice=None
+        while choice not in ["Save and Quit","Resume"]:
+            choice=graphics.askBoard("manual","Game Paused","Save and Quit","Resume")
+        if choice=="Save and Quit":
+            file_path = path.relpath("src/SAV/foodList.sav")
+            file = open(file_path,"wb")
+            file.write(self.dumpFood())
+            file.close()
+
+            pygame.quit()
     def nextStep(self,text):
         if text!="Empty":
             consts.askingQuestion=False
@@ -133,6 +185,8 @@ class pyAlgorithm:
             if (item=="Left" or item=="Right") and (("Left" in self.__kinput) or ("Right" in self.__kinput)):
                 continue
             elif (item=="c" and ("c" in self.__kinput)):
+                continue
+            elif (item=="m" and ("m" in self.__kinput)):
                 continue
             else:
                 self.__kinput.append(item)
@@ -171,6 +225,7 @@ class pyAlgorithm:
                         cell.mode="c"
                     else:
                         cell.mode="m"
+
             cell.checkEat(self.foodList)
             cell.consumeFood(self._counter)
             cell.consumeLife(self._counter)
@@ -192,7 +247,8 @@ class pyAlgorithm:
                 self.myCell.mode='c'
             else:
                 self.myCell.mode='m'
-
+        if "m" in inputlist: ##load/save menu
+            self.LoadSaveMenu()
         ##check egg hatching
         for egg in self.cellEggs:
             egg.consumeHatch(self._counter)

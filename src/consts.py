@@ -6,6 +6,7 @@ text=""
 askingQuestion=True
 counter=0
 season=0
+loadedGame=False
 def bigger(x,y):
     if x>=y:
         return x
