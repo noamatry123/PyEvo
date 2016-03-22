@@ -6,3 +6,8 @@ text=""
 askingQuestion=True
 counter=0
 season=0
+def bigger(x,y):
+    if x>=y:
+        return x
+    else:
+        return y

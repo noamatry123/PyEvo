@@ -79,7 +79,7 @@ def askBoard(mode, text,option1="",option2="",text2=""):
                     color1=(0,0,0)
                     color2=(0,0,0)
             #bad if bigger
-            elif p[0:p.find(":")]in ["timeToLay","foodWithdraw","lifeWithdraw","eggHatchTime"]:
+            elif p[0:p.find(":")]in ["timeToLay","eggHatchTime","eggwithdraw"]:
                 if int(pt1)>int(pt2):
                     color1=(255,0,0)
                     color2=(0,255,0)

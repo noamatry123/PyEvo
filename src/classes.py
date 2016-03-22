@@ -90,82 +90,96 @@ class Egg:
         return True
     def mutateCell(self,cell,Player=False):
         text=""
-        mutationchance=50
-        goodbadchance=50
-        mutationscale=[10,10,10,1,1234,10,1234,1234,10,10,1,1234,1234,1,50,2,0,0,0,0,5] ##how much to mutate in every cell
-        attIgnoreList=[0,4,6,7,11,12,16,17,18,19] ##what not to mutate
+        #             Lay,eggW,car,foodW,life,lifeW,speed,AI,vision,eggH,strength
+        mutationscale=[5,10,1,10,10,10,1,1,50,1,5]
+        mutchance=[40,50,25,50,50,50,40,30,50,50,50]
+        mutgoodbad=[50,50,60,50,40,50,50,60,30,50,50]
 
-        for i in xrange(0,len(cell.getAtts())):
-            if i in attIgnoreList:
-                continue
+        for i in xrange(0,len(cell.getOldNewAtts())-1):
             randchance=randint(0,100)
-            if randchance<mutationchance: ##mutate attribute
-                if randint(0,100)<goodbadchance: #bad or good mutation
+            if randchance<mutchance[i]: ##mutate attribute
+                if randint(0,100)<mutgoodbad[i]: #bad or good mutation
                     mutationscale[i]*=-1
 
-                elif i==1: ##timeToLay+left
+                elif i==0: ##timeToLay+left
                     cell.timeToLay+=mutationscale[i]
+                    if cell.timeToLay<=0:
+                        cell.timeToLay=1
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated Timetolay by "+str(mutationscale[i])+"\n"
                     else:
                         text+=str(cell.ID)+" mutated Timetolay by "+str(mutationscale[i])+"\n"
-                elif i==2: ##eggWithdraw
+                elif i==1: ##eggWithdraw
                     cell.eggwithdraw+=mutationscale[i]
+                    if cell.eggwithdraw<=0:
+                        cell.eggwithdraw=1
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated eggWithdraw by "+str(mutationscale[i])+"\n"
                     else:
                         text+=str(cell.ID)+" mutated eggWithdraw by "+str(mutationscale[i])+"\n"
-                elif i==3: ##carnivore
+                elif i==2: ##carnivore
                     if mutationscale[i]<0:
                         cell.carnivore=0
                         text+=str(cell.ID)+" mutated carnivore negative\n"
                     else:
                         cell.carnivore=1
                         text+=str(cell.ID)+" mutated carnivore positive\n"
-                elif i==5: ##foodWithdraw
+                elif i==3: ##foodWithdraw
                     cell.foodWithdraw+=mutationscale[i]
+                    if cell.foodWithdraw<=0:
+                        cell.foodWithdraw=1
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated foodWithdraw by "+str(mutationscale[i])+"\n"
                     else:
                         text+=str(cell.ID)+" mutated foodWithdraw by "+str(mutationscale[i])+"\n"
-                elif i==8: ##lifetime
+                elif i==4: ##lifetime
                     cell.lifeTime+=mutationscale[i]
+                    if cell.lifeTime<=0:
+                        cell.lifeTime=1
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated lifeTime by "+str(mutationscale[i])+"\n"
                     else:
                         text+=str(cell.ID)+" mutated lifeTime by "+str(mutationscale[i])+"\n"
-                elif i==9: ##lifetimeWithdraw
+                elif i==5: ##lifetimeWithdraw
                     cell.lifewithdraw+=mutationscale[i]
+                    if cell.lifewithdraw<=0:
+                        cell.lifewithdraw=1
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated lifetimeWithdraw by "+str(mutationscale[i])+"\n"
                     else:
                         text+=str(cell.ID)+" mutated lifetimeWithdraw by "+str(mutationscale[i])+"\n"
-                elif i==10: ##speed
+                elif i==6: ##speed
                     cell.speed=(cell.speed+mutationscale[i])%5
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated speed by "+str(mutationscale[i])+"\n"
                     else:
                         text+=str(cell.ID)+" mutated speed by "+str(mutationscale[i])+"\n"
-                elif i==13: ##ai
-                    cell.AI+=mutationscale[i]
+                elif i==7: ##AI
+                    cell.AI=(cell.AI+mutationscale[i])%5
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated AI by "+str(mutationscale[i])+"\n"
                     else:
                         text+=str(cell.ID)+" mutated AI by "+str(mutationscale[i])+"\n"
-                elif i==14: ##vision
-                    cell.vision+=mutationscale[i]
+                elif i==8: ##vision
+                    cell.vision+=mutationscale[i]%consts.bigger(consts.screenwidth,consts.screenheight)
+                    if cell.vision<=0:
+                        cell.vision=1
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated vision by "+str(mutationscale[i])+"\n"
                     else:
                         text+=str(cell.ID)+" mutated vision by "+str(mutationscale[i])+"\n"
-                elif i==15: ##eggHatchTime
+                elif i==9: ##eggHatchTime
                     cell.eggHatchTime+=mutationscale[i]
+                    if cell.eggHatchTime<=0:
+                        cell.eggHatchTime=1
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated eggHatchTime by "+str(mutationscale[i])+"\n"
                     else:
                         text+=str(cell.ID)+" mutated eggHatchTime by "+str(mutationscale[i])+"\n"
-                elif i==20: ##strength
+                elif i==10: ##strength
                     cell.strength+=mutationscale[i]
+                    if cell.strength<=0:
+                        cell.strength=1
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated strength by "+str(mutationscale[i])+"\n"
                     else:
