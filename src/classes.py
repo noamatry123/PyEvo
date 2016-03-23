@@ -33,6 +33,14 @@ class Location:
         self.y=y
     def getTupple(self):
         return (self.x,self.y)
+class practicle:
+    loc=None
+    color=None
+    radius=None
+    def __init__(self,loc,color,radius):
+        self.loc=Location(loc.x,loc.y)
+        self.color=color
+        self.radius=radius
 class Food:
     location=Location(0,0)
     amount=0

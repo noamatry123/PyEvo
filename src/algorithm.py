@@ -8,7 +8,7 @@ import math
 import AI
 import pickle
 from os import path
-
+practicle_radius=12
 def getNextID():
     classes.curID+=1
     return classes.curID
@@ -72,6 +72,8 @@ class pyAlgorithm:
                 newCell=egg.Hatch()
                 self.cellList.append(newCell)
                 self.cellEggs.remove(egg)
+                ##egg hatch practicle
+                graphics.practicleList.append(classes.practicle(egg.location,(163,213,230),practicle_radius))
     def growPlayerEggs(self):
         for egg in self.myEggs:
             if egg.timeToHatch==0:
@@ -89,6 +91,8 @@ class pyAlgorithm:
                 else:
                     self.cellList.append(newCell)
                     self.myEggs.remove(egg)
+                ##egg hatch practicle
+                graphics.practicleList.append(classes.practicle(egg.location,(163,213,230),practicle_radius))
     def getInput(self):
         returnList=[]
         events = pygame.event.get(pygame.KEYDOWN)
@@ -304,6 +308,8 @@ class pyAlgorithm:
         self.growCellEggs()
         self.growPlayerEggs()
 
+
+
         ##check for carnivore eating and mating
         allCells=[]
         for cell in self.cellList:
@@ -324,10 +330,14 @@ class pyAlgorithm:
                                 print str(cell.ID), "Ate", str(otherCell.ID)
                             else: ##cant eat
                                 print str(cell.ID), "hurt", str(otherCell.ID), "but did not kill him."
+                            ##cell eat practicle
+                            graphics.practicleList.append(classes.practicle(cell.location,(240,165,36),practicle_radius))
                     if cell.mode=='m': ##mate
                         if otherCell.mode=='m': ##mate too
                             cell.lastMother=otherCell
                             otherCell.lastMother=cell
+                            ##cell eat practicle
+                            graphics.practicleList.append(classes.practicle(cell.location,(240,36,131),practicle_radius))
 
 
         #grow more food
@@ -358,3 +368,11 @@ class pyAlgorithm:
             while choice!="Okay":
                 choice = graphics.askBoard("Prompt","You have died")
             pygame.event.post(pygame.event.Event(pygame.QUIT))
+
+        ##deduct practicle time
+        if (self._counter%(consts.framerate*0.125)):
+            for practicle in graphics.practicleList:
+                if practicle.radius==1:
+                    graphics.practicleList.remove(practicle)
+                else:
+                    practicle.radius-=1
