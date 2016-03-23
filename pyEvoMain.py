@@ -21,11 +21,17 @@ def main():
     else:##load
         consts.loadedGame=True
 
+    ##godmode: delete later
+    choice=easygui.boolbox("Godmode?","",["No","Yes"])
+    if choice==0:
+        consts.godmode=True
+
     choice=easygui.boolbox("Fulscreen?","",["Yes","No"])
     if choice==0:
         screen = pygame.display.set_mode((consts.screenwidth, consts.screenheight))
     else:
         screen = pygame.display.set_mode((consts.screenwidth, consts.screenheight),pygame.FULLSCREEN)
+
 
 
     algoModule = algorithm.pyAlgorithm(consts.screenwidth,consts.screenheight)

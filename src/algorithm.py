@@ -38,12 +38,17 @@ class pyAlgorithm:
             AI=2
             vision=500
             lifeTime=20
+            p_lifetime=lifeTime
+            p_food=food
             speed=1
             timeToLay=10
             eggHatchTime=3
             strength=5
+            if consts.godmode==True:
+                p_lifetime=1000
+                p_food=1000
             #                            cell,angle,carnivore,eggwithdraw,foodleft,foodwithdraw,ID,Lifetime,location,speed,rad,lifewithdeaw,timetolay,AI,vision,eggHatchtime,strngth
-            self.myCell=classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,0,lifeTime,classes.Location(400,400),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength)
+            self.myCell=classes.baseCell(None,angle,carnivore,eggwithdraw,p_food,foodWithdraw,0,p_lifetime,classes.Location(400,400),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength)
             self.myCell.base90, self.myCell.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
             self.myCell.image=self.myCell.base90
             self.cellList.append(classes.baseCell(None,angle,carnivore,eggwithdraw,food,foodWithdraw,1,lifeTime,classes.Location(random.randint(0,self.screenwidth),random.randint(0,self.screenheight)),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength))
@@ -317,6 +322,7 @@ class pyAlgorithm:
 
         ##check for carnivore eating and mating
         allCells=[]
+        noCollision=True
         for cell in self.cellList:
             allCells.append(cell)
         allCells.append(self.myCell)
@@ -324,6 +330,7 @@ class pyAlgorithm:
             for otherCell in allCells:
                 collision=math.sqrt(((cell.location.x-otherCell.location.x)**2)+((cell.location.y-otherCell.location.y)**2))<cell.rad+otherCell.rad
                 if (cell.ID!=otherCell.ID) and (collision): ##not the same cell
+                    noCollision=False
                     if cell.mode=='c': ##carnivore
                         if otherCell.timeToHurt<=0:
                             otherCell.timeToHurt=consts.framerate
@@ -336,13 +343,20 @@ class pyAlgorithm:
                             else: ##cant eat
                                 print str(cell.ID), "hurt", str(otherCell.ID), "but did not kill him."
                             ##cell eat practicle
-                            graphics.practicleList.append(classes.practicle(cell.location,(240,165,36),practicle_radius))
+                            if cell.lastCollision!=otherCell and otherCell.lastCollision!=cell: ##only if its not a false collision
+                                graphics.practicleList.append(classes.practicle(cell.location,(240,165,36),practicle_radius))
+                                cell.lastCollision=otherCell
                     if cell.mode=='m': ##mate
                         if otherCell.mode=='m': ##mate too
                             cell.lastMother=otherCell
                             otherCell.lastMother=cell
                             ##cell eat practicle
-                            graphics.practicleList.append(classes.practicle(cell.location,(240,36,131),practicle_radius))
+                            if cell.lastCollision!=otherCell and otherCell.lastCollision!=cell: ##only if its not a false collision
+                                graphics.practicleList.append(classes.practicle(cell.location,(240,36,131),practicle_radius))
+                                cell.lastCollision=otherCell
+            if noCollision: ##the cell has not colided, reset the last collision
+                cell.lastCollision=cell.ID+self._counter
+
 
 
         #grow more food

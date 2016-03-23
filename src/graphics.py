@@ -155,7 +155,7 @@ def drawBoard(playerCell,cellList,foodList,eggList):
             screen.blit(label,(cell.location.x-15,cell.location.y))
             pygame.draw.rect(screen,(255,0,0),(cell.location.x-10,cell.location.y-15,(30*(cell.lifeTimeLeft/float(cell.lifeTime))),6))
             ##draw foodbar
-            pygame.draw.rect(screen,(0,255,0),(cell.location.x-10,cell.location.y-6-15,(30*(cell.foodLeft/float(15))),6))
+            pygame.draw.rect(screen,(0,255,0),(cell.location.x-10,cell.location.y-6-15,(30*(cell.foodLeft/float(cell.lifeTime))),6))
 
     for food in foodList:
         #pygame.draw.circle(screen,(80,255,80),(food.location.getTupple()),food.rad)
@@ -180,7 +180,7 @@ def drawBoard(playerCell,cellList,foodList,eggList):
         label = myfont2.render(str(playerCell.ID), 1, (255,255,0))
         screen.blit(label,(playerCell.location.x,playerCell.location.y))
         #foodbar
-        pygame.draw.rect(screen,(0,255,0),(playerCell.location.x-10,playerCell.location.y-6-15,(30*(playerCell.foodLeft/float(15))),6))
+        pygame.draw.rect(screen,(0,255,0),(playerCell.location.x-10,playerCell.location.y-6-15,(30*(playerCell.foodLeft/float(playerCell.lifeTime))),6))
     ##draw practicles
     for practicle in practicleList:
         color=(practicle.color[0],practicle.color[1],practicle.color[2],85)
