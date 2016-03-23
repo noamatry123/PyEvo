@@ -192,6 +192,8 @@ class pyAlgorithm:
         dt+=str(self.myCell.eggHatchTime)+"|"
         dt+=str(self.myCell.strength)+"|"
         dt+="\n"
+
+        dt+="T|"+str(consts.counter/consts.framerate)+"\n"
         return dt
     def load(self):
         file_path = path.relpath("src/SAV/foodList.sav")
@@ -212,6 +214,9 @@ class pyAlgorithm:
                 self.cellList.append(classes.baseCell(None,int(spp[3]),int(spp[4]),int(spp[5]),int(spp[6]),int(spp[7]),int(spp[8]),int(spp[9]),classes.Location(int(spp[1]),int(spp[2])),int(spp[10]),10,int(spp[11]),int(spp[12]),int(spp[13]),int(spp[14]),int(spp[15]),int(spp[16])))
             if spp[0]=="CP":
                 self.myCell=classes.baseCell(None,int(spp[3]),int(spp[4]),int(spp[5]),int(spp[6]),int(spp[7]),int(spp[8]),int(spp[9]),classes.Location(int(spp[1]),int(spp[2])),int(spp[10]),10,int(spp[11]),int(spp[12]),int(spp[13]),int(spp[14]),int(spp[15]),int(spp[16]))
+            if spp[0]=="T":
+                consts.counter=int(spp[1])*consts.framerate
+                self._counter=int(spp[1])*consts.framerate
         file.close()
     def LoadSaveMenu(self):
         choice=None
@@ -366,7 +371,7 @@ class pyAlgorithm:
         if self.myCell.dead:
             choice=None
             while choice!="Okay":
-                choice = graphics.askBoard("Prompt","You have died")
+                choice = graphics.askBoard("Prompt","You have died :(\n\nYou lived " + str(consts.counter/consts.framerate)+" seconds.")
             pygame.event.post(pygame.event.Event(pygame.QUIT))
 
         ##deduct practicle time
