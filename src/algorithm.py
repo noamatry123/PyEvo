@@ -69,6 +69,7 @@ class pyAlgorithm:
             file = open(file_path,"r")
             sp=file.read().split('\n')
             self.load(sp)
+            file.close()
             self.myCell.base90, self.myCell.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
             self.myCell.image=self.myCell.base90
 
@@ -222,7 +223,6 @@ class pyAlgorithm:
             if spp[0]=="T":
                 consts.counter=int(spp[1])*consts.framerate
                 self._counter=int(spp[1])*consts.framerate
-        file.close()
     def LoadSaveMenu(self):
         choice=None
         while choice not in ["Save and Quit","Resume"]:

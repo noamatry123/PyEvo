@@ -11,7 +11,7 @@ def main():
     consts.screenheight=int(easygui.enterbox("Enter height","","768"))
 
     running = True
-
+    #hi
     text="Empty"
     pygame.init()
 
