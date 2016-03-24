@@ -60,7 +60,10 @@ class pyAlgorithm:
             ##self.cellEggs.append(classes.Egg((100,100),self.cellList[0],None,6,0))
             self.putFood()
         else: ##later code goes here
-            self.load()
+            file_path = path.relpath("src/SAV/foodList.sav")
+            file = open(file_path,"r")
+            sp=file.read().split('\n')
+            self.load(sp)
             self.myCell.base90, self.myCell.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
             self.myCell.image=self.myCell.base90
 
@@ -189,10 +192,7 @@ class pyAlgorithm:
         dt+=str(self.myCell.strength)+"|"
         dt+="\n"
         return dt
-    def load(self):
-        file_path = path.relpath("src/SAV/foodList.sav")
-        file = open(file_path,"r")
-        sp=file.read().split('\n')
+    def load(self,sp):
         for object in sp:
             if object=="":
                 break
