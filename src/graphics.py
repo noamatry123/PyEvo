@@ -12,6 +12,7 @@ clock=None
 myfont =pygame.font.SysFont("Ariel", 30)
 myfont1=pygame.font.SysFont("Ariel", 30)
 myfont2=pygame.font.SysFont("Ariel", 20)
+practicleList=[]
 last_clickcheck=None
 
 def printAtt(playerCell):
@@ -122,6 +123,7 @@ def askBoard(mode, text,option1="",option2="",text2=""):
     return "Empty"
 
 def drawBoard(playerCell,cellList,foodList,eggList):
+
     ##fill screen / season
     if consts.season==0:
         screen.fill((255,255,0))
@@ -135,6 +137,7 @@ def drawBoard(playerCell,cellList,foodList,eggList):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return False,"End"
+
     ##hadndle drawing cells and food
     for cell in cellList:
         if cell.timeToHurt%2==0:
@@ -151,6 +154,8 @@ def drawBoard(playerCell,cellList,foodList,eggList):
             label = myfont2.render(str(cell.lifeTimeLeft), 1, (0,0,0))
             screen.blit(label,(cell.location.x-15,cell.location.y))
             pygame.draw.rect(screen,(255,0,0),(cell.location.x-10,cell.location.y-15,(30*(cell.lifeTimeLeft/float(cell.lifeTime))),6))
+            ##draw foodbar
+            pygame.draw.rect(screen,(0,255,0),(cell.location.x-10,cell.location.y-6-15,(30*(cell.foodLeft/float(cell.lifeTime))),6))
 
     for food in foodList:
         #pygame.draw.circle(screen,(80,255,80),(food.location.getTupple()),food.rad)
@@ -164,6 +169,7 @@ def drawBoard(playerCell,cellList,foodList,eggList):
     for egg in eggList[1]:
         screen.blit(egg.image,(egg.location.x-egg.rad,egg.location.y-egg.rad))
         #pygame.draw.circle(screen,(255,255,255),(egg.location.getTupple()),egg.rad)
+
     ##draw player
     ##pygame.draw.circle(screen,(0,0,0),(playerCell.location.getTupple()),playerCell.rad)
     ##pygame.draw.circle(screen,(10,255,10),(playerCell.location_compensated()),2)
@@ -173,6 +179,13 @@ def drawBoard(playerCell,cellList,foodList,eggList):
         ##draw player ID
         label = myfont2.render(str(playerCell.ID), 1, (255,255,0))
         screen.blit(label,(playerCell.location.x,playerCell.location.y))
+        #foodbar
+        pygame.draw.rect(screen,(0,255,0),(playerCell.location.x-10,playerCell.location.y-6-15,(30*(playerCell.foodLeft/float(playerCell.lifeTime))),6))
+    ##draw practicles
+    for practicle in practicleList:
+        color=(practicle.color[0],practicle.color[1],practicle.color[2],85)
+        pygame.draw.circle(screen,color,(practicle.loc.x,practicle.loc.y),practicle.radius)
+
     ##tick and flip
 
 

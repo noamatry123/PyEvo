@@ -33,6 +33,14 @@ class Location:
         self.y=y
     def getTupple(self):
         return (self.x,self.y)
+class practicle:
+    loc=None
+    color=None
+    radius=None
+    def __init__(self,loc,color,radius):
+        self.loc=Location(loc.x,loc.y)
+        self.color=color
+        self.radius=radius
 class Food:
     location=Location(0,0)
     amount=0
@@ -374,6 +382,7 @@ class Egg:
                 self.timeToHatch-=1
 class AbCell:
     target=None
+    lastCollision=None
     angle=0
     lifewithdraw=0
     carnivore=0##to do
@@ -594,6 +603,7 @@ class AbCell:
 class baseCell(AbCell):
     def __init__(self,cell=None,angle=None,carnivore=None,eggwithdraw=None,foodLeft=None,foodWithdraw=None,ID=None,lifeTime=None,location=None,speed=None,rad=None,lifewithdraw=None,timeToLay=None,AI=None,vision=None,eggHatchTime=None,strength=0):
         if cell==None:
+            self.lastCollision=None
             self.angle=angle
             self.AI=AI
             self.vision=vision
@@ -618,6 +628,7 @@ class baseCell(AbCell):
             self.base90, self.base45 = pygame.image.load('src/IMG/e_HeadD.png'),pygame.image.load('src/IMG/e_HeadUL.png')
             self.image=self.base90
         else:
+            self.lastCollision=None
             self.angle=cell.angle
             self.AI=cell.AI
             self.vision=cell.vision
