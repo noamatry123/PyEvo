@@ -44,9 +44,6 @@ class pyAlgorithm:
             timeToLay=10
             eggHatchTime=3
             strength=5
-            if consts.godmode==True:
-                p_lifetime=1000
-                p_food=1000
             #                            cell,angle,carnivore,eggwithdraw,foodleft,foodwithdraw,ID,Lifetime,location,speed,rad,lifewithdeaw,timetolay,AI,vision,eggHatchtime,strngth
             self.myCell=classes.baseCell(None,angle,carnivore,eggwithdraw,p_food,foodWithdraw,0,p_lifetime,classes.Location(400,400),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength)
             self.myCell.base90, self.myCell.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
@@ -234,13 +231,20 @@ class pyAlgorithm:
             file.close()
             pygame.event.post(pygame.event.Event(pygame.QUIT))
     def nextStep(self,text):
+        if consts.godmode:
+            self.myCell.lifeTimeLeft=self.myCell.lifeTime
+            self.myCell.foodLeft=self.myCell.food
         if text!="Empty":
             consts.askingQuestion=False
             ##parse input
         self._counter+=1
+
+        ##change season
+        recording=True
+        if not recording:
+            if self._counter%(consts.framerate*60)==0:
+                consts.season=(consts.season+1)%4
         ##handle input
-        if self._counter%(consts.framerate*60)==0:
-            consts.season=(consts.season+1)%4
         inputlist=self.getInput()
         for item in inputlist:
             if (item=="Left" or item=="Right") and (("Left" in self.__kinput) or ("Right" in self.__kinput)):
@@ -366,6 +370,7 @@ class pyAlgorithm:
         2-winter 25%
         3-spring 100%
         """
+
         if consts.season==0:
             if self._counter%(consts.framerate/6)==0:
                 self.putFood()
