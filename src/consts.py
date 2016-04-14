@@ -9,6 +9,7 @@ season=0
 godmode=False
 mouse_control=True
 loadedGame=False
+recording=True
 def bigger(x,y):
     if x>=y:
         return x

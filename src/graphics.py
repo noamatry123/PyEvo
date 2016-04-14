@@ -7,6 +7,7 @@ import termcolor
 import easygui
 import consts
 import Buttons
+import dumbmenu as dm
 screen=None
 clock=None
 myfont =pygame.font.SysFont("Ariel", 30)
@@ -21,15 +22,62 @@ def printAtt(playerCell):
         label = myfont.render(att,1, (0,0,0))
         screen.blit(label, (0,counter))
         counter+=30
-def askBoard(mode, text,option1="",option2="",text2=""):
+def askBoard(mode, text="",option1="",option2="",text2=""):
     Button1 = Buttons.Button()
     Button2 = Buttons.Button()
-    screen.fill((255,0,255))
-
     screencenter=(consts.screenwidth/2-100,consts.screenheight/2-100)
     screencenter_below=(consts.screenwidth/2-100,(consts.screenheight/2+(consts.screenheight/4)))
+
+    if mode=="menu":
+        t=["New Game","Godmode: Off","Recording: On","Controls: Mouse","Start game"]
+        choose=-1
+        while(choose!=4):
+            screen.fill((0,0,0))
+            choose = dm.dumbmenu(screen, [
+                            t[0],
+                            t[1],
+                            t[2],
+                            t[3],
+                            t[4]], 64,64,None,32,1.4,(0,255,0),(255,0,0))
+
+            if choose == 0:
+                #New / Load
+                if consts.loadedGame==False:
+                    consts.loadedGame=True
+                    t[0]="Loaded Game"
+                else:
+                    consts.loadedGame=False
+                    t[0]="New Game"
+            elif choose == 1:
+                #Godmode
+                if consts.godmode==False:
+                    consts.godmode=True
+                    t[1]="Godmode: On"
+                else:
+                    consts.godmode=False
+                    t[1]="Godmode: Off"
+            elif choose == 2:
+                #New / Load
+                if consts.recording==True:
+                    consts.recording=False
+                    t[2]="Recording: Off"
+                else:
+                    consts.recording=True
+                    t[2]="Recording: On"
+            elif choose == 3:
+                #New / Load
+                if consts.mouse_control==True:
+                    consts.mouse_control=False
+                    t[3]="Controls: Keyboard"
+                else:
+                    consts.mouse_control=True
+                    t[3]="Controls: Mouse"
+            clock.tick(consts.framerate)
+            pygame.display.flip()
+
     ##switch mode
     if mode=="Prompt":
+        screen.fill((255,0,255))
         ptext=text.split("\n")
         plabel=[]
         for p in ptext:
@@ -45,6 +93,7 @@ def askBoard(mode, text,option1="",option2="",text2=""):
                 if Button1.pressed(pygame.mouse.get_pos()):
                     return "Okay"
     if mode=="manual":
+        screen.fill((255,0,255))
         ptext=text.split("\n")
         plabel=[]
         for p in ptext:
@@ -63,6 +112,7 @@ def askBoard(mode, text,option1="",option2="",text2=""):
                 if Button2.pressed(pygame.mouse.get_pos()):
                     return option2
     if mode=="manualAuto":
+        screen.fill((255,0,255))
         ptext=text.split("\n")
         ptext2=text2.split("\n")
         ptext.remove("")

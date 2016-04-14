@@ -281,8 +281,8 @@ class pyAlgorithm:
         self._counter+=1
 
         ##change season
-        recording=True
-        if not recording:
+
+        if not consts.recording:
             if self._counter%(consts.framerate*60)==0:
                 consts.season=(consts.season+1)%4
         ##handle input
