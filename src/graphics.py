@@ -29,16 +29,17 @@ def askBoard(mode, text="",option1="",option2="",text2=""):
     screencenter_below=(consts.screenwidth/2-100,(consts.screenheight/2+(consts.screenheight/4)))
 
     if mode=="menu":
-        t=["New Game","Godmode: Off","Recording: On","Controls: Mouse","Start game"]
+        t=["New Game","Godmode: Off","Recording: On","Controls: Mouse","What keys can i press?","Start game","Quit"]
         choose=-1
-        while(choose!=4):
+        while(choose!=5 and choose!=6):
             screen.fill((0,0,0))
             choose = dm.dumbmenu(screen, [
                             t[0],
                             t[1],
                             t[2],
                             t[3],
-                            t[4]], 64,64,None,32,1.4,(0,255,0),(255,0,0))
+                            t[4],
+                            t[5],t[6]], 64,64,None,32,1.4,(0,255,0),(255,0,0))
 
             if choose == 0:
                 #New / Load
@@ -72,6 +73,18 @@ def askBoard(mode, text="",option1="",option2="",text2=""):
                 else:
                     consts.mouse_control=True
                     t[3]="Controls: Mouse"
+            elif choose == 4:
+                text=" \n \n \n \nA = Lay egg\nC = Toggle carnivore and mating modes\nM = Pause menu (save game)\n"
+                if consts.mouse_control==True:
+                    text+="Left click = Move\nMove mouse = Change angle"
+                else:
+                    text+="Keyboard Arrows = Move and change angle"
+                while(askBoard("Prompt",text)!="Okay"):
+                    pass
+                screen.fill((0,0,0))
+            elif choose == 6:
+                pygame.quit()
+                exit()
             clock.tick(consts.framerate)
             pygame.display.flip()
 
