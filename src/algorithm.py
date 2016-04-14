@@ -113,7 +113,7 @@ class pyAlgorithm:
                 dy=y2-y1
                 ##print("dx: " + str(dx) + " dy: " + str(dy))
                 calc_angle= (math.atan(dy/dx) * -180 / math.pi)
-                print "calc angle: ", calc_angle
+                ##print "calc angle: ", calc_angle
                 if (-22.5<calc_angle<=22.5) and (dx>0): ##Right
                     angle = 2
                 elif (22.5<calc_angle<=67.5) and (dx>0): ##Right Up
