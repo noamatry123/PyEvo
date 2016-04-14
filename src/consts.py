@@ -11,6 +11,7 @@ mouse_control=True
 loadedGame=False
 recording=True
 draw_debugging_options=True
+sandbox=False
 def bigger(x,y):
     if x>=y:
         return x

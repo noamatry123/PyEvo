@@ -8,6 +8,8 @@ import easygui
 import consts
 import Buttons
 import dumbmenu as dm
+import algorithm
+from os import path
 screen=None
 clock=None
 myfont =pygame.font.SysFont("Ariel", 30)
@@ -15,7 +17,103 @@ myfont1=pygame.font.SysFont("Ariel", 30)
 myfont2=pygame.font.SysFont("Ariel", 20)
 practicleList=[]
 last_clickcheck=None
+sCellList=[]
+sFoodList=[]
+sPl=None
+def sandbox():
+    angle=4
+    lifewithdraw=consts.framerate
+    carnivore=0
+    eggwithdraw=consts.framerate
+    food=15
+    foodWithdraw=consts.framerate
+    rad=10
+    AI=2
+    vision=500
+    lifeTime=20
+    p_lifetime=lifeTime
+    p_food=food
+    speed=1
+    timeToLay=10
+    eggHatchTime=3
+    strength=5
+    x=400
+    y=400
+     #                   cell,angle,carnivore,eggwithdraw,foodleft,foodwithdraw,ID,Lifetime,location,speed,rad,lifewithdeaw,timetolay,AI,vision,eggHatchtime,strngth
+    sPl=classes.baseCell(None,angle,carnivore,eggwithdraw,p_food,foodWithdraw,0,p_lifetime,classes.Location(x,y),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength)
+    sPl.base90, sPl.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
+    sPl.image=sPl.base90
+    attstr=["None","angle","carnivore","eggWithdraw","food","foodWithdraw","ID","lifetime","x","y","speed","rad","lifeWithdraw","timeToLay","AI","Vision","eggHatchTime","str"]
+    idA=1
+    while(True):
+        screen.fill((255,255,0))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return False,"End"
+            if event.type == pygame.KEYDOWN:
+                if event.key==pygame.K_p:
+                    exit()
+                if event.key==pygame.K_f:
+                    save_rawtext=algorithm.save(sPl,sCellList,sFoodList)
+                    pygame.quit()
+                    filename=easygui.enterbox("Enter save name: ","","Save001")
+                    file_path = path.relpath("src/SAV/"+filename+".sav")
+                    file = open(file_path,"wb")
+                    file.write(save_rawtext)
+                    file.close()
+                    exit()
+                if event.key==pygame.K_a:
+                    print "Making cell"
+                    x=pygame.mouse.get_pos()[0]
+                    y=pygame.mouse.get_pos()[1]
+                    attlist=[None,angle,carnivore,eggwithdraw,p_food,foodWithdraw,idA,p_lifetime,x,y,speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength]
+                    idA+=1
+                    rt=easygui.multenterbox("Make Cell","",attstr,attlist)
+                    print rt
+                    rt[0]="0"
+                    for index in xrange(0,len(rt)):
+                        rt[index]=int(rt[index])
+                    sCellList.append(classes.baseCell(None,rt[1],rt[2],rt[3],rt[4],rt[5],rt[6],rt[7],classes.Location(rt[8],rt[9]),rt[10],rt[11],rt[12],rt[13],rt[14],rt[15],rt[16],rt[17]))
+                if event.key==pygame.K_s:
+                    x=pygame.mouse.get_pos()[0]
+                    y=pygame.mouse.get_pos()[1]
+                    sFoodList.append(classes.Food(classes.Location(x,y),1,5))
+                if event.key==pygame.K_d:
+                    x=pygame.mouse.get_pos()[0]
+                    y=pygame.mouse.get_pos()[1]
+                    sPl.location.x=x
+                    sPl.location.y=y
+        for cell in sCellList:
+                if cell.timeToHurt%2==0:
+                    ##pygame.draw.circle(screen,(255,0,0),(cell.location.getTupple()),cell.rad)
+                    ##pygame.draw.circle(screen,(10,255,10),(cell.location_compensated()),2)
+                    screen.blit(cell.image,(cell.location.x-cell.rad,cell.location.y-cell.rad))
+                    ##draw IDs:
+                    color=(0,0,0)
+                    if cell.mode=="c":
+                        color=(255,0,0)
+                    label = myfont2.render(str(cell.ID), 1, color)
+                    screen.blit(label,(cell.location.x+5,cell.location.y))
+                    ##draw life:
+                    label = myfont2.render(str(cell.lifeTimeLeft), 1, (0,0,0))
+                    screen.blit(label,(cell.location.x-15,cell.location.y))
+                    pygame.draw.rect(screen,(255,0,0),(cell.location.x-10,cell.location.y-15,(30*(cell.lifeTimeLeft/float(cell.lifeTime))),6))
+                    ##draw foodbar
+                    pygame.draw.rect(screen,(0,255,0),(cell.location.x-10,cell.location.y-6-15,(30*(cell.foodLeft/float(cell.lifeTime))),6))
+        if sPl.timeToHurt%2==0:
+            screen.blit(sPl.image,(sPl.location.x-sPl.rad,sPl.location.y-sPl.rad))
+            pygame.draw.rect(screen,(255,0,0),(sPl.location.x-10,sPl.location.y-15,(30*(sPl.lifeTimeLeft/float(sPl.lifeTime))),6))
+            ##draw player ID
+            label = myfont2.render(str(sPl.ID), 1, (255,255,0))
+            screen.blit(label,(sPl.location.x,sPl.location.y))
+            #foodbar
+            pygame.draw.rect(screen,(0,255,0),(sPl.location.x-10,sPl.location.y-6-15,(30*(sPl.foodLeft/float(sPl.lifeTime))),6))
+        for food in sFoodList:
+            #pygame.draw.circle(screen,(80,255,80),(food.location.getTupple()),food.rad)
+            screen.blit(food.image,(food.location.x-food.rad,food.location.y-food.rad))
 
+        clock.tick(consts.framerate)
+        pygame.display.flip()
 def printAtt(playerCell):
     counter=0
     for att in playerCell.getUsefullAtts():

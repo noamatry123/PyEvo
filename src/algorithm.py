@@ -16,6 +16,72 @@ practicle_radius=12
 def getNextID():
     classes.curID+=1
     return classes.curID
+def save(myCell,cellList,foodList,myEggs=[],cellEggs=[]):
+    dt=""
+    for food in foodList:
+        dt+="F|"
+        dt+=str(food.location.x)+"|"
+        dt+=str(food.location.y)+"|"
+        dt+=str(food.amount)+"|"
+        dt+="\n"
+    for egg in cellEggs:
+        dt+="EC|"
+        dt+=str(egg.location.x)+"|"
+        dt+=str(egg.location.y)+"|"
+        dt+=str(egg.father)+"|"
+        dt+=str(egg.mother)+"|"
+        dt+=str(egg.timeToHatch)+"|"
+        dt+="\n"
+    for egg in myEggs:
+        dt+="EP|"
+        dt+=str(egg.location.x)+"|"
+        dt+=str(egg.location.y)+"|"
+        dt+=str(egg.father)+"|"
+        dt+=str(egg.mother)+"|"
+        dt+=str(egg.timeToHatch)+"|"
+        dt+="\n"
+    #self,cell,angle,carnivore,eggwithdraw,foodLeft,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength=0):
+    for cell in cellList:
+        dt+="C|"#0
+        dt+=str(cell.location.x)+"|"#1
+        dt+=str(cell.location.y)+"|"#2
+        dt+=str(cell.angle)+"|"#3
+        dt+=str(cell.carnivore)+"|"
+        dt+=str(cell.eggwithdraw)+"|"
+        dt+=str(cell.foodLeft)+"|"
+        dt+=str(cell.foodWithdraw)+"|"
+        dt+=str(cell.ID)+"|"
+        dt+=str(cell.lifeTime)+"|"
+        dt+=str(cell.speed)+"|"
+        dt+=str(cell.lifewithdraw)+"|"
+        dt+=str(cell.timeToLay)+"|"
+        dt+=str(cell.AI)+"|"
+        dt+=str(cell.vision)+"|"
+        dt+=str(cell.eggHatchTime)+"|"
+        dt+=str(cell.strength)+"|"
+        dt+="\n"
+    dt+="CP|"#0
+    dt+=str(myCell.location.x)+"|"#1
+    dt+=str(myCell.location.y)+"|"#2
+    dt+=str(myCell.angle)+"|"#3
+    dt+=str(myCell.carnivore)+"|"
+    dt+=str(myCell.eggwithdraw)+"|"
+    dt+=str(myCell.foodLeft)+"|"
+    dt+=str(myCell.foodWithdraw)+"|"
+    dt+=str(myCell.ID)+"|"
+    dt+=str(myCell.lifeTime)+"|"
+    dt+=str(myCell.speed)+"|"
+    dt+=str(myCell.lifewithdraw)+"|"
+    dt+=str(myCell.timeToLay)+"|"
+    dt+=str(myCell.AI)+"|"
+    dt+=str(myCell.vision)+"|"
+    dt+=str(myCell.eggHatchTime)+"|"
+    dt+=str(myCell.strength)+"|"
+    dt+="\n"
+
+    dt+="T|"+str(consts.counter/consts.framerate)+"\n"
+    enc_dt=base64.urlsafe_b64encode(dt)
+    return enc_dt
 class pyAlgorithm:
     _counter=0
     __lastTimeSinceKey={"Left":0,"Right":0}
@@ -79,7 +145,8 @@ class pyAlgorithm:
             self.myCell.image=self.myCell.base90
 
     def putFood(self):
-        self.foodList.append(classes.Food(classes.Location(random.randint(0,consts.screenwidth),random.randint(0,consts.screenheight)),1,5))
+        value=random.randint(1,4)
+        self.foodList.append(classes.Food(classes.Location(random.randint(0,consts.screenwidth),random.randint(0,consts.screenheight)),value,5))
     def growCellEggs(self):
         for egg in self.cellEggs:
             if egg.timeToHatch==0:
@@ -184,72 +251,6 @@ class pyAlgorithm:
             if (pygame.mouse.get_pressed()[0]):
                 returnList.append("Up")
             return returnList
-    def save(self):
-        dt=""
-        for food in self.foodList:
-            dt+="F|"
-            dt+=str(food.location.x)+"|"
-            dt+=str(food.location.y)+"|"
-            dt+=str(food.amount)+"|"
-            dt+="\n"
-        for egg in self.cellEggs:
-            dt+="EC|"
-            dt+=str(egg.location.x)+"|"
-            dt+=str(egg.location.y)+"|"
-            dt+=str(egg.father)+"|"
-            dt+=str(egg.mother)+"|"
-            dt+=str(egg.timeToHatch)+"|"
-            dt+="\n"
-        for egg in self.myEggs:
-            dt+="EP|"
-            dt+=str(egg.location.x)+"|"
-            dt+=str(egg.location.y)+"|"
-            dt+=str(egg.father)+"|"
-            dt+=str(egg.mother)+"|"
-            dt+=str(egg.timeToHatch)+"|"
-            dt+="\n"
-        #self,cell,angle,carnivore,eggwithdraw,foodLeft,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength=0):
-        for cell in self.cellList:
-            dt+="C|"#0
-            dt+=str(cell.location.x)+"|"#1
-            dt+=str(cell.location.y)+"|"#2
-            dt+=str(cell.angle)+"|"#3
-            dt+=str(cell.carnivore)+"|"
-            dt+=str(cell.eggwithdraw)+"|"
-            dt+=str(cell.foodLeft)+"|"
-            dt+=str(cell.foodWithdraw)+"|"
-            dt+=str(cell.ID)+"|"
-            dt+=str(cell.lifeTime)+"|"
-            dt+=str(cell.speed)+"|"
-            dt+=str(cell.lifewithdraw)+"|"
-            dt+=str(cell.timeToLay)+"|"
-            dt+=str(cell.AI)+"|"
-            dt+=str(cell.vision)+"|"
-            dt+=str(cell.eggHatchTime)+"|"
-            dt+=str(cell.strength)+"|"
-            dt+="\n"
-        dt+="CP|"#0
-        dt+=str(self.myCell.location.x)+"|"#1
-        dt+=str(self.myCell.location.y)+"|"#2
-        dt+=str(self.myCell.angle)+"|"#3
-        dt+=str(self.myCell.carnivore)+"|"
-        dt+=str(self.myCell.eggwithdraw)+"|"
-        dt+=str(self.myCell.foodLeft)+"|"
-        dt+=str(self.myCell.foodWithdraw)+"|"
-        dt+=str(self.myCell.ID)+"|"
-        dt+=str(self.myCell.lifeTime)+"|"
-        dt+=str(self.myCell.speed)+"|"
-        dt+=str(self.myCell.lifewithdraw)+"|"
-        dt+=str(self.myCell.timeToLay)+"|"
-        dt+=str(self.myCell.AI)+"|"
-        dt+=str(self.myCell.vision)+"|"
-        dt+=str(self.myCell.eggHatchTime)+"|"
-        dt+=str(self.myCell.strength)+"|"
-        dt+="\n"
-
-        dt+="T|"+str(consts.counter/consts.framerate)+"\n"
-        enc_dt=base64.urlsafe_b64encode(dt)
-        return enc_dt
     def load(self,sp):
         for object in sp:
             if object=="":
@@ -274,7 +275,7 @@ class pyAlgorithm:
         while choice not in ["Save and Quit","Resume"]:
             choice=graphics.askBoard("manual","Game Paused","Save and Quit","Resume")
         if choice=="Save and Quit":
-            save_rawtext=self.save()
+            save_rawtext=save(self.myCell,self.cellList,self.foodList,self.myEggs,self.cellEggs)
             pygame.quit()
             filename=easygui.enterbox("Enter save name: ","","Save001")
             file_path = path.relpath("src/SAV/"+filename+".sav")

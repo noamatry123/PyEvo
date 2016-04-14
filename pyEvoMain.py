@@ -7,13 +7,15 @@ import easygui
 import consts
 import pygame
 def main():
-    values=easygui.multenterbox("Display settings: ","",["Width","Height","Fullscreen"],["1440","900","Yes"])
+    values=easygui.multenterbox("Display settings: ","",["Width","Height","Fullscreen","Sandbox"],["1440","900","Yes","No"])
     consts.screenwidth=int(values[0])
     consts.screenheight=int(values[1])
     if values[2]!="Yes":
         screen = pygame.display.set_mode((consts.screenwidth, consts.screenheight))
     else:
         screen = pygame.display.set_mode((consts.screenwidth, consts.screenheight),pygame.FULLSCREEN)
+    if values[3]!="No":
+        consts.sandbox=True
     running = True
     #hi
     text="Empty"
@@ -21,8 +23,11 @@ def main():
 
     graphics.screen=screen
     graphics.clock = pygame.time.Clock()
-    graphics.askBoard("menu")
-    algoModule = algorithm.pyAlgorithm(consts.screenwidth,consts.screenheight)
+    if not consts.sandbox:
+        graphics.askBoard("menu")
+        algoModule = algorithm.pyAlgorithm(consts.screenwidth,consts.screenheight)
+    else:
+        graphics.sandbox()
 
     while running:
         algoModule.nextStep(text)
