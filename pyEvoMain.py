@@ -7,19 +7,27 @@ import easygui
 import consts
 import pygame
 def main():
-    consts.screenwidth=int(easygui.enterbox("Enter width","","1366"))
-    consts.screenheight=int(easygui.enterbox("Enter height","","768"))
+    consts.screenwidth=int(easygui.enterbox("Enter width","","1440"))
+    consts.screenheight=int(easygui.enterbox("Enter height","","900"))
 
     running = True
     #hi
     text="Empty"
     pygame.init()
 
+    ##load
     choice=easygui.boolbox("Choose option?","",["Load Last Game","New Game"]) ##new/load
     if choice==0:##new
         consts.loadedGame=False
     else:##load
         consts.loadedGame=True
+
+    ##choose movement
+    choice=easygui.boolbox("Choose option?","",["Keyboard","Mouse"]) ##new/load
+    if choice==0:##Mouse
+        consts.mouse_control=True
+    else:##Keyboard
+        consts.mouse_control=False
 
     ##godmode: delete later
     choice=easygui.boolbox("Godmode?","",["No","Yes"])

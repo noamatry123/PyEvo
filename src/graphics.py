@@ -125,19 +125,34 @@ def askBoard(mode, text,option1="",option2="",text2=""):
 def drawBoard(playerCell,cellList,foodList,eggList):
 
     ##fill screen / season
+    seasoncolor=[(255,255,0),(236,39,39),(213,244,252),(252,88,181)]
+    seasonid=0
     if consts.season==0:
-        screen.fill((255,255,0))
+        screen.fill(seasoncolor[0])
+        seasonid=0
     elif consts.season==1:
-        screen.fill((236,39,39))
+        screen.fill(seasoncolor[1])
+        seasonid=1
     elif consts.season==2:
-        screen.fill((213,244,252))
+        screen.fill(seasoncolor[2])
+        seasonid=2
     elif consts.season==3:
-        screen.fill((252,88,181))
+        screen.fill(seasoncolor[3])
+        seasonid=3
     ##handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return False,"End"
 
+    ##draw line for mouse "debugging"
+    pygame.draw.aaline(screen, (30,30,30), (playerCell.location.x,playerCell.location.y), (pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1]))
+    pygame.draw.circle(screen, (255,50,50), (playerCell.location.x,playerCell.location.y),30)
+    pygame.draw.circle(screen, seasoncolor[seasonid], (playerCell.location.x,playerCell.location.y),29)
+    #pygame.draw.aaline(screen, (30,30,255), (playerCell.location.x,playerCell.location.y-30),(playerCell.location.x,playerCell.location.y+30))
+    pygame.draw.aaline(screen, (30,30,255), (playerCell.location.x-30,playerCell.location.y),(playerCell.location.x+30,playerCell.location.y))
+    pygame.draw.aaline(screen, (30,30,255), (playerCell.location.x-12,playerCell.location.y+28),(playerCell.location.x+12,playerCell.location.y-28))
+    pygame.draw.aaline(screen, (30,30,255), (playerCell.location.x-12,playerCell.location.y-28),(playerCell.location.x+12,playerCell.location.y+28))
+    pygame.draw.aaline(screen, (30,30,255), (playerCell.location.x+21,playerCell.location.y-21),(playerCell.location.x-21,playerCell.location.y+21))
     ##hadndle drawing cells and food
     for cell in cellList:
         if cell.timeToHurt%2==0:
@@ -186,9 +201,10 @@ def drawBoard(playerCell,cellList,foodList,eggList):
         color=(practicle.color[0],practicle.color[1],practicle.color[2],85)
         pygame.draw.circle(screen,color,(practicle.loc.x,practicle.loc.y),practicle.radius)
 
-    ##tick and flip
-    pygame.draw.aaline(screen, (30,30,30), (playerCell.location.x,playerCell.location.y), (pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1]))
 
+
+
+    ##tick and flip
     clock.tick(consts.framerate)
     pygame.display.flip()
 

@@ -111,9 +111,9 @@ class pyAlgorithm:
             dx=x2-x1
             if  not dx==0:
                 dy=y2-y1
-                print("dx: " + str(dx) + " dy: " + str(dy))
+                ##print("dx: " + str(dx) + " dy: " + str(dy))
                 calc_angle= (math.atan(dy/dx) * -180 / math.pi)
-                print ("calc angle: ", calc_angle)
+                print "calc angle: ", calc_angle
                 if (-22.5<calc_angle<=22.5) and (dx>0): ##Right
                     angle = 2
                 elif (22.5<calc_angle<=67.5) and (dx>0): ##Right Up
@@ -281,7 +281,7 @@ class pyAlgorithm:
         self._counter+=1
 
         ##change season
-        recording=False
+        recording=True
         if not recording:
             if self._counter%(consts.framerate*60)==0:
                 consts.season=(consts.season+1)%4
