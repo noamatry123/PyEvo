@@ -7,7 +7,7 @@ import easygui
 import consts
 import pygame
 def main():
-    values=easygui.multenterbox("Display settings: ","",["Width","Height","Fullscreen"],["800","600","no"])
+    values=easygui.multenterbox("Display settings: ","",["Width","Height","Fullscreen"],["1440","900","Yes"])
     consts.screenwidth=int(values[0])
     consts.screenheight=int(values[1])
     if values[2]!="Yes":

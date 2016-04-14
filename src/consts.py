@@ -10,6 +10,7 @@ godmode=False
 mouse_control=True
 loadedGame=False
 recording=True
+draw_debugging_options=True
 def bigger(x,y):
     if x>=y:
         return x
