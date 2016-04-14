@@ -11,6 +11,7 @@ from os import path
 from os import listdir
 from os.path import isfile, join
 import easygui
+import base64
 practicle_radius=12
 def getNextID():
     classes.curID+=1
@@ -70,8 +71,9 @@ class pyAlgorithm:
             choice=easygui.multchoicebox("Pick savefile:","",onlyfiles)
             file_path = path.relpath("src/SAV/"+choice)
             file = open(file_path,"r")
-            sp=file.read().split('\n')
-            self.load(sp)
+            sp=file.read()
+            spp=base64.urlsafe_b64decode(sp).split('\n')
+            self.load(spp)
             file.close()
             self.myCell.base90, self.myCell.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
             self.myCell.image=self.myCell.base90
@@ -182,7 +184,6 @@ class pyAlgorithm:
             if (pygame.mouse.get_pressed()[0]):
                 returnList.append("Up")
             return returnList
-
     def save(self):
         dt=""
         for food in self.foodList:
@@ -247,7 +248,8 @@ class pyAlgorithm:
         dt+="\n"
 
         dt+="T|"+str(consts.counter/consts.framerate)+"\n"
-        return dt
+        enc_dt=base64.urlsafe_b64encode(dt)
+        return enc_dt
     def load(self,sp):
         for object in sp:
             if object=="":
