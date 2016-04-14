@@ -187,7 +187,7 @@ def drawBoard(playerCell,cellList,foodList,eggList):
         pygame.draw.circle(screen,color,(practicle.loc.x,practicle.loc.y),practicle.radius)
 
     ##tick and flip
-
+    pygame.draw.aaline(screen, (30,30,30), (playerCell.location.x,playerCell.location.y), (pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1]))
 
     clock.tick(consts.framerate)
     pygame.display.flip()

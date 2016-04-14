@@ -417,7 +417,8 @@ class AbCell:
                     self.eat(food)
                     foodList.remove(food)
     def changeAngle(self, dir):
-        self.angle=(self.angle+dir)%8 ##0 is up, clockwise (2 is right)
+        if not dir==0:
+            self.angle=(self.angle+dir)%8 ##0 is up, clockwise (2 is right)
         if self.angle==0:
             self.image=pygame.transform.rotate(self.base90,180)
         elif self.angle==2:

@@ -7,6 +7,7 @@ askingQuestion=True
 counter=0
 season=0
 godmode=False
+mouse_control=True
 loadedGame=False
 def bigger(x,y):
     if x>=y:

@@ -102,13 +102,48 @@ class pyAlgorithm:
     def getInput(self):
         returnList=[]
         events = pygame.event.get(pygame.KEYDOWN)
+        if consts.mouse_control:#mouse control
+            angle=0
+            x1=self.myCell.location.x
+            y1=self.myCell.location.y
+            x2=pygame.mouse.get_pos()[0]
+            y2=pygame.mouse.get_pos()[1]
+            dx=x2-x1
+            if  not dx==0:
+                dy=y2-y1
+                print("dx: " + str(dx) + " dy: " + str(dy))
+                calc_angle= (math.atan(dy/dx) * -180 / math.pi)
+                print ("calc angle: ", calc_angle)
+                if (-22.5<calc_angle<=22.5) and (dx>0): ##Right
+                    angle = 2
+                elif (22.5<calc_angle<=67.5) and (dx>0): ##Right Up
+                    angle = 1
+                elif (67.5<calc_angle<=90) and (dx>0): ##Up
+                    angle = 0
+                elif (-90<calc_angle<=-67.5) and (dx<0): ##Up
+                    angle = 0
+                elif (-67.5<calc_angle<=-22.5) and (dx<0): ##Left Up
+                    angle = 7
+                elif (-22.5<calc_angle<=22.5) and (dx<0): ##Left
+                    angle = 6
+                elif (22.5<calc_angle<=67.5) and (dx<0): ##Left Down
+                    angle = 5
+                elif (67.5<calc_angle<=90) and (dx<0): ##Down
+                    angle = 4
+                elif (-90<calc_angle<=-67.5) and (dx>0): ##Down
+                    angle = 4
+                elif (-67.5<calc_angle<=-22.5) and (dx>0): ##Right Down
+                    angle = 3
+                self.myCell.angle=angle
         for event in events:
-            if event.key==pygame.K_LEFT:
-                returnList.append("Left")
-                self.__lastTimeSinceKey["Left"]=0
-            if event.key==pygame.K_RIGHT:
-                returnList.append("Right")
-                self.__lastTimeSinceKey["Right"]=0
+            if not consts.mouse_control: #keyboard
+                if event.key==pygame.K_LEFT:
+                    returnList.append("Left")
+                    self.__lastTimeSinceKey["Left"]=0
+                if event.key==pygame.K_RIGHT:
+                    returnList.append("Right")
+                    self.__lastTimeSinceKey["Right"]=0
+
 
             if event.key==pygame.K_a:
                 returnList.append("a")
@@ -133,9 +168,15 @@ class pyAlgorithm:
             else:
                 self.__lastTimeSinceKey["Right"]+=1
         #check up and down
-        if key[pygame.K_UP]:
-            returnList.append("Up")
-        return returnList
+        if not consts.mouse_control: #keyboard
+            if key[pygame.K_UP]:
+                returnList.append("Up")
+            return returnList
+        else: #mouse
+            if (pygame.mouse.get_pressed()[0]):
+                returnList.append("Up")
+            return returnList
+
     def save(self):
         dt=""
         for food in self.foodList:
@@ -240,7 +281,7 @@ class pyAlgorithm:
         self._counter+=1
 
         ##change season
-        recording=True
+        recording=False
         if not recording:
             if self._counter%(consts.framerate*60)==0:
                 consts.season=(consts.season+1)%4
@@ -256,10 +297,12 @@ class pyAlgorithm:
             else:
                 self.__kinput.append(item)
         for item in self.__kinput:
-            if item=="Left" or item=="OLeft":
-                self.myCell.changeAngle(-1)
-            if item=="Right" or item=="ORight":
-                self.myCell.changeAngle(1)
+            if not consts.mouse_control:
+                if item=="Left" or item=="OLeft":
+                    self.myCell.changeAngle(-1)
+                if item=="Right" or item=="ORight":
+                    self.myCell.changeAngle(1)
+        self.myCell.changeAngle(0)
         if "Up" in self.__kinput:
             self.myCell.move()
         ##handle food and life
