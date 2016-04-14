@@ -31,6 +31,7 @@ def askBoard(mode, text="",option1="",option2="",text2=""):
     if mode=="menu":
         t=["New Game","Godmode: Off","Recording: On","Controls: Mouse","What keys can i press?","Start game","Quit"]
         choose=-1
+        cpos=0
         while(choose!=5 and choose!=6):
             screen.fill((0,0,0))
             choose = dm.dumbmenu(screen, [
@@ -39,8 +40,8 @@ def askBoard(mode, text="",option1="",option2="",text2=""):
                             t[2],
                             t[3],
                             t[4],
-                            t[5],t[6]], 64,64,None,32,1.4,(0,255,0),(255,0,0))
-
+                            t[5],t[6]], 64,64,None,32,1.4,(0,255,0),(255,0,0),True,cpos)
+            cpos=choose
             if choose == 0:
                 #New / Load
                 if consts.loadedGame==False:
