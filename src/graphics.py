@@ -49,6 +49,7 @@ def askBoard(mode, text="",option1="",option2="",text2=""):
                 else:
                     consts.loadedGame=False
                     t[0]="New Game"
+                print consts.loadedGame
             elif choose == 1:
                 #Godmode
                 if consts.godmode==False:
@@ -87,6 +88,7 @@ def askBoard(mode, text="",option1="",option2="",text2=""):
                 exit()
             clock.tick(consts.framerate)
             pygame.display.flip()
+        print consts.loadedGame
 
     ##switch mode
     if mode=="Prompt":

@@ -7,7 +7,7 @@ import easygui
 import consts
 import pygame
 def main():
-    values=easygui.multenterbox("Display settings: ","",["Width","Height","Fullscreen"],["1440","900","Yes"])
+    values=easygui.multenterbox("Display settings: ","",["Width","Height","Fullscreen"],["800","600","no"])
     consts.screenwidth=int(values[0])
     consts.screenheight=int(values[1])
     if values[2]!="Yes":
@@ -19,10 +19,11 @@ def main():
     text="Empty"
     pygame.init()
 
-    algoModule = algorithm.pyAlgorithm(consts.screenwidth,consts.screenheight)
     graphics.screen=screen
     graphics.clock = pygame.time.Clock()
     graphics.askBoard("menu")
+    algoModule = algorithm.pyAlgorithm(consts.screenwidth,consts.screenheight)
+
     while running:
         algoModule.nextStep(text)
         running,text = graphics.drawBoard(algoModule.myCell, algoModule.cellList, algoModule.foodList,[algoModule.myEggs, algoModule.cellEggs])

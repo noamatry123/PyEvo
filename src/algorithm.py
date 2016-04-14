@@ -8,6 +8,9 @@ import math
 import AI
 import pickle
 from os import path
+from os import listdir
+from os.path import isfile, join
+import easygui
 practicle_radius=12
 def getNextID():
     classes.curID+=1
@@ -24,6 +27,7 @@ class pyAlgorithm:
     screenwidth=0
     screenheight=0
     def __init__(self,height,width): #temp
+        print "Load game? " + str(consts.loadedGame)
         if consts.loadedGame==False: ##new game ##change true to 'consts.loadedGame==False'
             ##(cell,angle,carnivore,eggwithdraw,food,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength=0):
             self.screenheight=height
@@ -62,7 +66,9 @@ class pyAlgorithm:
             ##self.cellEggs.append(classes.Egg((100,100),self.cellList[0],None,6,0))
             self.putFood()
         else: ##later code goes here
-            file_path = path.relpath("src/SAV/foodList.sav")
+            onlyfiles = [f for f in listdir("src/SAV") if isfile(join("src/SAV", f))]
+            choice=easygui.multchoicebox("Pick savefile:","",onlyfiles)
+            file_path = path.relpath("src/SAV/"+choice)
             file = open(file_path,"r")
             sp=file.read().split('\n')
             self.load(sp)
@@ -266,11 +272,14 @@ class pyAlgorithm:
         while choice not in ["Save and Quit","Resume"]:
             choice=graphics.askBoard("manual","Game Paused","Save and Quit","Resume")
         if choice=="Save and Quit":
-            file_path = path.relpath("src/SAV/foodList.sav")
+            save_rawtext=self.save()
+            pygame.quit()
+            filename=easygui.enterbox("Enter save name: ","","Save001")
+            file_path = path.relpath("src/SAV/"+filename+".sav")
             file = open(file_path,"wb")
-            file.write(self.save())
+            file.write(save_rawtext)
             file.close()
-            pygame.event.post(pygame.event.Event(pygame.QUIT))
+            exit()
     def nextStep(self,text):
         if consts.godmode:
             self.myCell.lifeTimeLeft=self.myCell.lifeTime
