@@ -120,6 +120,8 @@ def printAtt(playerCell):
         label = myfont.render(att,1, (0,0,0))
         screen.blit(label, (0,counter))
         counter+=30
+    label=myfont.render(str(consts.counter/consts.framerate),1,(0,0,0))
+    screen.blit(label, (5,consts.screenheight-25))
 def askBoard(mode, text="",option1="",option2="",text2=""):
     Button1 = Buttons.Button()
     Button2 = Buttons.Button()
