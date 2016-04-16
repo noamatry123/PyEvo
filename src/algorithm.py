@@ -187,29 +187,28 @@ class pyAlgorithm:
             if  not dx==0:
                 dy=y2-y1
                 ##print("dx: " + str(dx) + " dy: " + str(dy))
-                calc_angle= (math.atan(dy/dx) * -180 / math.pi)
-                ##print "calc angle: ", calc_angle
-                if (-22.5<calc_angle<=22.5) and (dx>0): ##Right
-                    angle = 2
-                elif (22.5<calc_angle<=67.5) and (dx>0): ##Right Up
-                    angle = 1
-                elif (67.5<calc_angle<=90) and (dx>0): ##Up
-                    angle = 0
-                elif (-90<calc_angle<=-67.5) and (dx<0): ##Up
-                    angle = 0
-                elif (-67.5<calc_angle<=-22.5) and (dx<0): ##Left Up
-                    angle = 7
-                elif (-22.5<calc_angle<=22.5) and (dx<0): ##Left
-                    angle = 6
-                elif (22.5<calc_angle<=67.5) and (dx<0): ##Left Down
-                    angle = 5
-                elif (67.5<calc_angle<=90) and (dx<0): ##Down
-                    angle = 4
-                elif (-90<calc_angle<=-67.5) and (dx>0): ##Down
-                    angle = 4
-                elif (-67.5<calc_angle<=-22.5) and (dx>0): ##Right Down
-                    angle = 3
-                self.myCell.angle=angle
+                calc_angle= (math.atan2(dy,dx) * -180 / math.pi)
+                angle=None
+                #print "calc angle: ", calc_angle
+                if(-22.5<calc_angle<22.5): ##right
+                    angle=2
+                if(-67.5<calc_angle<-22.5): ##right down
+                    angle=3
+                if(-112.5<calc_angle<-67.5): ##down
+                    angle=4
+                if(-157.5<calc_angle<-112.5): ##left down
+                    angle=5
+                if(157.5<calc_angle or calc_angle<-157.5): ##left
+                    angle=6
+                if(112.5<calc_angle<157.5): ##left up
+                    angle=7
+                if(67.5<calc_angle<112.5): ##up
+                    angle=0
+                if(22.5<calc_angle<67.5): ##up right
+                    angle=1
+
+                if angle!=None:
+                    self.myCell.angle=angle
         for event in events:
             if not consts.mouse_control: #keyboard
                 if event.key==pygame.K_LEFT:
