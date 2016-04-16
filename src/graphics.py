@@ -308,15 +308,6 @@ def drawBoard(playerCell,cellList,foodList,eggList):
         if event.type == pygame.QUIT:
             return False,"End"
 
-    ##draw line for mouse "debugging"
-    if consts.draw_debugging_options:
-        pygame.draw.aaline(screen, (30,30,30), (playerCell.location.x,playerCell.location.y), (pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1]))
-        pygame.draw.circle(screen, (255,50,50), (playerCell.location.x,playerCell.location.y),30,1)
-        #pygame.draw.aaline(screen, (30,30,255), (playerCell.location.x,playerCell.location.y-30),(playerCell.location.x,playerCell.location.y+30))
-        pygame.draw.aaline(screen, (30,30,255), (playerCell.location.x-30,playerCell.location.y),(playerCell.location.x+30,playerCell.location.y))
-        pygame.draw.aaline(screen, (30,30,255), (playerCell.location.x-12,playerCell.location.y+28),(playerCell.location.x+12,playerCell.location.y-28))
-        pygame.draw.aaline(screen, (30,30,255), (playerCell.location.x-12,playerCell.location.y-28),(playerCell.location.x+12,playerCell.location.y+28))
-        pygame.draw.aaline(screen, (30,30,255), (playerCell.location.x+21,playerCell.location.y-21),(playerCell.location.x-21,playerCell.location.y+21))
 
         for cell in cellList:
             pygame.draw.circle(screen,(200,200,200),(cell.location.x,cell.location.y),cell.vision,1)
