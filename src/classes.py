@@ -396,7 +396,7 @@ class spaceLimited:
         consts.p2active=True
     def grow(self):
         if self.active==True:
-            if self.radius>30:
+            if self.radius>150:
                 self.radius-=0.1
         consts.p2radius=self.radius
 class AbCell:
