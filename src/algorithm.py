@@ -93,6 +93,7 @@ class pyAlgorithm:
     foodList=[]
     screenwidth=0
     screenheight=0
+    p2spaceLimiter=None
     def __init__(self,height,width): #temp
         print "Load game? " + str(consts.loadedGame)
         if consts.loadedGame==False: ##new game ##change true to 'consts.loadedGame==False'
@@ -143,6 +144,7 @@ class pyAlgorithm:
             file.close()
             self.myCell.base90, self.myCell.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
             self.myCell.image=self.myCell.base90
+        self.p2spaceLimiter=classes.spaceLimited(consts.screenwidth/2,0.05)
 
     def putFood(self):
         value=random.randint(1,4)
@@ -416,6 +418,19 @@ class pyAlgorithm:
                 cell.lastCollision=cell.ID+self._counter
 
 
+        ##check if its phase 2
+        if consts.counter/consts.framerate>consts.timeUntilPhase2 and self.p2spaceLimiter.active==False:
+            self.p2spaceLimiter.activate()
+        self.p2spaceLimiter.grow()
+        if self.p2spaceLimiter.active:
+            completeCellList=[]
+            for cell in self.cellList:
+                completeCellList.append(cell)
+            completeCellList.append(self.myCell)
+            for cell in completeCellList:
+                if  not math.sqrt(((cell.location.x-self.p2spaceLimiter.loc.x)**2)+((cell.location.y-self.p2spaceLimiter.loc.y)**2))<cell.rad+self.p2spaceLimiter.radius:
+                    cell.lifeTimeLeft-=self.p2spaceLimiter.hurt
+                    graphics.practicleList.append(classes.practicle(cell.location,(255,0,0),7))
 
         #grow more food
         """

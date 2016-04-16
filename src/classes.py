@@ -380,6 +380,25 @@ class Egg:
         if not self.timeToHatch==0: #egg is hatching
             if counter%consts.framerate==0:
                 self.timeToHatch-=1
+class spaceLimited:
+    radius=0
+    hurt=0
+    active=False
+    loc=None
+    def __init__(self,radius,hurt):
+        self.radius=radius
+        self.hurt=hurt
+        self.active=False
+        consts.p2active=False
+        self.loc=Location(consts.screenwidth/2,consts.screenheight/2)
+    def activate(self):
+        self.active=True
+        consts.p2active=True
+    def grow(self):
+        if self.active==True:
+            if self.radius>30:
+                self.radius-=0.1
+        consts.p2radius=self.radius
 class AbCell:
     target=None
     lastCollision=None

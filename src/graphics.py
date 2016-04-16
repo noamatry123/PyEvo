@@ -305,14 +305,14 @@ def drawBoard(playerCell,cellList,foodList,eggList):
     elif consts.season==3:
         screen.fill(seasoncolor[3])
         seasonid=3
+
+
+
     ##handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return False,"End"
 
-
-        for cell in cellList:
-            pygame.draw.circle(screen,(200,200,200),(cell.location.x,cell.location.y),cell.vision,1)
     ##hadndle drawing cells and food
     for cell in cellList:
         if cell.timeToHurt%2==0:
@@ -360,9 +360,10 @@ def drawBoard(playerCell,cellList,foodList,eggList):
     for practicle in practicleList:
         color=(practicle.color[0],practicle.color[1],practicle.color[2],85)
         pygame.draw.circle(screen,color,(practicle.loc.x,practicle.loc.y),practicle.radius)
-
-
-
+    ##draw limiter
+    if consts.p2active:
+        pygame.draw.circle(screen,(0,0,0),(int(consts.screenwidth/2),int(consts.screenheight/2)),int(consts.p2radius),3)
+        #print (int(consts.screenwidth/2),int(consts.screenheight/2)), consts.p2radius
 
     ##tick and flip
     clock.tick(consts.framerate)
