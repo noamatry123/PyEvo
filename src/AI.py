@@ -293,7 +293,7 @@ def insideCircle(object):
         return True
     else:
         return False
-def goto(cell,object):
+"""def goto(cell,object):
     input=[]
     if kindOfTheSame(cell.location.y,object.location.y):
         if cell.location.x>object.location.x:#6
@@ -326,6 +326,45 @@ def goto(cell,object):
                 input=moveUp(cell)
             else:#if yes move left
                 input=moveRight(cell)
+    return input
+"""
+def goto(cell,object):
+    input = []
+    direction=0
+    if kindOfTheSame(cell.location.y, object.location.y):
+        if cell.location.x > object.location.x:  # 6
+            input = moveLeft(cell)
+            return input
+        if cell.location.x < object.location.x:  # 2
+            input = moveRight(cell)
+            return input
+    elif cell.location.y < object.location.y:  # target is under cell
+        if kindOfTheSame(cell.location.x, object.location.x):  # 4
+            input = moveDown(cell)
+            return input
+        if cell.location.x > object.location.x:  # 5
+            direction = 5
+        if cell.location.x < object.location.x:  # 3
+            direction = 3
+    elif cell.location.y > object.location.y:  # target is above cell
+        if kindOfTheSame(cell.location.x, object.location.x):  # 0
+            input = moveUp(cell)
+            return input
+        if cell.location.x > object.location.x:  # 7
+            direction = 7
+        if cell.location.x < object.location.x:  # 1
+            direction = 1
+    if direction==1:
+        if math.sqrt(((cell.location.x-consts.screenwidth/2)**2)+(((object.location.y)-consts.screenheight/2)**2))<consts.p2radius:
+            if cell.location.y != object.location.y:  # check if same y if not move Up
+                input = moveUp(cell)
+            else:  # if yes move left
+                input = moveRight(cell)
+        else:#if the original route will pass outside the circle
+            if cell.location.x != object.location.x:  # check if same x if not move Right
+                input = moveRight(cell)
+            else:  # if yes move Up
+                input = moveUp(cell)
     return input
 def goodGoTo(cell,object):
     input=[]
