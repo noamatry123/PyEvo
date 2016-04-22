@@ -551,6 +551,8 @@ class AbCell:
 
         return compensated_x,compensated_y
     def move(self):
+        a=3
+        b=4
         if self.speed==1:
             a=3
             b=4
@@ -565,22 +567,22 @@ class AbCell:
             b=7
         if self.angle==0:#up
             self.location.y=(self.location.y-b)%consts.screenheight
-        elif self.angle==1:#up right
+        if self.angle==1:#up right
             self.location.y=(self.location.y-a)%consts.screenheight
             self.location.x=(self.location.x+a)%consts.screenwidth
-        elif self.angle==2:#right
+        if self.angle==2:#right
             self.location.x=(self.location.x+b)%consts.screenwidth
-        elif self.angle==3:#down right
+        if self.angle==3:#down right
             self.location.y=(self.location.y+a)%consts.screenheight
             self.location.x=(self.location.x+a)%consts.screenwidth
-        elif self.angle==4:#down
+        if self.angle==4:#down
             self.location.y=(self.location.y+b)%consts.screenheight
-        elif self.angle==5:#down left
+        if self.angle==5:#down left
             self.location.y=(self.location.y+a)%consts.screenheight
             self.location.x=(self.location.x-a)%consts.screenwidth
-        elif self.angle==6:#left
+        if self.angle==6:#left
             self.location.x=(self.location.x-b)%consts.screenwidth
-        elif self.angle==7:#left up
+        if self.angle==7:#left up
             self.location.y=(self.location.y-a)%consts.screenheight
             self.location.x=(self.location.x-a)%consts.screenwidth
         """
