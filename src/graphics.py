@@ -331,7 +331,21 @@ def drawBoard(playerCell,cellList,foodList,eggList):
             pygame.draw.rect(screen,(255,0,0),(cell.location.x-10,cell.location.y-15,(30*(cell.lifeTimeLeft/float(cell.lifeTime))),6))
             ##draw foodbar
             pygame.draw.rect(screen,(0,255,0),(cell.location.x-10,cell.location.y-6-15,(30*(cell.foodLeft/float(cell.lifeTime))),6))
-
+            ###debug stuff
+            if cell.bugMode=="Look4Mate":
+                pygame.draw.circle(screen, (255, 90, 217), (cell.location.getTupple()), 5)
+            if cell.bugMode == "Look4veganFoodAndCar":
+                pygame.draw.circle(screen, (8, 114, 47), (cell.location.getTupple()), 5)
+            if cell.bugMode == "Look4RealFood":
+                pygame.draw.circle(screen, (255, 0, 0), (cell.location.getTupple()), 5)
+            if cell.bugMode == "Look4veganFood":
+                pygame.draw.circle(screen, (144, 255, 144), (cell.location.getTupple()), 5)
+            if cell.bugMode == "OnMyWay":
+                pygame.draw.circle(screen, (255, 255, 0), (cell.location.getTupple()), 5)
+            if cell.bugMode == "EscapingCircle":
+                pygame.draw.circle(screen, (255, 255, 255), (cell.location.getTupple()), 5)
+            if cell.target!=None:
+                pygame.draw.circle(screen, (0, 0, 0), ((cell.target).location.getTupple()), 8)
     for food in foodList:
         #pygame.draw.circle(screen,(80,255,80),(food.location.getTupple()),food.rad)
         screen.blit(food.image,(food.location.x-food.rad,food.location.y-food.rad))
@@ -357,9 +371,11 @@ def drawBoard(playerCell,cellList,foodList,eggList):
         #foodbar
         pygame.draw.rect(screen,(0,255,0),(playerCell.location.x-10,playerCell.location.y-6-15,(30*(playerCell.foodLeft/float(playerCell.lifeTime))),6))
     ##draw practicles
+    """
     for practicle in practicleList:
         color=(practicle.color[0],practicle.color[1],practicle.color[2],85)
         pygame.draw.circle(screen,color,(practicle.loc.x,practicle.loc.y),practicle.radius)
+    """
     ##draw limiter
     if consts.p2active:
         pygame.draw.circle(screen,(0,0,0),(int(consts.screenwidth/2),int(consts.screenheight/2)),int(consts.p2radius),3)

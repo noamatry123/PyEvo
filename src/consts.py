@@ -1,6 +1,7 @@
 __author__ = 'user-pc'
-screenwidth=None
-screenheight=None
+import classes
+screenwidth=2
+screenheight=2
 framerate=30
 text=""
 askingQuestion=True
@@ -20,3 +21,14 @@ def bigger(x,y):
         return x
     else:
         return y
+
+class Location1:
+    x = 0
+    y = 0
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+class Center:
+    location=Location1(screenwidth/2,screenheight/2)
+center=Center

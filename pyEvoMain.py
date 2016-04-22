@@ -7,9 +7,10 @@ import easygui
 import consts
 import pygame
 def main():
-    values=easygui.multenterbox("Display settings: ","",["Width","Height","Fullscreen","Sandbox"],["1440","900","Yes","No"])
+    values=easygui.multenterbox("Display settings: ","",["Width","Height","Fullscreen","Sandbox"],["1366","766","Yes","No"])
     consts.screenwidth=int(values[0])
     consts.screenheight=int(values[1])
+    consts.Center.location=consts.Location1(consts.screenwidth,consts.screenheight)
     if values[2]!="Yes":
         screen = pygame.display.set_mode((consts.screenwidth, consts.screenheight))
     else:

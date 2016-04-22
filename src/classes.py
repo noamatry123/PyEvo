@@ -422,6 +422,7 @@ class AbCell:
     timeToLay=0
     timeToMove=0
     lastMother=None
+    lastMotherHelper=None
     dead=False
     eggHatchTime=0
     strength=0
@@ -429,7 +430,7 @@ class AbCell:
     base90=None
     base45=None
     image=None
-
+    bugMode=None
     def checkEat(self,foodList):
             for food in foodList:
                 if math.sqrt(((self.location.x-food.location.x)**2)+((self.location.y-food.location.y)**2))<self.rad+food.rad:
@@ -457,6 +458,11 @@ class AbCell:
     def eat(self, food):
         self.foodLeft+=food.getAmount()
         print self.ID, "ate food"
+    def checkTarget(self):
+        if self.target!=None:
+            if math.sqrt(((self.location.x - self.target.location.x) ** 2) + (
+                (self.location.y - self.target.location.y) ** 2)) < self.rad + self.target.rad:
+                self.target=None
     def getAtts(self):
         list=[]
         list.append("angle: " +str(self.angle))
