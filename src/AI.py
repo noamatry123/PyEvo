@@ -77,6 +77,8 @@ ai2=random food,random mate
 def AI2(cell,foodList,cellList):
     input=[]
     ##check for circle
+    if not insideCircle(cell.target):
+        cell.target=None
     if kindOfTheSame(math.sqrt(((cell.location.x-consts.screenwidth/2)**2)+((cell.location.y-consts.screenheight/2)**2)),consts.p2radius) or math.sqrt(((cell.location.x-consts.screenwidth/2)**2)+((cell.location.y-consts.screenheight/2)**2))>consts.p2radius:
         cell.bugMode = "EscapingCircle"
         input=goto(cell,consts.center)
@@ -180,12 +182,21 @@ ai3=closest food,closest mate
 """
 def AI3(cell,foodList,cellList):
     input=[]
+    if not insideCircle(cell.target):
+        cell.target = None
     if kindOfTheSame(math.sqrt(((cell.location.x - consts.screenwidth / 2) ** 2) + (
         (cell.location.y - consts.screenheight / 2) ** 2)), consts.p2radius) or math.sqrt(
                     ((cell.location.x - consts.screenwidth / 2) ** 2) + (
                 (cell.location.y - consts.screenheight / 2) ** 2)) > consts.p2radius:
+        cell.bugMode = "EscapingCircle"
         input = goto(cell, consts.center)
         return input
+    if cell.lastMother != None:
+        if cell.lastMotherHelper == None:  # just mate
+            cell.target = None
+            cell.lastMotherHelper = cell.lastMother
+    else:
+        cell.lastMotherHelper = None
     if cell.timeToLayLeft<=cell.timeToLay/3 and cell.lastMother==None and len(cellList)!=1 :
         if cell.mode=="c":
             cell.target=None
@@ -355,7 +366,7 @@ def goto(cell,object):
         if cell.location.x < object.location.x:  # 1
             direction = 1
     if direction==1:
-        if math.sqrt(((cell.location.x-consts.screenwidth/2)**2)+(((object.location.y)-consts.screenheight/2)**2))<consts.p2radius:
+        if math.sqrt(((cell.location.x-consts.screenwidth/2)**2)+((object.location.y-consts.screenheight/2)**2))<consts.p2radius:
             if cell.location.y != object.location.y:  # check if same y if not move Up
                 input = moveUp(cell)
             else:  # if yes move left
@@ -364,6 +375,41 @@ def goto(cell,object):
             if cell.location.x != object.location.x:  # check if same x if not move Right
                 input = moveRight(cell)
             else:  # if yes move Up
+                input = moveUp(cell)
+    if direction==3:
+        if math.sqrt(((cell.location.x - consts.screenwidth / 2) ** 2) + (((object.location.y) - consts.screenheight / 2) ** 2)) < consts.p2radius:
+            if cell.location.y != object.location.y:  # check if same y if not move down
+                input = moveDown(cell)
+            else:  # if yes move right
+                input = moveRight(cell)
+        else:
+            if cell.location.x != object.location.x:  # check if same y if not move down
+                input = moveRight(cell)
+            else:  # if yes move right
+                input = moveDown(cell)
+    if direction==5:
+        if math.sqrt(((cell.location.x - consts.screenwidth / 2) ** 2) + (
+            ((object.location.y) - consts.screenheight / 2) ** 2)) < consts.p2radius:
+            if cell.location.y != object.location.y:  # check if same y if not move down
+                input = moveDown(cell)
+            else:  # if yes move left
+                input = moveLeft(cell)
+        else:
+            if cell.location.x != object.location.x:  # check if same y if not move down
+                input = moveLeft(cell)
+            else:  # if yes move left
+                input = moveDown(cell)
+    if direction == 7:
+        if math.sqrt(((cell.location.x - consts.screenwidth / 2) ** 2) + (
+                    ((object.location.y) - consts.screenheight / 2) ** 2)) < consts.p2radius:
+            if cell.location.y != object.location.y:  # check if same y if not move down
+                input = moveUp(cell)
+            else:  # if yes move right
+                input = moveLeft(cell)
+        else:
+            if cell.location.x != object.location.x:  # check if same y if not move down
+                input = moveLeft(cell)
+            else:  # if yes move right
                 input = moveUp(cell)
     return input
 def goodGoTo(cell,object):
