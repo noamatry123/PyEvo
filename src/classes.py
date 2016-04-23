@@ -109,10 +109,10 @@ class Egg:
                 if randint(0,100)<mutgoodbad[i]: #bad or good mutation
                     mutationscale[i]*=-1
 
-                elif i==0: ##timeToLay+left
+                if i==0: ##timeToLay+left
                     cell.timeToLay+=mutationscale[i]
                     if cell.timeToLay<=0:
-                        cell.timeToLay=1
+                        cell.timeToLay=5
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated Timetolay by "+str(mutationscale[i])+"\n"
                     else:
@@ -120,7 +120,7 @@ class Egg:
                 elif i==1: ##eggWithdraw
                     cell.eggwithdraw+=mutationscale[i]
                     if cell.eggwithdraw<=0:
-                        cell.eggwithdraw=1
+                        cell.eggwithdraw=10
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated eggWithdraw by "+str(mutationscale[i])+"\n"
                     else:
@@ -135,7 +135,7 @@ class Egg:
                 elif i==3: ##foodWithdraw
                     cell.foodWithdraw+=mutationscale[i]
                     if cell.foodWithdraw<=0:
-                        cell.foodWithdraw=1
+                        cell.foodWithdraw=10
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated foodWithdraw by "+str(mutationscale[i])+"\n"
                     else:
@@ -143,7 +143,7 @@ class Egg:
                 elif i==4: ##lifetime
                     cell.lifeTime+=mutationscale[i]
                     if cell.lifeTime<=0:
-                        cell.lifeTime=1
+                        cell.lifeTime=5
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated lifeTime by "+str(mutationscale[i])+"\n"
                     else:
@@ -151,19 +151,27 @@ class Egg:
                 elif i==5: ##lifetimeWithdraw
                     cell.lifewithdraw+=mutationscale[i]
                     if cell.lifewithdraw<=0:
-                        cell.lifewithdraw=1
+                        cell.lifewithdraw=10
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated lifetimeWithdraw by "+str(mutationscale[i])+"\n"
                     else:
                         text+=str(cell.ID)+" mutated lifetimeWithdraw by "+str(mutationscale[i])+"\n"
                 elif i==6: ##speed
-                    cell.speed=(cell.speed+mutationscale[i])%5
+                    cell.speed += mutationscale[i]
+                    if cell.speed==5:
+                        cell.speed=4
+                    if cell.speed== 0:
+                        cell.speed = 1
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated speed by "+str(mutationscale[i])+"\n"
                     else:
                         text+=str(cell.ID)+" mutated speed by "+str(mutationscale[i])+"\n"
                 elif i==7: ##AI
-                    cell.AI=(cell.AI+mutationscale[i])%5
+                    cell.AI += mutationscale[i]
+                    if cell.AI == 5:
+                        cell.AI = 4
+                    if cell.AI == -1:
+                        cell.AI = 0
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated AI by "+str(mutationscale[i])+"\n"
                     else:
@@ -171,7 +179,7 @@ class Egg:
                 elif i==8: ##vision
                     cell.vision+=mutationscale[i]%consts.bigger(consts.screenwidth,consts.screenheight)
                     if cell.vision<=0:
-                        cell.vision=1
+                        cell.vision=50
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated vision by "+str(mutationscale[i])+"\n"
                     else:
@@ -187,7 +195,7 @@ class Egg:
                 elif i==10: ##strength
                     cell.strength+=mutationscale[i]
                     if cell.strength<=0:
-                        cell.strength=1
+                        cell.strength=5
                     if mutationscale[i]<0:
                         text+=str(cell.ID)+" mutated strength by "+str(mutationscale[i])+"\n"
                     else:
@@ -397,7 +405,7 @@ class spaceLimited:
     def grow(self):
         if self.active==True:
             if self.radius>150:
-                self.radius-=0.1
+                self.radius-=0.05
         consts.p2radius=self.radius
 class AbCell:
     target=None

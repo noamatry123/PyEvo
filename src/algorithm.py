@@ -104,16 +104,16 @@ class pyAlgorithm:
             lifewithdraw=consts.framerate
             carnivore=0
             eggwithdraw=consts.framerate
-            food=15
+            food=30
             foodWithdraw=consts.framerate
             rad=10
             AI=2
-            vision=500
-            lifeTime=20
+            vision=200
+            lifeTime=40
             p_lifetime=lifeTime
             p_food=food
             speed=1
-            timeToLay=10
+            timeToLay=20
             eggHatchTime=3
             strength=5
             #                            cell,angle,carnivore,eggwithdraw,foodleft,foodwithdraw,ID,Lifetime,location,speed,rad,lifewithdeaw,timetolay,AI,vision,eggHatchtime,strngth
