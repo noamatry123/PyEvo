@@ -34,6 +34,5 @@ def main():
         algoModule.nextStep(text)
         running,text = graphics.drawBoard(algoModule.myCell, algoModule.cellList, algoModule.foodList,[algoModule.myEggs, algoModule.cellEggs])
 
-
 if __name__ == "__main__":
     main()

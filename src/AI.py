@@ -36,13 +36,14 @@ def look4Food(cell,foodList,cellList,playerCell):
     foodsee=[]
     cellsee=[]
     for food in foodList:
-        if math.sqrt(((cell.location.x-food.location.x)**2)+((cell.location.y-food.location.y)**2))<cell.vision:
+        if math.sqrt(((cell.location.x-food.location.x)**2)+((cell.location.y-food.location.y)**2))<cell.vision and insideCircle(food):
             foodsee.append(food)
     for curr in cellList:
-        if math.sqrt(((cell.location.x-curr.location.x)**2)+((cell.location.y-curr.location.y)**2))<cell.vision:
+        if math.sqrt(((cell.location.x-curr.location.x)**2)+((cell.location.y-curr.location.y)**2))<cell.vision and insideCircle(curr):
             cellsee.append(curr)
-    if math.sqrt(((cell.location.x-playerCell.location.x)**2)+((cell.location.y-playerCell.location.y)**2))<cell.vision:
+    if math.sqrt(((cell.location.x-playerCell.location.x)**2)+((cell.location.y-playerCell.location.y)**2))<cell.vision and insideCircle(playerCell):
         cellsee.append(playerCell)
+    cellList.remove(cell)
     return foodsee,cellsee
 def AI0(cell):
     input=[]
@@ -71,12 +72,104 @@ def AI1(cell):
         input.append("OLeft")
     input.append("Up")
     return input
-"""
-ai2=random food,random mate
-"""
+def AIM(cell,foodList,cellList,findFunc,GoFunc,findMateFunc):
+    input = []
+    if (cell.target not in foodList) and (cell.target not in cellList):
+        cell.target = None
+    if not insideCircle(cell.target):
+        cell.target = None
+    if kindOfTheSame(math.sqrt(((cell.location.x - consts.screenwidth / 2) ** 2) + ((cell.location.y - consts.screenheight / 2) ** 2)), consts.p2radius) or math.sqrt(((cell.location.x - consts.screenwidth / 2) ** 2) + ((cell.location.y - consts.screenheight / 2) ** 2)) > consts.p2radius:
+        cell.bugMode = "EscapingCircle"
+        input = GoFunc(cell, consts.center)
+        return input
+    if cell.lastMother != None:
+        if cell.lastMotherHelper == None:  # just mate
+            cell.target = None
+            cell.lastMotherHelper = cell.lastMother
+    else:
+        cell.lastMotherHelper = None
+    if cell.timeToLayLeft <= cell.timeToLay / 3 and cell.lastMother == None and len(cellList) != 0:
+        cell.bugMode = "Look4Mate"
+        if not validMate(cell.target):
+            target = findMateFunc(cell, cellList)
+            if target!=None:
+                cell.target=target
+        if cell.target != None:
+            input = GoFunc(cell, cell.target)
+            if cell.mode != "m":
+                input.append("c")
+        if len(input) != 0:
+            return input
+    ##search food
+    a = 0
+    if cell.target == None:
+        if cell.carnivore == 1:
+            a = random.randint(0, 1)
+            if a == 1:  # vegan food
+                cell.bugMode = "Look4veganFoodAndCar"
+                if len(foodList) == 0:
+                    input = AI1(cell)
+                    return input
+                cell.target = findFunc(cell, foodList)
+                if cell.target != None:
+                    input = GoFunc(cell, cell.target)
+                else:
+                    input = AI1(cell)
+            elif len(cellList) != 1:  # real food
+                cell.bugMode = "Look4RealFood"
+                if len(cellList) == 1:
+                    input = AI1(cell)
+                    return input
+                cell.target = findFunc(cell, cellList)
+                if cell.target != None:
+                    input = GoFunc(cell, cell.target)
+                    if cell.mode != "c":
+                        input.append("c")
+                else:
+                    input = AI1(cell)
+        else:
+            cell.bugMode = "Look4veganFood"
+            if len(foodList) == 0:
+                input = AI1(cell)
+                return input
+            cell.target = findFunc(cell, foodList)
+            if cell.target != None:
+                input = GoFunc(cell, cell.target)
+            else:
+                input = AI1(cell)
+    else:
+        cell.bugMode = "OnMyWay"
+        input = GoFunc(cell, cell.target)
+    if cell.timeToLayLeft == 0 and cell.lastMother != None:  ##lay egg if possible
+        input.append("a")
+    return input
+#DONE
+def findRandomMate(cell,cellList):
+    i = random.randint(0, len(cellList) - 1)
+    j = len(cellList) * 5
+    while cellList[i].mode == "c":
+        if j == 0:
+            j = -1
+            break
+        i = random.randint(0, len(cellList) - 1)
+        j -= 1
+    if j != -1:
+        return cellList[i]
+    else:
+        return None
+#DONE
+def findRandomFood(cell,foodList):
+    if len(foodList)==0:
+        return None
+    else:
+        return foodList[random.randint(0,len(foodList)-1)]
 def AI2(cell,foodList,cellList):
+    """
     input=[]
     ##check for circle
+    j=0
+    if (cell.target not in foodList) and (cell.target not in cellList):
+        cell.target=None
     if not insideCircle(cell.target):
         cell.target=None
     if kindOfTheSame(math.sqrt(((cell.location.x-consts.screenwidth/2)**2)+((cell.location.y-consts.screenheight/2)**2)),consts.p2radius) or math.sqrt(((cell.location.x-consts.screenwidth/2)**2)+((cell.location.y-consts.screenheight/2)**2))>consts.p2radius:
@@ -92,24 +185,23 @@ def AI2(cell,foodList,cellList):
         cell.lastMotherHelper = None
     if cell.timeToLayLeft<=cell.timeToLay/3 and cell.lastMother==None and len(cellList)!=1:
         cell.bugMode="Look4Mate"
-        cell.target=None
-        i=random.randint(0,len(cellList)-1)
-        j=len(cellList)*5
-        while cellList[i].ID==cell.ID or not insideCircle(cellList[i]) or cellList[i].mode=="c":
-            if j == 0:
-                cell.target = None
-                j=-1
-                break
+        if not validMate(cell.target):
             i=random.randint(0,len(cellList)-1)
-            j -= 1
-        if j!=-1:
-            cell.target=cellList[i]
-            if cell.target!=None:
-                input=goto(cell,cell.target)
-                if cell.mode!="m":
-                    input.append("c")
-            if len(input)!=0:
-                return input
+            j=len(cellList)*5
+            while cellList[i].ID==cell.ID or not insideCircle(cellList[i]) or cellList[i].mode=="c":
+                if j == 0:
+                    j=-1
+                    break
+                i=random.randint(0,len(cellList)-1)
+                j -= 1
+            if j!=-1:
+                cell.target=cellList[i]
+        if cell.target!=None and j!=-1:
+            input=goto(cell,cell.target)
+            if cell.mode!="m":
+                input.append("c")
+        if len(input)!=0:
+            return input
     ##search food
     a=0
     if cell.target==None:
@@ -177,11 +269,12 @@ def AI2(cell,foodList,cellList):
     if cell.timeToLayLeft==0 and cell.lastMother!=None:##lay egg if possible
             input.append("a")
     return input
-"""
-ai3=closest food,closest mate
-"""
+    """
+    return AIM(cell,foodList,cellList,findRandomFood,goto,findRandomMate)
 def AI3(cell,foodList,cellList):
     input=[]
+    if (cell.target not in foodList) and (cell.target not in cellList):
+        cell.target = None
     if not insideCircle(cell.target):
         cell.target = None
     if kindOfTheSame(math.sqrt(((cell.location.x - consts.screenwidth / 2) ** 2) + (
@@ -281,11 +374,10 @@ def AI3(cell,foodList,cellList):
             input.append("a")
     return input
     """
-"""
-ai4-closest food,best mate,does move across
-"""
 def AI4(cell,foodList,cellList):
     input = []
+    if (cell.target not in foodList) and (cell.target not in cellList):
+        cell.target = None
     if not insideCircle(cell.target):
         cell.target = None
     if kindOfTheSame(math.sqrt(((cell.location.x - consts.screenwidth / 2) ** 2) + (
@@ -350,10 +442,11 @@ def AI4(cell,foodList,cellList):
                 input = AI1(cell)
     else:
         cell.bugMode = "OnMyWay"
-        input = goto(cell, cell.target)
+        input = goodGoTo(cell, cell.target)
     if cell.timeToLayLeft == 0 and cell.lastMother != None:  ##lay egg if possible
         input.append("a")
     return input
+#DONE
 def insideCircle(object):
     if object==None:
         return False
@@ -361,41 +454,7 @@ def insideCircle(object):
         return True
     else:
         return False
-"""def goto(cell,object):
-    input=[]
-    if kindOfTheSame(cell.location.y,object.location.y):
-        if cell.location.x>object.location.x:#6
-            input=moveLeft(cell)
-        if cell.location.x<object.location.x:#2
-            input=moveRight(cell)
-    elif cell.location.y<object.location.y:#target is under cell
-        if kindOfTheSame(cell.location.x,object.location.x):#4
-            input=moveDown(cell)
-        if cell.location.x>object.location.x:#5
-            if cell.location.y!=object.location.y:#check if same y if not move down
-                input=moveDown(cell)
-            else:#if yes move left
-                input=moveLeft(cell)
-        if cell.location.x<object.location.x:#3
-            if cell.location.y!=object.location.y:#check if same y if not move down
-                input=moveDown(cell)
-            else:#if yes move right
-                input=moveRight(cell)
-    elif cell.location.y>object.location.y:#target is above cell
-        if kindOfTheSame(cell.location.x,object.location.x):#0
-            input=moveUp(cell)
-        if cell.location.x>object.location.x:#7
-            if cell.location.y!=object.location.y:#check if same y if not move Up
-                input=moveUp(cell)
-            else:#if yes move right
-                input=moveLeft(cell)
-        if cell.location.x<object.location.x:#1
-            if cell.location.y!=object.location.y:#check if same y if not move Up
-                input=moveUp(cell)
-            else:#if yes move left
-                input=moveRight(cell)
-    return input
-"""
+#DONE
 def goto(cell,object):
     input = []
     direction=0
@@ -469,6 +528,7 @@ def goto(cell,object):
             else:  # if yes move right
                 input = moveUp(cell)
     return input
+#DONE
 def goodGoTo(cell,object):
     input=[]
     if kindOfTheSame(cell.location.y,object.location.y):
@@ -491,8 +551,9 @@ def goodGoTo(cell,object):
         elif cell.location.x<object.location.x:#3
             input=moveDR(cell)
     return input
+#DONE
 def kindOfTheSame(a1,a2):
-    if a1==a2 or a1+1==a2 or a1-1==a2 or a1+2==a2 or a1-2==a2 or a1+3==a2 or a1-3==a2 or a1-4==a2 or a1+4==a2 or a1+5==a2 or a1-5==a2:
+    if a1==a2 or a1+1==a2 or a1-1==a2 or a1+2==a2 or a1-2==a2 or a1+3==a2 or a1-3==a2 or a1-4==a2 or a1+4==a2 or a1+5==a2 or a1-5==a2 or a1-6==a2 or a1+6==a2:
         return True
     else:
         return False
@@ -568,43 +629,47 @@ def moveDown(cell):
     if cell.angle>4:#567
         input.append("OLeft")
     return input
+#DONE
 def closestFood(cell,foodList):
     big=10000000
     index=None
     for food in foodList:
-        if math.sqrt(((cell.location.x-food.location.x)**2)+((cell.location.y-food.location.y)**2))<big and math.sqrt(((cell.location.x-food.location.x)**2)+((cell.location.y-food.location.y)**2))!=0 and insideCircle(food):
+        if math.sqrt(((cell.location.x-food.location.x)**2)+((cell.location.y-food.location.y)**2))<big:
             big=math.sqrt(((cell.location.x-food.location.x)**2)+((cell.location.y-food.location.y)**2))
             index=food
     return index
+#DONE
 def closestMate(cell,cellList):
     big=10000000
     index=None
     for Cell in cellList:
-        if math.sqrt(((cell.location.x-Cell.location.x)**2)+((cell.location.y-Cell.location.y)**2))<big and math.sqrt(((cell.location.x-Cell.location.x)**2)+((cell.location.y-Cell.location.y)**2))!=0 and Cell.mode=="m" and insideCircle(Cell):
+        if math.sqrt(((cell.location.x-Cell.location.x)**2)+((cell.location.y-Cell.location.y)**2))<big:
             big=math.sqrt(((cell.location.x-Cell.location.x)**2)+((cell.location.y-Cell.location.y)**2))
             index=Cell
     return index
+#DONE
 def bestMate(cell,cellList):
     diff=-1000000
     end=None
     for curr1 in cellList:
         for curr2 in cellList:
             if math.fabs(compareCells(curr1,curr2))>diff:
-                if compareCells(curr1,curr2)>0 and curr1.mode=="m" and insideCircle(curr1):
+                if compareCells(curr1,curr2)>0 and curr1.mode=="m":
                     end=curr1
                     diff=math.fabs(compareCells(curr1,curr2))
-                elif compareCells(curr1,curr2)<0 and curr2.mode=="m" and insideCircle(curr2):
+                elif compareCells(curr1,curr2)<0 and curr2.mode=="m":
                     end=curr2
                     diff=math.fabs(compareCells(curr1,curr2))
                 else:
                     i=random.randint(0,1)
-                    if i==0 and curr1.mode=="m" and insideCircle(curr1):
+                    if i==0 and curr1.mode=="m":
                         end=curr1
                         diff=math.fabs(compareCells(curr1,curr2))
-                    elif curr2.mode=="m" and insideCircle(curr2):
+                    elif curr2.mode=="m":
                         end=curr2
                         diff=math.fabs(compareCells(curr1,curr2))
     return end
+#DONE
 def compareCells(c1,c2):
     p1=0
     p2=0
@@ -664,10 +729,11 @@ def compareCells(c1,c2):
     if c1.eggHatchTime <c2.eggHatchTime:
         p2+=1
     return p1-p2
+#DONE
 def validMate(cell):
     if cell==None:
         return False
     if isinstance(cell,classes.baseCell):
-        if cell.mode=="m":
+        if cell.mode=="m" and insideCircle(cell):
             return True
     return False
