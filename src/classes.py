@@ -228,8 +228,9 @@ class Egg:
                     fathertext=father.getAtts()[i]
                     mothertext=mother.getAtts()[i]
                     choice=None
-                    while choice not in [fathertext,mothertext]:
+                    """while choice not in [fathertext,mothertext]:
                         choice=graphics.askBoard("manual","choose attribute",fathertext,mothertext)
+                    """
 
                 if i==1: ##timeToLay+left
                     if choice==fathertext:
@@ -246,8 +247,6 @@ class Egg:
                         newCell.carnivore=father.carnivore
                     else:
                         newCell.carnivore=mother.carnivore
-                if i==4: ##food
-                        newCell.food=50
                 if i==5: ##foodWithdraw
                     if choice==fathertext:
                         newCell.foodWithdraw=father.foodWithdraw

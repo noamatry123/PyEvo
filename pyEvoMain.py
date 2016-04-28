@@ -26,7 +26,7 @@ def main():
     graphics.clock = pygame.time.Clock()
     if not consts.sandbox:
         graphics.askBoard("menu")
-        algoModule = algorithm.pyAlgorithm(consts.screenwidth,consts.screenheight)
+        algoModule = algorithm.pyAlgorithm(consts.screenwidth,consts.screenheight,1)
     else:
         graphics.sandbox()
 

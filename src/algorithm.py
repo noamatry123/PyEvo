@@ -94,28 +94,50 @@ class pyAlgorithm:
     screenwidth=0
     screenheight=0
     p2spaceLimiter=None
-    def __init__(self,height,width): #temp
+    def __init__(self,height,width,lvl): #temp
         print "Load game? " + str(consts.loadedGame)
         if consts.loadedGame==False: ##new game ##change true to 'consts.loadedGame==False'
             ##(cell,angle,carnivore,eggwithdraw,food,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength=0):
             self.screenheight=height
             self.screenwidth=width
-            angle=4
-            lifewithdraw=consts.framerate
-            carnivore=0
-            eggwithdraw=consts.framerate
-            food=30
-            foodWithdraw=consts.framerate
-            rad=10
-            AI=2
-            vision=200
-            lifeTime=40
-            p_lifetime=lifeTime
-            p_food=food
-            speed=1
-            timeToLay=20
-            eggHatchTime=3
-            strength=5
+            if lvl==1:
+                angle=4
+                lifewithdraw=consts.framerate
+                carnivore=0
+                eggwithdraw=consts.framerate
+                food=40
+                foodWithdraw=consts.framerate
+                rad=10
+                AI=1
+                vision=200
+                lifeTime=40
+                p_lifetime=lifeTime
+                p_food=food
+                speed=1
+                timeToLay=20
+                eggHatchTime=3
+                strength=5
+            if lvl==2:
+                angle = 4
+                lifewithdraw = consts.framerate
+                carnivore = 0
+                eggwithdraw = consts.framerate
+                food = 30
+                foodWithdraw = consts.framerate
+                rad = 10
+                AI = 2
+                vision = 200
+                lifeTime = 40
+                p_lifetime = lifeTime
+                p_food = food
+                speed = 1
+                timeToLay = 20
+                eggHatchTime = 3
+                strength = 5
+            if lvl==3:
+                pass
+            if lvl==4:
+                pass
             #                            cell,angle,carnivore,eggwithdraw,foodleft,foodwithdraw,ID,Lifetime,location,speed,rad,lifewithdeaw,timetolay,AI,vision,eggHatchtime,strngth
             self.myCell=classes.baseCell(None,angle,1,eggwithdraw,p_food,foodWithdraw,0,p_lifetime,classes.Location(400,400),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength)
             self.myCell.base90, self.myCell.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')

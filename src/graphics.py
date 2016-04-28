@@ -129,7 +129,7 @@ def askBoard(mode, text="",option1="",option2="",text2=""):
     screencenter_below=(consts.screenwidth/2-100,(consts.screenheight/2+(consts.screenheight/4)))
 
     if mode=="menu":
-        t=["New Game","Godmode: Off","Recording: On","Controls: Mouse","What keys can i press?","Start game","Quit"]
+        t=["New Game","Godmode: Off","Recording: Off","Controls: Mouse","What keys can i press?","Start game","Quit"]
         choose=-1
         cpos=0
         while(choose!=5 and choose!=6):
@@ -284,6 +284,42 @@ def askBoard(mode, text="",option1="",option2="",text2=""):
                     return option1
                 if Button2.pressed(pygame.mouse.get_pos()):
                     return option2
+    if mode=="manualPlayer":
+        screen.fill((255, 0, 255))
+        ptext = text.split("\n")
+        p1=[]
+        p2=[]
+        choice=[]
+        plabel1=[]
+        plabel2=[]
+        i=0
+        for p in ptext:
+            if i%2==0:
+                p1.append(p)
+            else:
+                p2.append(p)
+            i+=1
+        buttons=[]
+        space=consts.screenheight/11
+        #create_button(self, surface, color, x, y, length, height, width, text, text_color):
+        j=0
+        for i in xrange(0,len(p1)+len(p2),2):
+            Buttons[i].create_button(screen, (107, 142, 35), consts.screenwidth/4, space*i, consts.screenwidth/6, space*i-space/3, 0, p1[j],(255, 255, 255))
+            Buttons[i+1].create_button(screen, (107, 142, 35), consts.screenwidth*0.75, space*i, consts.screenwidth/6, space*i-space/3, 0, p2[j], (255, 255, 255))
+            j+=1
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                for i in xrange(0,len(buttons)):
+                    if buttons[i].pressed(pygame.mouse.get_pos()):
+                        if i%2!=0:
+                            buttons[i-1]
+                            choice[(i+1)/2]=2
+                        else:
+                            buttons[i+1]
+                            choice[(i+2)/2]=1
+        return choice
     clock.tick(consts.framerate)
     pygame.display.flip()
     return "Empty"
