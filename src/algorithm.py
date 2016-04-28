@@ -100,46 +100,45 @@ class pyAlgorithm:
             ##(cell,angle,carnivore,eggwithdraw,food,foodWithdraw,ID,lifeTime,location,speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength=0):
             self.screenheight=height
             self.screenwidth=width
-            if lvl==1:
-                angle=4
-                lifewithdraw=consts.framerate
-                carnivore=0
-                eggwithdraw=consts.framerate
-                food=40
-                foodWithdraw=consts.framerate
-                rad=10
-                AI=1
-                vision=200
-                lifeTime=40
-                p_lifetime=lifeTime
-                p_food=food
-                speed=1
-                timeToLay=20
-                eggHatchTime=3
-                strength=5
-            if lvl==2:
-                angle = 4
-                lifewithdraw = consts.framerate
-                carnivore = 0
-                eggwithdraw = consts.framerate
-                food = 30
-                foodWithdraw = consts.framerate
-                rad = 10
-                AI = 2
-                vision = 200
-                lifeTime = 40
-                p_lifetime = lifeTime
-                p_food = food
-                speed = 1
-                timeToLay = 20
-                eggHatchTime = 3
-                strength = 5
-            if lvl==3:
-                pass
-            if lvl==4:
-                pass
+            """
+            self.myCell = classes.baseCell(None, angle, carnivor, eggwithdraw, p_food, foodWithdraw, 0, p_lifetime,
+                                               classes.Location(400, 400), speed, rad, lifewithdraw, timeToLay, AI,
+                                               vision, eggHatchTime, strength)
+            """
+            if lvl==1:#easy
+                self.myCell = classes.baseCell(None, 0, 1, consts.framerate, 40, consts.framerate, 0, 40,
+                                               classes.Location(400, 400), 3, 10, consts.framerate, 15, 2,
+                                               200, 3, 10)
+            if lvl==2:#lil harder
+                self.myCell = classes.baseCell(None, 0, 0, consts.framerate, 40, consts.framerate, 0, 40,
+                                               classes.Location(400, 400), 2, 10, consts.framerate, 20, 2,
+                                               200, 3, 10)
+            if lvl==3:#normal
+                self.myCell = classes.baseCell(None, 0, 0, consts.framerate, 30, consts.framerate, 0, 40,
+                                               classes.Location(400, 400), 1, 10, consts.framerate, 20, 2,
+                                               200, 3, 5)
+            if lvl==4:#hard
+                self.myCell = classes.baseCell(None, 0, 0, consts.framerate, 20, consts.framerate, 0, 30,
+                                               classes.Location(400, 400), 1, 10, consts.framerate, 25, 2,
+                                               200, 3, 1)
+            angle = 4
+            lifewithdraw = consts.framerate
+            carnivore = 0
+            eggwithdraw = consts.framerate
+            food = 30
+            foodWithdraw = consts.framerate
+            rad = 10
+            AI = 2
+            vision = 200
+            lifeTime = 40
+            p_lifetime = lifeTime
+            p_food = food
+            speed = 1
+            timeToLay = 20
+            eggHatchTime = 3
+            strength = 5
             #                            cell,angle,carnivore,eggwithdraw,foodleft,foodwithdraw,ID,Lifetime,location,speed,rad,lifewithdeaw,timetolay,AI,vision,eggHatchtime,strngth
-            self.myCell=classes.baseCell(None,angle,1,eggwithdraw,p_food,foodWithdraw,0,p_lifetime,classes.Location(400,400),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength)
+            #self.myCell=classes.baseCell(None,angle,1,eggwithdraw,p_food,foodWithdraw,0,p_lifetime,classes.Location(400,400),speed,rad,lifewithdraw,timeToLay,AI,vision,eggHatchTime,strength)
             self.myCell.base90, self.myCell.base45 = pygame.image.load('src/IMG/HeadD.png'),pygame.image.load('src/IMG/HeadUL.png')
             self.myCell.image=self.myCell.base90
             self.cellList.append(classes.baseCell(None, angle, carnivore, eggwithdraw, food, foodWithdraw, 1, lifeTime,classes.Location(random.randint(0, self.screenwidth),random.randint(0, self.screenheight)), speed, rad,lifewithdraw, timeToLay, AI, vision, eggHatchTime, strength))
