@@ -129,10 +129,10 @@ def askBoard(mode, text="",option1="",option2="",text2=""):
     screencenter_below=(consts.screenwidth/2-100,(consts.screenheight/2+(consts.screenheight/4)))
 
     if mode=="menu":
-        t=["New Game","Godmode: Off","Recording: Off","Controls: Mouse","What keys can i press?","Start game","Quit"]
+        t=["New Game","Godmode: Off","Recording: Off","Controls: Mouse","What keys can i press?","Difficulty: Super Easy","Start game","Quit"]
         choose=-1
         cpos=0
-        while(choose!=5 and choose!=6):
+        while(choose!=6 and choose!=7):
             screen.fill((0,0,0))
             choose = dm.dumbmenu(screen, [
                             t[0],
@@ -140,7 +140,8 @@ def askBoard(mode, text="",option1="",option2="",text2=""):
                             t[2],
                             t[3],
                             t[4],
-                            t[5],t[6]], 64,64,None,32,1.4,(0,255,0),(255,0,0),True,cpos)
+                            t[5],
+                            t[6],t[7]], 64,64,None,32,1.4,(0,255,0),(255,0,0),True,cpos)
             cpos=choose
             if choose == 0:
                 #New / Load
@@ -184,7 +185,20 @@ def askBoard(mode, text="",option1="",option2="",text2=""):
                 while(askBoard("Prompt",text)!="Okay"):
                     pass
                 screen.fill((0,0,0))
-            elif choose == 6:
+            elif choose == 5:
+                if t[5]=="Difficulty: Super Easy":
+                    consts.lvl=1
+                    t[5]="Difficulty: Easy"
+                elif t[5]=="Difficulty: Easy":
+                    consts.lvl=2
+                    t[5]="Difficulty: Normal"
+                elif t[5]=="Difficulty: Normal":
+                    consts.lvl=3
+                    t[5]="Difficulty: Hard"
+                elif t[5]=="Difficulty: Hard":
+                    consts.lvl=4
+                    t[5]="Difficulty: Super Easy"
+            elif choose == 7:
                 pygame.quit()
                 exit()
             clock.tick(consts.framerate)

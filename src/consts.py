@@ -3,6 +3,7 @@ import classes
 screenwidth=2
 screenheight=2
 framerate=30
+lvl=1
 text=""
 askingQuestion=True
 counter=0
