@@ -11,14 +11,16 @@ def main():
     consts.screenwidth=int(values[0])
     consts.screenheight=int(values[1])
     consts.Center.location=consts.Location1(consts.screenwidth,consts.screenheight)
+    if values[3]!="No":
+        consts.sandbox=True
+    if values[4]!="No":
+        if(easygui.msgbox("Tutorial starting", ok_button="Press 'p' to continiue with the tutorial")):
+            pass
+        consts.tutorial=True
     if values[2]!="Yes":
         screen = pygame.display.set_mode((consts.screenwidth, consts.screenheight))
     else:
         screen = pygame.display.set_mode((consts.screenwidth, consts.screenheight),pygame.FULLSCREEN)
-    if values[3]!="No":
-        consts.sandbox=True
-    if values[4]!="No":
-        consts.tutorial=True
     running = True
     #hi
     text="Empty"

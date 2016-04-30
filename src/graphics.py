@@ -131,6 +131,9 @@ def tut():
             if event.type == pygame.KEYDOWN:
                 if event.key==pygame.K_p:
                     if maxindex==currindex+1:
+                        screen.fill((0,0,0))
+                        clock.tick(consts.framerate)
+                        pygame.display.flip()
                         return False,"End"
                     currindex+=1
         clock.tick(consts.framerate)
