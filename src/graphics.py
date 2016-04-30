@@ -187,16 +187,16 @@ def askBoard(mode, text="",option1="",option2="",text2=""):
                 screen.fill((0,0,0))
             elif choose == 5:
                 if t[5]=="Difficulty: Super Easy":
-                    consts.lvl=1
+                    consts.lvl=2
                     t[5]="Difficulty: Easy"
                 elif t[5]=="Difficulty: Easy":
-                    consts.lvl=2
+                    consts.lvl=3
                     t[5]="Difficulty: Normal"
                 elif t[5]=="Difficulty: Normal":
-                    consts.lvl=3
+                    consts.lvl=4
                     t[5]="Difficulty: Hard"
                 elif t[5]=="Difficulty: Hard":
-                    consts.lvl=4
+                    consts.lvl=1
                     t[5]="Difficulty: Super Easy"
             elif choose == 7:
                 pygame.quit()
@@ -260,7 +260,7 @@ def askBoard(mode, text="",option1="",option2="",text2=""):
                     color1=(0,0,0)
                     color2=(0,0,0)
             #bad if bigger
-            elif p[0:p.find(":")]in ["timeToLay","eggHatchTime","eggwithdraw"]:
+            elif p[0:p.find(":")]in ["timeToLay","eggHatchTime","eggwithdraw","foodwithdraw"]:
                 if int(pt1)>int(pt2):
                     color1=(255,0,0)
                     color2=(0,255,0)
@@ -341,7 +341,7 @@ def askBoard(mode, text="",option1="",option2="",text2=""):
 def drawBoard(playerCell,cellList,foodList,eggList):
 
     ##fill screen / season
-    seasoncolor=[(255,255,0),(236,39,39),(213,244,252),(252,88,181)]
+    seasoncolor=[(255,255,90),(230,95,95),(213,244,252),(232,108,178)]
     seasonid=0
     if consts.season==0:
         screen.fill(seasoncolor[0])
@@ -365,7 +365,7 @@ def drawBoard(playerCell,cellList,foodList,eggList):
 
     ##hadndle drawing cells and food
     for cell in cellList:
-        if cell.timeToHurt%2==0:
+        if cell.timeToHurt%4==0:
             ##pygame.draw.circle(screen,(255,0,0),(cell.location.getTupple()),cell.rad)
             ##pygame.draw.circle(screen,(10,255,10),(cell.location_compensated()),2)
             screen.blit(cell.image,(cell.location.x-cell.rad,cell.location.y-cell.rad))
@@ -412,7 +412,7 @@ def drawBoard(playerCell,cellList,foodList,eggList):
     ##draw player
     ##pygame.draw.circle(screen,(0,0,0),(playerCell.location.getTupple()),playerCell.rad)
     ##pygame.draw.circle(screen,(10,255,10),(playerCell.location_compensated()),2)
-    if playerCell.timeToHurt%2==0:
+    if playerCell.timeToHurt%4==0:
         screen.blit(playerCell.image,(playerCell.location.x-playerCell.rad,playerCell.location.y-playerCell.rad))
         pygame.draw.rect(screen,(255,0,0),(playerCell.location.x-10,playerCell.location.y-15,(30*(playerCell.lifeTimeLeft/float(playerCell.lifeTime))),6))
         ##draw player ID
@@ -421,9 +421,11 @@ def drawBoard(playerCell,cellList,foodList,eggList):
         #foodbar
         pygame.draw.rect(screen,(0,255,0),(playerCell.location.x-10,playerCell.location.y-6-15,(30*(playerCell.foodLeft/float(playerCell.lifeTime))),6))
     ##draw practicles
+    """
     for practicle in practicleList:
         color=(practicle.color[0],practicle.color[1],practicle.color[2],85)
         pygame.draw.circle(screen,color,(practicle.loc.x,practicle.loc.y),practicle.radius)
+    """
     ##draw limiter
     if consts.p2active:
         pygame.draw.circle(screen,(0,0,0),(int(consts.screenwidth/2),int(consts.screenheight/2)),int(consts.p2radius),3)

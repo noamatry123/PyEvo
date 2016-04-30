@@ -228,9 +228,8 @@ class Egg:
                     fathertext=father.getAtts()[i]
                     mothertext=mother.getAtts()[i]
                     choice=None
-                    """while choice not in [fathertext,mothertext]:
+                    while choice not in [fathertext,mothertext]:
                         choice=graphics.askBoard("manual","choose attribute",fathertext,mothertext)
-                    """
 
                 if i==1: ##timeToLay+left
                     if choice==fathertext:

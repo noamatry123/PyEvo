@@ -492,8 +492,7 @@ def goto(cell,object):
             else:  # if yes move left
                 input = moveDown(cell)
     if direction == 7:
-        if math.sqrt(((cell.location.x - consts.screenwidth / 2) ** 2) + (
-                    ((object.location.y) - consts.screenheight / 2) ** 2)) < consts.p2radius:
+        if math.sqrt(((cell.location.x - consts.screenwidth / 2) ** 2) + (((object.location.y) - consts.screenheight / 2) ** 2)) < consts.p2radius:
             if cell.location.y != object.location.y:  # check if same y if not move down
                 input = moveUp(cell)
             else:  # if yes move right
