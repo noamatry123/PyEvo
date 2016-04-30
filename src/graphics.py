@@ -123,6 +123,9 @@ def tut():
     currindex=0
     maxindex=4
     while(True):
+        w=imgarr[currindex].get_size()[0]
+        h=imgarr[currindex].get_size()[1]
+        screen = pygame.display.set_mode((w, h))
         screen.fill((255,64,64))
         screen.blit(imgarr[currindex],(0,0))
         for event in pygame.event.get():
@@ -131,6 +134,10 @@ def tut():
             if event.type == pygame.KEYDOWN:
                 if event.key==pygame.K_p:
                     if maxindex==currindex+1:
+                        if consts.fs:
+                            screen = pygame.display.set_mode((consts.screenwidth, consts.screenheight),pygame.FULLSCREEN)
+                        else:
+                            screen = pygame.display.set_mode((consts.screenwidth, consts.screenheight))
                         screen.fill((0,0,0))
                         clock.tick(consts.framerate)
                         pygame.display.flip()

@@ -21,6 +21,7 @@ def main():
         screen = pygame.display.set_mode((consts.screenwidth, consts.screenheight))
     else:
         screen = pygame.display.set_mode((consts.screenwidth, consts.screenheight),pygame.FULLSCREEN)
+        consts.fs=True
     running = True
     #hi
     text="Empty"
