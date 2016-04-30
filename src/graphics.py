@@ -53,7 +53,7 @@ def sandbox():
             if event.type == pygame.KEYDOWN:
                 if event.key==pygame.K_p:
                     exit()
-                if event.key==pygame.K_f:
+                if event.key==pygame.K_m:
                     save_rawtext=algorithm.save(sPl,sCellList,sFoodList)
                     pygame.quit()
                     filename=easygui.enterbox("Enter save name: ","","Save001")
