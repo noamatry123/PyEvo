@@ -17,6 +17,7 @@ p2active=False
 recording=True
 draw_debugging_options=True
 sandbox=False
+tutorial=False
 def bigger(x,y):
     if x>=y:
         return x

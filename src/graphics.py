@@ -114,6 +114,27 @@ def sandbox():
 
         clock.tick(consts.framerate)
         pygame.display.flip()
+def tut():
+    imgarr=[]
+    imgarr.append(pygame.image.load('src/IMG/MainMenu.png'))
+    imgarr.append(pygame.image.load('src/IMG/SimpleScreen.png'))
+    imgarr.append(pygame.image.load('src/IMG/tut1.png'))
+    imgarr.append(pygame.image.load('src/IMG/choose-cell.png'))
+    currindex=0
+    maxindex=4
+    while(True):
+        screen.fill((255,64,64))
+        screen.blit(imgarr[currindex],(0,0))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return False,"End"
+            if event.type == pygame.KEYDOWN:
+                if event.key==pygame.K_p:
+                    if maxindex==currindex+1:
+                        return False,"End"
+                    currindex+=1
+        clock.tick(consts.framerate)
+        pygame.display.flip()
 def printAtt(playerCell):
     counter=0
     for att in playerCell.getUsefullAtts():
