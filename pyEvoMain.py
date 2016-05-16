@@ -1,5 +1,6 @@
 __author__ = 'user-pc'
-import classes
+import sys, os
+#sys.path.append(os.getcwd())
 import graphics
 import algorithm
 import easygui
