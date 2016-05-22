@@ -413,6 +413,7 @@ def drawBoard(playerCell,cellList,foodList,eggList):
             ##draw foodbar
             pygame.draw.rect(screen,(0,255,0),(cell.location.x-10,cell.location.y-6-15,(30*(cell.foodLeft/float(cell.lifeTime))),6))
             ###debug stuff
+            """
             if cell.bugMode=="Look4Mate":
                 pygame.draw.circle(screen, (255, 90, 217), (cell.location.getTupple()), 5)
             if cell.bugMode == "Look4veganFoodAndCar":
@@ -427,6 +428,7 @@ def drawBoard(playerCell,cellList,foodList,eggList):
                 pygame.draw.circle(screen, (255, 255, 255), (cell.location.getTupple()), 5)
             if cell.target!=None:
                 pygame.draw.circle(screen, (0, 0, 0), ((cell.target).location.getTupple()), 8)
+            """
     for food in foodList:
         #pygame.draw.circle(screen,(80,255,80),(food.location.getTupple()),food.rad)
         screen.blit(food.image,(food.location.x-food.rad,food.location.y-food.rad))
