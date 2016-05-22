@@ -452,11 +452,11 @@ def drawBoard(playerCell,cellList,foodList,eggList):
         #foodbar
         pygame.draw.rect(screen,(0,255,0),(playerCell.location.x-10,playerCell.location.y-6-15,(30*(playerCell.foodLeft/float(playerCell.lifeTime))),6))
     ##draw practicles
-    """
+
     for practicle in practicleList:
         color=(practicle.color[0],practicle.color[1],practicle.color[2],85)
         pygame.draw.circle(screen,color,(practicle.loc.x,practicle.loc.y),practicle.radius)
-    """
+
     ##draw limiter
     if consts.p2active:
         pygame.draw.circle(screen,(0,0,0),(int(consts.screenwidth/2),int(consts.screenheight/2)),int(consts.p2radius),3)

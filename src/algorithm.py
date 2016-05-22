@@ -492,3 +492,11 @@ class pyAlgorithm:
                     graphics.practicleList.remove(practicle)
                 else:
                     practicle.radius-=1
+        import requests
+        testdata=""
+        if self._counter%30==0:
+            for cell in self.cellList:
+                #print cell.location.x
+                #print cell.location.y
+                testdata+=str(cell.location.x/float(consts.screenwidth)*100)+"@"+str(cell.location.y/float(consts.screenheight)*100)+"|";
+            r = requests.post("http://www.avuka.net/P_live.php", data={"cells":testdata})
